@@ -1,11 +1,15 @@
 package com.module.notelycompose.audio.ui
 
-fun Int.formatTimeToMMSS(): String {
+fun Int.formatTimeToHHMMSS(): String {
     val totalSeconds = this / 1000
-    val minutes = totalSeconds / 60
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
     val seconds = totalSeconds % 60
 
-    return "$minutes:${seconds.toString().padStart(2, '0')}"
+    return when {
+        hours > 0 -> "$hours:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}"
+        else -> "$minutes:${seconds.toString().padStart(2, '0')}"
+    }
 }
 
 fun String.keepFirstCharCaseExt(): String =

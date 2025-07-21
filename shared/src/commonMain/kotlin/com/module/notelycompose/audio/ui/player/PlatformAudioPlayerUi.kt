@@ -33,7 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.module.notelycompose.audio.ui.formatTimeToMMSS
+import com.module.notelycompose.audio.ui.formatTimeToHHMMSS
 import com.module.notelycompose.audio.ui.player.model.AudioPlayerUiState
 import com.module.notelycompose.audio.ui.uicomponents.Thumb
 import com.module.notelycompose.audio.ui.uicomponents.Track
@@ -96,7 +96,7 @@ fun PlatformAudioPlayerUi(
 
             Box(modifier = Modifier.padding(horizontal = 4.dp)) {
                 Text(
-                    text = uiState.currentPosition.formatTimeToMMSS(),
+                    text = uiState.currentPosition.formatTimeToHHMMSS(),
                     color = Color.DarkGray,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
@@ -119,7 +119,7 @@ fun PlatformAudioPlayerUi(
             Box(modifier = Modifier.padding(horizontal = 4.dp)) {
                 Text(
                     text = if (uiState.duration > 0) {
-                        uiState.duration.formatTimeToMMSS()
+                        uiState.duration.formatTimeToHHMMSS()
                     } else {
                         stringResource(Res.string.player_ui_initial_time)
                     },
