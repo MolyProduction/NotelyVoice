@@ -269,6 +269,30 @@ class TextEditorHelper {
         )
     }
 
+    fun normaliseSelection(
+        currentState: EditorPresentationState,
+        updateState: (EditorPresentationState) -> Unit
+    ) {
+        val normalisedTextRange = createValidTextRange(
+            start = currentState.content.selection.start,
+            end = currentState.content.selection.end
+        )
+        updateState(
+            currentState.copy(
+                content = currentState.content.copy(
+                    selection = normalisedTextRange
+                )
+            )
+        )
+    }
+
+    private fun createValidTextRange(start: Int, end: Int): TextRange {
+        return TextRange(
+            start = minOf(start, end),
+            end = maxOf(start, end)
+        )
+    }
+
     // Extension function for IntRange
     private fun IntRange.overlaps(other: IntRange): Boolean =
         first <= other.last && other.first <= last
