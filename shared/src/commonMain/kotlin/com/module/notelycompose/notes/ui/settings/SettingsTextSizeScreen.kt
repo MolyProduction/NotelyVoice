@@ -60,6 +60,7 @@ fun TextSizeSlider(
 
     Column(
         modifier = modifier
+            .background(LocalCustomColors.current.bodyBackgroundColor)
             .fillMaxWidth()
     ) {
         if (getPlatform().isAndroid) {
@@ -99,7 +100,7 @@ fun TextSizeSlider(
                     text = "Body Text Size",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Medium,
-                    color = Color.Black
+                    color = LocalCustomColors.current.bodyContentColor
                 )
 
                 Text(
@@ -165,7 +166,7 @@ fun TextSizeSlider(
             Text(
                 text = "Example",
                 fontSize = currentTextSize.sp,
-                color = Color.Black,
+                color = LocalCustomColors.current.bodyContentColor,
                 fontWeight = FontWeight.Normal,
                 modifier = Modifier
                     .fillMaxWidth()
