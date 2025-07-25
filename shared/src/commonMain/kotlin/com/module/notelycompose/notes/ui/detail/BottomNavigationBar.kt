@@ -62,7 +62,8 @@ fun BottomNavigationBar(
     textFieldFocusRequester: FocusRequester,
     onShowTextFormatBar: (show: Boolean) -> Unit,
     editorViewModel: TextEditorViewModel,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    onNavigateToSettingsText: () -> Unit
 ) {
 
     var selectedFormat by remember { mutableStateOf(FormatOptionTextFormat.Body) }
@@ -114,7 +115,8 @@ fun BottomNavigationBar(
                 onToggleBold = editorViewModel::onToggleBold,
                 onToggleItalic = editorViewModel::onToggleItalic,
                 onToggleUnderline = editorViewModel::onToggleUnderline,
-                onSetAlignment = editorViewModel::onSetAlignment
+                onSetAlignment = editorViewModel::onSetAlignment,
+                onNavigateToSettingsText = onNavigateToSettingsText
             )
         }
     }

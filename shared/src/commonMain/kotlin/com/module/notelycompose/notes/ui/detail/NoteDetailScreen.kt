@@ -93,7 +93,7 @@ fun NoteDetailScreen(
     navigateBack: () -> Unit,
     navigateToRecorder: (noteId: String) -> Unit,
     navigateToTranscription: () -> Unit,
-    navigateToSettingsText: () -> Unit,
+    onNavigateToSettingsText: () -> Unit,
     audioPlayerViewModel: AudioPlayerViewModel = koinViewModel(),
     downloaderViewModel: ModelDownloaderViewModel = koinViewModel(),
     platformViewModel: PlatformViewModel = koinViewModel(),
@@ -221,7 +221,8 @@ fun NoteDetailScreen(
                 textFieldFocusRequester = focusRequester,
                 onShowTextFormatBar = { showFormatBar = it },
                 editorViewModel = editorViewModel,
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                onNavigateToSettingsText = onNavigateToSettingsText
             )
         }
     ) { paddingValues ->

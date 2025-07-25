@@ -35,7 +35,8 @@ fun FormatBar(
     onToggleBold: () -> Unit,
     onToggleItalic: () -> Unit,
     onToggleUnderline: () -> Unit,
-    onSetAlignment: (alignment: TextAlign) -> Unit
+    onSetAlignment: (alignment: TextAlign) -> Unit,
+    onNavigateToSettingsText: () -> Unit
 ) {
     Surface(
         modifier = modifier,
@@ -70,7 +71,7 @@ fun FormatBar(
                             modifier = Modifier
                                 .size(24.dp)
                                 .clickable {
-
+                                    onNavigateToSettingsText()
                                 },
                             contentDescription = ""
                         )
