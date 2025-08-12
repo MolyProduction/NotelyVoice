@@ -185,34 +185,24 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     packaging {
-        // Ensure reproducible packaging
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-            excludes += "META-INF/DEPENDENCIES"
-            excludes += "META-INF/LICENSE*"
-            excludes += "META-INF/NOTICE*"
-            excludes += "META-INF/*.version"
-        }
-
-        // Force deterministic file ordering
+        // Force consistent ordering
         jniLibs {
             useLegacyPackaging = true
-        }
-
-        // Ensure reproducible DEX files
-        dex {
-            useLegacyPackaging = false
         }
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
-            isDebuggable = false
+//            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
