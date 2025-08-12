@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Моя нотатка</string>
     <string name="top_bar_export_audio_folder">Експортувати аудіо в папку</string>
     <string name="top_bar_import_audio">Імпортувати аудіо</string>
+    <string name="top_bar_export_as_pdf">Експорт тексту в PDF</string>
     <string name="top_bar_export_as_txt">Експортувати текст як .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Підтвердження</string>

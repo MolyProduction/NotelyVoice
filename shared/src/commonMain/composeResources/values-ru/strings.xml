@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Моя заметка</string>
     <string name="top_bar_export_audio_folder">Экспорт аудио в папку</string>
     <string name="top_bar_import_audio">Импорт аудио</string>
+    <string name="top_bar_export_as_pdf">Экспорт текста в PDF</string>
     <string name="top_bar_export_as_txt">Экспортировать как текстовый файл</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Подтвердить</string>

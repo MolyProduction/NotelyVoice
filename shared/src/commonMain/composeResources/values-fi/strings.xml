@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Muistiinpanoni</string>
     <string name="top_bar_export_audio_folder">Vie ääni kansioon</string>
     <string name="top_bar_import_audio">Tuo ääni</string>
+    <string name="top_bar_export_as_pdf">Vie teksti PDF-muodossa</string>
     <string name="top_bar_export_as_txt">Vie teksti .txt-tiedostona</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Vahvista</string>

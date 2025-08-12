@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Mijn Notitie</string>
     <string name="top_bar_export_audio_folder">Audio naar Map Exporteren</string>
     <string name="top_bar_import_audio">Audio Importeren</string>
+    <string name="top_bar_export_as_pdf">Tekst exporteren als PDF</string>
     <string name="top_bar_export_as_txt">Tekst als .txt Exporteren</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Bevestiging</string>

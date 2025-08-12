@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Catatan Saya</string>
     <string name="top_bar_export_audio_folder">Ekspor Audio ke Folder</string>
     <string name="top_bar_import_audio">Impor Audio</string>
+    <string name="top_bar_export_as_pdf">Ekspor Teks sebagai PDF</string>
     <string name="top_bar_export_as_txt">Ekspor Teks sebagai .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Konfirmasi</string>

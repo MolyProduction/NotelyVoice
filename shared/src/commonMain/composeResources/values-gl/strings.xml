@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">A miña nota</string>
     <string name="top_bar_export_audio_folder">Exportar audio ao cartafol</string>
     <string name="top_bar_import_audio">Importar audio</string>
+    <string name="top_bar_export_as_pdf">Exportar texto como PDF</string>
     <string name="top_bar_export_as_txt">Exportar texto como .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Confirmar</string>

@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Meine Notiz</string>
     <string name="top_bar_export_audio_folder">Audio in Ordner exportieren</string>
     <string name="top_bar_import_audio">Audio importieren</string>
+    <string name="top_bar_export_as_pdf">Text als PDF exportieren</string>
     <string name="top_bar_export_as_txt">Text als .txt exportieren</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Bestätigen</string>

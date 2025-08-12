@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">โน้ตของฉัน</string>
     <string name="top_bar_export_audio_folder">ส่งออกเสียงไปยังโฟลเดอร์</string>
     <string name="top_bar_import_audio">นำเข้าเสียง</string>
+    <string name="top_bar_export_as_pdf">ส่งออกข้อความเป็น PDF</string>
     <string name="top_bar_export_as_txt">ส่งออกข้อความเป็น .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">ยืนยัน</string>

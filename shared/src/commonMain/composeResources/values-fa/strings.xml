@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">یادداشت من</string>
     <string name="top_bar_export_audio_folder">صادرات صوت به پوشه</string>
     <string name="top_bar_import_audio">وارد کردن صوت</string>
+    <string name="top_bar_export_as_pdf">صادرات متن به عنوان PDF</string>
     <string name="top_bar_export_as_txt">صادرات متن به صورت .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">تأیید</string>

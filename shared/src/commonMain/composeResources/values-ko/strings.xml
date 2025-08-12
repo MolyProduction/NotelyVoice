@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">내 노트</string>
     <string name="top_bar_export_audio_folder">오디오를 폴더로 내보내기</string>
     <string name="top_bar_import_audio">오디오 가져오기</string>
+    <string name="top_bar_export_as_pdf">텍스트를 PDF로 내보내기</string>
     <string name="top_bar_export_as_txt">텍스트를 .txt로 내보내기</string>
     <!-- Delete Dialog -->
     <string name="confirmation">확인</string>

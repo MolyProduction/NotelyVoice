@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Notum</string>
     <string name="top_bar_export_audio_folder">Sesi Klasöre Aktar</string>
     <string name="top_bar_import_audio">Ses İçe Aktar</string>
+    <string name="top_bar_export_as_pdf">Metni PDF olarak dışa aktar</string>
     <string name="top_bar_export_as_txt">Metni .txt Olarak Dışa Aktar</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Onay</string>

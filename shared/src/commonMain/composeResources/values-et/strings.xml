@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Minu märge</string>
     <string name="top_bar_export_audio_folder">Ekspordi helifailid kausta</string>
     <string name="top_bar_import_audio">Impordi helifailid</string>
+    <string name="top_bar_export_as_pdf">Ekspordi tekst PDF-failina</string>
     <string name="top_bar_export_as_txt">Ekspordi tekstifailina</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Kinnita</string>
@@ -158,5 +159,4 @@
     <string name="accessibility_desc">Kasutades liugurvalijat, vali enda jaoks sobilik põhiteksti suurus.</string>
     <string name="accessibility_a">A</string>
     <string name="accessibility_default">Vaikimisi suurus on 14 pt</string>
-    <string name="top_bar_export_as_pdf">Ekspordi tekst PDF-failina</string>
 </resources>

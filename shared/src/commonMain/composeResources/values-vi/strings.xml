@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Ghi chú của tôi</string>
     <string name="top_bar_export_audio_folder">Xuất âm thanh ra thư mục</string>
     <string name="top_bar_import_audio">Nhập âm thanh</string>
+    <string name="top_bar_export_as_pdf">Xuất văn bản dưới dạng PDF</string>
     <string name="top_bar_export_as_txt">Xuất văn bản dạng .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Xác nhận</string>

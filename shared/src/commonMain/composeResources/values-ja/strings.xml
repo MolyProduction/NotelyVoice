@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">マイノート</string>
     <string name="top_bar_export_audio_folder">音声をフォルダにエクスポート</string>
     <string name="top_bar_import_audio">音声をインポート</string>
+    <string name="top_bar_export_as_pdf">テキストをPDFとしてエクスポート</string>
     <string name="top_bar_export_as_txt">テキストを.txtとしてエクスポート</string>
     <!-- Delete Dialog -->
     <string name="confirmation">確認</string>

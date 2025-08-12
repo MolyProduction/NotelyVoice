@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Moja notatka</string>
     <string name="top_bar_export_audio_folder">Eksportuj dźwięk do folderu</string>
     <string name="top_bar_import_audio">Importuj dźwięk</string>
+    <string name="top_bar_export_as_pdf">Eksportuj tekst jako PDF</string>
     <string name="top_bar_export_as_txt">Eksportuj tekst jako .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Potwierdzenie</string>

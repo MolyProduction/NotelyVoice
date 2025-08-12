@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Min anteckning</string>
     <string name="top_bar_export_audio_folder">Exportera ljud till mapp</string>
     <string name="top_bar_import_audio">Importera ljud</string>
+    <string name="top_bar_export_as_pdf">Exportera text som PDF</string>
     <string name="top_bar_export_as_txt">Exportera text som .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Bekräfta</string>

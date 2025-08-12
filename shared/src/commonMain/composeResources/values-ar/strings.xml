@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">ملاحظتي</string>
     <string name="top_bar_export_audio_folder">تصدير الصوت إلى مجلد</string>
     <string name="top_bar_import_audio">استيراد صوت</string>
+    <string name="top_bar_export_as_pdf">تصدير النص كملف PDF</string>
     <string name="top_bar_export_as_txt">تصدير كملف نصي</string>
     <!-- Delete Dialog -->
     <string name="confirmation">تأكيد</string>

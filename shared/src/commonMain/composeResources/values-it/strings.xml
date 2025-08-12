@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">La Mia Nota</string>
     <string name="top_bar_export_audio_folder">Esporta Audio nella Cartella</string>
     <string name="top_bar_import_audio">Importa Audio</string>
+    <string name="top_bar_export_as_pdf">Esporta testo come PDF</string>
     <string name="top_bar_export_as_txt">Esporta Testo come .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Conferma</string>

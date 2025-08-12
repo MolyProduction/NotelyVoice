@@ -12,6 +12,7 @@
     <string name="top_bar_my_note">Aking Tala</string>
     <string name="top_bar_export_audio_folder">I-export ang Audio sa Folder</string>
     <string name="top_bar_import_audio">Mag-import ng Audio</string>
+    <string name="top_bar_export_as_pdf">I-export ang Teksto bilang PDF</string>
     <string name="top_bar_export_as_txt">I-export ang Teksto bilang .txt</string>
     <!-- Delete Dialog -->
     <string name="confirmation">Kumpirmahin</string>
