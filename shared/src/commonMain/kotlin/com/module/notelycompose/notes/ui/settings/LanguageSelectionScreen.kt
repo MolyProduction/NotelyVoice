@@ -77,7 +77,7 @@ val languageCodeMap = mapOf(
     "tr" to "Turkish",
     "uk" to "Ukrainian",
     "vi" to "Vietnamese",
-    "auto" to "Auto detect"
+    "auto" to "Auto detect (less accurate)"
 )
 
 @Composable
