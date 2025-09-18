@@ -36,9 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,6 +56,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.module.notelycompose.audio.presentation.AudioRecorderViewModel
 import com.module.notelycompose.core.debugPrintln
 import com.module.notelycompose.notes.presentation.detail.TextEditorViewModel
@@ -92,16 +91,8 @@ fun RecordingScreen(
     viewModel: AudioRecorderViewModel = koinViewModel(),
     editorViewModel: TextEditorViewModel
 ) {
-    val recordingState by viewModel.audioRecorderPresentationState.collectAsState()
-    var screenState by remember { mutableStateOf(ScreenState.Initial) }
-
-    DisposableEffect(Unit){
-        viewModel.setupRecorder()
-        onDispose {
-            viewModel.onStopRecording()
-            viewModel.finishRecorder()
-        }
-    }
+    val recordingState by viewModel.audioRecorderPresentationState.collectAsStateWithLifecycle()
+    val screenState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -115,9 +106,7 @@ fun RecordingScreen(
             ScreenState.Initial -> RecordingInitialScreen(
                 onNavigateBack = navigateBack,
                 onTapToRecord = {
-                    viewModel.onStartRecording(noteId) {
-                        screenState = ScreenState.Recording
-                    }
+                    viewModel.onStartRecording(noteId)
                 },
                 onStopRecording = viewModel::onStopRecording
             )
@@ -127,7 +116,6 @@ fun RecordingScreen(
                 onStopRecording = {
                     debugPrintln { "onStop recording" }
                     viewModel.onStopRecording()
-                    screenState = ScreenState.Success
                 },
                 onNavigateBack = navigateBack,
                 isRecordPaused = recordingState.isRecordPaused,
