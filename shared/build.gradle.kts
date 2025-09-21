@@ -87,11 +87,11 @@ kotlin {
             implementation(libs.datastore)
         }
 
-        iosMain.dependencies {
-            implementation(libs.sqldelight.native.driver)
-            compileOnly(libs.jetbrains.atomicfu)
-            api(libs.jetbrains.atomicfu)
-        }
+//        iosMain.dependencies {
+//            implementation(libs.sqldelight.native.driver)
+//            compileOnly(libs.jetbrains.atomicfu)
+//            api(libs.jetbrains.atomicfu)
+//        }
 
         val commonTest by getting {
             dependencies {
@@ -106,41 +106,41 @@ kotlin {
         }
     }
 
-    val whisperFrameworkPath = file("${projectDir}/../iosApp/whisper.xcframework")
-    iosSimulatorArm64 {
-        compilations.getByName("main") {
-            val whisper by cinterops.creating {
-                defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
-                compilerOpts(
-                    "-I${whisperFrameworkPath}/ios-arm64_x86_64-simulator/whisper.framework/Headers",
-                    "-F${whisperFrameworkPath}"
-                )
-            }
-        }
-    }
-    iosArm64 {
-        compilations.getByName("main") {
-            val whisper by cinterops.creating {
-                defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
-                compilerOpts(
-                    "-I${whisperFrameworkPath}/ios-arm64/whisper.framework/Headers",
-                    "-F$whisperFrameworkPath"
-                )
-            }
-        }
-    }
-
-    iosX64 {
-        compilations.getByName("main") {
-            val whisper by cinterops.creating {
-                defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
-                compilerOpts(
-                    "-I${whisperFrameworkPath}/ios-arm64_x86_64-simulator/whisper.framework/Headers",
-                    "-F$whisperFrameworkPath"
-                )
-            }
-        }
-    }
+//    val whisperFrameworkPath = file("${projectDir}/../iosApp/whisper.xcframework")
+//    iosSimulatorArm64 {
+//        compilations.getByName("main") {
+//            val whisper by cinterops.creating {
+//                defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
+//                compilerOpts(
+//                    "-I${whisperFrameworkPath}/ios-arm64_x86_64-simulator/whisper.framework/Headers",
+//                    "-F${whisperFrameworkPath}"
+//                )
+//            }
+//        }
+//    }
+//    iosArm64 {
+//        compilations.getByName("main") {
+//            val whisper by cinterops.creating {
+//                defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
+//                compilerOpts(
+//                    "-I${whisperFrameworkPath}/ios-arm64/whisper.framework/Headers",
+//                    "-F$whisperFrameworkPath"
+//                )
+//            }
+//        }
+//    }
+//
+//    iosX64 {
+//        compilations.getByName("main") {
+//            val whisper by cinterops.creating {
+//                defFile(project.file("src/nativeInterop/cinterop/whisper.def"))
+//                compilerOpts(
+//                    "-I${whisperFrameworkPath}/ios-arm64_x86_64-simulator/whisper.framework/Headers",
+//                    "-F$whisperFrameworkPath"
+//                )
+//            }
+//        }
+//    }
 }
 compose.resources {
     publicResClass = true
