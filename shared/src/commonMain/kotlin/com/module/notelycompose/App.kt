@@ -133,9 +133,9 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
             ) {
                 SettingsScreen(
                     navigateBack = { navController.popBackStack() },
-                    navigateToLanguages = { navController.navigateSingleTop(Routes.Language)},
+                    navigateToLanguages = { navController.navigate(Routes.LANGUAGE)},
                     navigateToSettingsText = {
-                        navController.navigateSingleTop(Routes.SettingsText)
+                        navController.navigate(Routes.SettingsText)
                     }
                 )
             }
@@ -144,16 +144,16 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                     navigateBack = { navController.popBackStack() }
                 )
             }
-            composableWithVerticalSlide<Routes.NoteSettingsText> { backStackEntry ->
+            composable(Routes.NoteSettingsText) { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry(Routes.DetailsGraph)
+                    navController.getBackStackEntry(Routes.DETAILS_GRAPH)
                 }
                 NoteDetailTextSizeScreen(
                     navigateBack = { navController.popBackStack() },
                     editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry),
                 )
             }
-            composableWithVerticalSlide<Routes.SettingsText> {
+            composable(Routes.SettingsText) {
                 SettingsTextSizeScreen(
                     navigateBack = { navController.popBackStack() }
                 )
@@ -180,7 +180,12 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                     navigateToTranscription = {
                         navController.navigate(Routes.TRANSCRIPTION)
                     },
-                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry)
+                    editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry),
+                    onNavigateToSettingsText = TODO(),
+                    audioPlayerViewModel = TODO(),
+                    downloaderViewModel = TODO(),
+                    platformViewModel = TODO(),
+                    audioImportViewModel = TODO()
                 )
             }
             composable(
