@@ -1,6 +1,8 @@
 package com.module.notelycompose.di
 
 import android.app.Application
+import com.module.notelycompose.FileSaverHandler
+import com.module.notelycompose.FileSaverLauncherHolder
 import com.module.notelycompose.audio.domain.AudioRecorderInteractor
 import com.module.notelycompose.audio.domain.AudioRecorderInteractorImpl
 import com.module.notelycompose.audio.domain.SaveAudioNoteInteractor
@@ -33,6 +35,8 @@ actual val platformModule = module {
     single { dataStore(get()) }
     single { PlatformUtils(get(), get()) }
     single { BrowserLauncher(get()) }
+    single { FileSaverLauncherHolder() }
+    single { FileSaverHandler(get()) }
 
     single<SqlDriver> {
         AndroidSqliteDriver(NoteDatabase.Schema, context = get(), "notes.db")

@@ -1,18 +1,49 @@
 package com.module.notelycompose.core
 
-object Routes {
-    const val HOME = "home"
-    const val LIST = "list"
-    const val DETAILS_GRAPH = "details_graph"
-    const val DETAILS = "details"
-    const val WEB = "web"
-    const val RECORDER = "audio_recorder"
-    const val TRANSCRIPTION = "transcription"
-    const val SHARE = "share"
-    const val SETTINGS = "settings"
-    const val LANGUAGE = "language"
-    const val MENU = "menu"
-    const val DOWNLOADER = "downloader"
-    const val SettingsText = "SettingsText"
-    const val NoteSettingsText = "NoteSettingsText"
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed interface Routes {
+    @Serializable
+    data object Home : Routes
+
+    @Serializable
+    data object List : Routes
+
+    @Serializable
+    data object DetailsGraph : Routes
+
+    @Serializable
+    data class Details(val noteId: String?) : Routes
+
+    @Serializable
+    data class Recorder(val noteId: String?) : Routes
+
+    @Serializable
+    data object Web : Routes
+
+    @Serializable
+    data object Transcription : Routes
+
+    @Serializable
+    data object Share : Routes
+
+    @Serializable
+    data object Settings : Routes
+
+    @Serializable
+    data object Language : Routes
+
+    @Serializable
+    data object Menu : Routes
+
+    @Serializable
+    data object Downloader : Routes
+
+    @Serializable
+    data object SettingsText : Routes
+
+    @Serializable
+    data object NoteSettingsText : Routes
+
 }
