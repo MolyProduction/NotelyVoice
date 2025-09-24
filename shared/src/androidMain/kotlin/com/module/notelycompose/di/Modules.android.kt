@@ -32,6 +32,8 @@ actual val platformModule = module {
             "Unknown"
         }
     }
+    single { FileSaverLauncherHolder() }
+    single { FileSaverHandler(get()) }
     single<Platform> { AndroidPlatform(get(named("AppVersion")), get()) }
     single { dataStore(get()) }
     single { PlatformUtils(get(), get(), get()) }
