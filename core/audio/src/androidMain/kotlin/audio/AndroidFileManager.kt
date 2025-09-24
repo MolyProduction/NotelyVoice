@@ -9,7 +9,8 @@ import androidx.core.content.ContextCompat
 import audio.converter.AudioConverter
 import audio.utils.LauncherHolder
 import audio.utils.deleteFile
-import audio.utils.savePickedAudioOrVideoToAppStorage
+import audio.utils.savePickedAudioToAppStorage
+import audio.utils.savePickedVideoToAppStorage
 
 internal class AndroidFileManager(
     private val context: Context,
@@ -57,12 +58,12 @@ internal class AndroidFileManager(
     }
 
     private fun copyAudioToAppStorage(): String? {
-        return pickedAudioUri?.let { context.savePickedAudioOrVideoToAppStorage(it)?.absolutePath }
+        return pickedAudioUri?.let { context.savePickedAudioToAppStorage(it)?.absolutePath }
             .also { pickedAudioUri = null }
     }
 
     private fun copyVideoToAppStorage(): String? {
-        return pickedVideoUri?.let { context.savePickedAudioOrVideoToAppStorage(it)?.absolutePath }
+        return pickedVideoUri?.let { context.savePickedVideoToAppStorage(it)?.absolutePath }
             .also { pickedVideoUri = null }
     }
 

@@ -20,6 +20,8 @@ fun Context.getVideoExtensionFromUri(uri: Uri): String {
         "video/x-matroska" -> ".mkv"
         "video/webm" -> ".webm"
         "video/3gpp" -> ".3gp"
+        "video/x-ms-wmv" -> ".wmv"
+        "video/x-flv" -> ".flv"
         else -> {
             contentResolver.query(uri, null, null, null, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {
@@ -28,10 +30,7 @@ fun Context.getVideoExtensionFromUri(uri: Uri): String {
                         val displayName = cursor.getString(displayNameIndex)
                         val extension = displayName?.substringAfterLast('.', "")
                         if (!extension.isNullOrEmpty()) {
-                            return when (extension.lowercase()) {
-                                "mp4", "mov", "avi", "mkv", "webm", "3gp" -> ".$extension"
-                                else -> DEFAULT_VIDEO_EXTENSION
-                            }
+                            return ".$extension"
                         }
                     }
                 }

@@ -55,6 +55,7 @@ fun DetailNoteTopBar(
     isRecordingExist: Boolean
 ) {
     var showExistingRecordConfirmDialog by remember { mutableStateOf(false) }
+    var showExistingVideoRecordConfirmDialog by remember { mutableStateOf(false) }
     if (getPlatform().isAndroid) {
         DetailAndroidNoteTopBar(
             title = title,
@@ -72,7 +73,7 @@ fun DetailNoteTopBar(
                 if (!isRecordingExist) {
                     onImportVideoClick()
                 } else {
-                    showExistingRecordConfirmDialog = true
+                    showExistingVideoRecordConfirmDialog = true
                 }
             },
             onExportTextAsTxt = onExportTextAsTxt,
@@ -94,7 +95,7 @@ fun DetailNoteTopBar(
                 if (!isRecordingExist) {
                     onImportVideoClick()
                 } else {
-                    showExistingRecordConfirmDialog = true
+                    showExistingVideoRecordConfirmDialog = true
                 }
             },
             onExportTextAsTxt = onExportTextAsTxt,
@@ -109,6 +110,17 @@ fun DetailNoteTopBar(
         },
         onConfirm = {
             onImportClick()
+        },
+        option = RecordingConfirmationUiModel.Import
+    )
+
+    ReplaceRecordingConfirmationDialog(
+        showDialog = showExistingVideoRecordConfirmDialog,
+        onDismiss = {
+            showExistingVideoRecordConfirmDialog = false
+        },
+        onConfirm = {
+            onImportVideoClick()
         },
         option = RecordingConfirmationUiModel.Import
     )
