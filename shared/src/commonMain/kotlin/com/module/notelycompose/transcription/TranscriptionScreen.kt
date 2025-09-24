@@ -95,34 +95,32 @@ fun TranscriptionScreen(
                     viewModel.finishRecognizer()
                     navigateBack()
                 }
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState)
-                    .border(
-                        2.dp,
-                        LocalCustomColors.current.bodyContentColor,
-                        RoundedCornerShape(8.dp)
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .verticalScroll(scrollState)
+                        .border(
+                            2.dp,
+                            LocalCustomColors.current.bodyContentColor,
+                            RoundedCornerShape(8.dp)
+                        )
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = if(transcriptionUiState.viewOriginalText) transcriptionUiState.originalText else transcriptionUiState.summarizedText,
+                        color = LocalCustomColors.current.bodyContentColor,
+                        style = TextStyle(fontSize = editorState.bodyTextSize.sp)
                     )
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = if(transcriptionUiState.viewOriginalText) transcriptionUiState.originalText else transcriptionUiState.summarizedText,
-                    color = LocalCustomColors.current.bodyContentColor,
-                    style = TextStyle(fontSize = editorState.bodyTextSize.sp)
-                )
-            }
-            if(transcriptionUiState.progress == 0){
-                LinearProgressIndicator(
-                    modifier = Modifier.padding(vertical = 12.dp).fillMaxWidth(),
-                    strokeCap = StrokeCap.Round
-                )
-            } else if(transcriptionUiState.progress in 1..99){
-                SmoothLinearProgressBar((transcriptionUiState.progress / 100f))
-            }
+                }
+                if(transcriptionUiState.progress == 0){
+                    LinearProgressIndicator(
+                        modifier = Modifier.padding(vertical = 12.dp).fillMaxWidth(),
+                        strokeCap = StrokeCap.Round
+                    )
+                } else if(transcriptionUiState.progress in 1..99){
+                   SmoothLinearProgressBar((transcriptionUiState.progress / 100f))
+                }
 //                FloatingActionButton(
 //                    modifier = Modifier.padding(vertical = 8.dp),
 //                    shape = CircleShape,
