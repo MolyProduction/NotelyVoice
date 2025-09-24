@@ -15,6 +15,7 @@
     <string name="top_bar_import_audio">Import Audio</string>
     <string name="top_bar_import_video">Import Video</string>
     <string name="top_bar_export_as_pdf">Export Text as PDF</string>
+    <string name="top_bar_export_as_txt">Export as Text File</string>
 
     <!-- Delete Dialog -->
     <string name="confirmation">Confirm</string>
