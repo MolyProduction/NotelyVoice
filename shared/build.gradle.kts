@@ -66,6 +66,8 @@ kotlin {
             implementation(compose.material3)
             implementation(libs.material.icons.core)
             implementation(compose.components.resources)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.androidx.lifecycle.viewmodel)
 
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
