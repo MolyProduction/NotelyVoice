@@ -21,7 +21,8 @@ fun NoteList(
     onNoteClicked: (Long) -> Unit,
     onNoteDeleteClicked: (NoteUiModel) -> Unit,
     isSelectAllAction: Boolean,
-    onCancelSelectionAction: () -> Unit
+    onCancelSelectionAction: () -> Unit,
+    onUpdateSelection: (List<Long>) -> Unit
 ) {
     var isAllChecked by remember { mutableStateOf(false) }
     var selectedNoteIds by remember { mutableStateOf(setOf<Long>()) }
@@ -36,6 +37,7 @@ fun NoteList(
         isAllChecked = false
         selectedNoteIds = emptySet()
         onCancelSelectionAction()
+        onUpdateSelection(selectedNoteIds.toList())
     }
 
     SelectAllToExportUi(
@@ -67,6 +69,7 @@ fun NoteList(
                     } else {
                         selectedNoteIds - noteId
                     }
+                    onUpdateSelection(selectedNoteIds.toList())
                 },
                 isSelectAllAction = isSelectAllAction,
                 onNoteLongPress = {

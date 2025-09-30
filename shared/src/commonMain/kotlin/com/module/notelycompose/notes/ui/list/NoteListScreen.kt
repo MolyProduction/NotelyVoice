@@ -139,6 +139,9 @@ fun NoteListScreen(
                     isSelectAllAction = isSelectAllAction,
                     onCancelSelectionAction = {
                         isSelectAllAction = !isSelectAllAction
+                    },
+                    onUpdateSelection = { selectionIds ->
+                        exportViewModel.onUpdateNoteIds(selectionIds)
                     }
                 )
                 if(notesListState.showEmptyContent) EmptyNoteUi(platformUiState.isTablet)
@@ -147,8 +150,12 @@ fun NoteListScreen(
 
     if(showExportNotesConfirmDialog) {
         ExportSelectedItemConfirmationDialog(
-            onExport = { _, _, _ ->
-
+            onExport = { exportAudio, exportTxt, exportMd ->
+                exportViewModel.onUpdateExportOptions(
+                    exportAudio,
+                    exportTxt,
+                    exportMd
+                )
             },
             onDismiss = { showExportNotesConfirmDialog = false }
         )

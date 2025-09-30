@@ -22,6 +22,7 @@ import com.module.notelycompose.core.composableNoAnimation
 import com.module.notelycompose.core.composableWithHorizontalSlide
 import com.module.notelycompose.core.composableWithVerticalSlide
 import com.module.notelycompose.core.navigateSingleTop
+import com.module.notelycompose.export.ui.ExportNotesScreen
 import com.module.notelycompose.notes.ui.detail.NoteDetailScreen
 import com.module.notelycompose.notes.ui.list.InfoScreen
 import com.module.notelycompose.notes.ui.list.NoteListScreen
@@ -188,6 +189,11 @@ fun NoteAppRoot(platformUiState: PlatformUiState) {
                     noteId = route.noteId?.toLong()?.takeIf { it != 0L },
                     navigateBack = { navController.popBackStack() },
                     editorViewModel = koinViewModel(viewModelStoreOwner = parentEntry)
+                )
+            }
+            composableWithHorizontalSlide<Routes.ExportBatchNotes> {
+                ExportNotesScreen(
+                    navigateBack = { navController.popBackStack() }
                 )
             }
         }
