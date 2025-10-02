@@ -1,12 +1,15 @@
 package com.module.notelycompose.export.ui
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.unit.dp
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.resources.Res
 import com.module.notelycompose.resources.close
@@ -16,8 +19,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun NoSelectionErrorDialog(
     showDialog: Boolean,
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
+    onDismiss: () -> Unit
 ) {
     if (showDialog) {
         AlertDialog(
@@ -35,20 +37,15 @@ fun NoSelectionErrorDialog(
                 )
             },
             confirmButton = {
-                TextButton(
-                    onClick = {
-                        onDismiss()
-                        onConfirm()
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFC23636),
+                androidx.compose.material.TextButton(
+                    onClick = onDismiss,
+                    colors = androidx.compose.material.ButtonDefaults.buttonColors(
+                        backgroundColor = LocalCustomColors.current.shareDialogBackgroundColor,
                         contentColor = LocalCustomColors.current.bodyContentColor
-                    )
+                    ),
+                    modifier = Modifier.padding(8.dp)
                 ) {
-                    Text(
-                        text = stringResource(Res.string.close),
-                        color = Color.White
-                    )
+                    androidx.compose.material.Text(text = "Cancel")
                 }
             },
             containerColor = LocalCustomColors.current.shareDialogBackgroundColor,

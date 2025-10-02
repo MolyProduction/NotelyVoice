@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.module.notelycompose.export.presentation.ExportSelectionViewModel
 import com.module.notelycompose.export.ui.ExportSelectedItemConfirmationDialog
+import com.module.notelycompose.export.ui.NoSelectionErrorDialog
 import com.module.notelycompose.notes.presentation.list.NoteListIntent
 import com.module.notelycompose.notes.presentation.list.NoteListViewModel
 import com.module.notelycompose.notes.ui.share.ShareDialog
@@ -55,6 +56,8 @@ fun NoteListScreen(
     val focusManager = LocalFocusManager.current
     var isSelectAllAction by remember { mutableStateOf(false) }
     var showExportNotesConfirmDialog by remember { mutableStateOf(false) }
+    var showNoSelectionDialog by remember { mutableStateOf(false) }
+    var isEmptySelection by remember { mutableStateOf(false) }
 
     Scaffold(
             topBar = {
@@ -74,7 +77,11 @@ fun NoteListScreen(
                     onClick = {
                         if(isSelectAllAction) {
                             // call function depending what was chosen
-                            showExportNotesConfirmDialog = true
+                            if(isEmptySelection) {
+                                showNoSelectionDialog = true
+                            } else {
+                                showExportNotesConfirmDialog = true
+                            }
                         } else {
                             navigateToNoteDetails("0")
                         }
@@ -141,6 +148,7 @@ fun NoteListScreen(
                         isSelectAllAction = !isSelectAllAction
                     },
                     onUpdateSelection = { selectionIds ->
+                        isEmptySelection = selectionIds.isEmpty()
                         exportViewModel.onUpdateNoteIds(selectionIds)
                     }
                 )
@@ -148,19 +156,23 @@ fun NoteListScreen(
             }
         }
 
-    if(showExportNotesConfirmDialog) {
-        ExportSelectedItemConfirmationDialog(
-            onExport = { exportAudio, exportTxt, exportMd ->
-                exportViewModel.onUpdateExportOptions(
-                    exportAudio,
-                    exportTxt,
-                    exportMd
-                )
-            },
-            onDismiss = {
-                showExportNotesConfirmDialog = false
-            }
-        )
-    }
+    ExportSelectedItemConfirmationDialog(
+        showExportNotesConfirmDialog = showExportNotesConfirmDialog,
+        onExport = { exportAudio, exportTxt, exportMd ->
+            exportViewModel.onUpdateExportOptions(
+                exportAudio,
+                exportTxt,
+                exportMd
+            )
+        },
+        onDismiss = {
+            showExportNotesConfirmDialog = false
+        }
+    )
+
+    NoSelectionErrorDialog(
+        showDialog = showNoSelectionDialog,
+        onDismiss = { showNoSelectionDialog = false }
+    )
 
 }
