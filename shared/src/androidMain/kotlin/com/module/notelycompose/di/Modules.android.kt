@@ -3,6 +3,8 @@ package com.module.notelycompose.di
 import android.app.Application
 import com.module.notelycompose.FileSaverHandler
 import com.module.notelycompose.FileSaverLauncherHolder
+import com.module.notelycompose.FolderPickerHandler
+import com.module.notelycompose.FolderPickerLauncherHolder
 import com.module.notelycompose.audio.domain.AudioRecorderInteractor
 import com.module.notelycompose.audio.domain.AudioRecorderInteractorImpl
 import com.module.notelycompose.audio.domain.SaveAudioNoteInteractor
@@ -63,5 +65,14 @@ actual val platformModule = module {
             get()
         )
     }
-    single<ExportSelectionInteractor> { ExportSelectionInteractorImpl() }
+
+    // export
+    single { FolderPickerLauncherHolder() }
+    single { FolderPickerHandler(get()) }
+    single<ExportSelectionInteractor> {
+        ExportSelectionInteractorImpl(
+            context = get(),
+            folderPickerHandler = get()
+        )
+    }
 }

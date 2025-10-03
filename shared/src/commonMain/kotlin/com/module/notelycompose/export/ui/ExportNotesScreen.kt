@@ -36,6 +36,8 @@ fun ExportNotesScreen(
     val exportSelectionList = exportUiState.noteIds
 
     ComponentBackButton(onNavigateBack = navigateBack)
+
+    viewModel.onExportTextSelectionOnly()
     
 }
 

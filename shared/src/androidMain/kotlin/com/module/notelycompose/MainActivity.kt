@@ -19,11 +19,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : AppCompatActivity() {
     private val fileSaverLauncherHolder by inject<FileSaverLauncherHolder>()
+    private val folderPickerLauncherHolder by inject<FolderPickerLauncherHolder>()
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         injectLauncher()
         setupFileSaverLauncher()
+        setupFolderPickerLauncher()
         enableEdgeToEdge()
         setContent {
             val systemUiController = rememberSystemUiController()
@@ -47,6 +49,20 @@ class MainActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.CreateDocument("audio/wav")) { uri: Uri? ->
                 uri?.let {
                     fileSaverLauncherHolder.onFileSaved?.invoke(uri.toString())
+                }
+            }
+    }
+
+    private fun setupFolderPickerLauncher() {
+        folderPickerLauncherHolder.folderPickerLauncher =
+            registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri: Uri? ->
+                uri?.let {
+                    contentResolver.takePersistableUriPermission(
+                        uri,
+                        android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                                android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+                    folderPickerLauncherHolder.onFolderSelected?.invoke(uri)
                 }
             }
     }

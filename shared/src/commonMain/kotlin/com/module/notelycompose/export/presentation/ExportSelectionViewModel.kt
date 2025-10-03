@@ -72,11 +72,20 @@ class ExportSelectionViewModel(
     }
 
     fun onExportSelection() {
-        exportSelectionInteractor.exportAllSelection()
+//        exportSelectionInteractor.exportTextSelectionOnly(
+//
+//        )
     }
 
     fun onExportTextSelectionOnly() {
-        exportSelectionInteractor.exportTextSelectionOnly()
+        val texts = _state.value.selectedNotes.map { it.content }
+        val titles = _state.value.selectedNotes.map { it.title }
+        exportSelectionInteractor.exportTextSelectionOnly(
+            texts = texts,
+            titles = titles
+        ) { _ ->
+
+        }
     }
 
     override fun onCleared() {
