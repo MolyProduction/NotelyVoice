@@ -1,0 +1,8 @@
+- Export All Notes: quickly back up your texts and audios
+- Fix crashes on Transcription
+- Import & Export audio feature
+- Import Video
+- Re-size body text
+- Export as PDF
+- Export as .Txt file
+
