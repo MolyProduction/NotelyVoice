@@ -25,7 +25,7 @@ import com.module.notelycompose.audio.ui.recorder.RecordingSuccessScreen
 import com.module.notelycompose.export.presentation.model.ExportingFileState
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.resources.Res
-import com.module.notelycompose.resources.batch_export_failed
+import com.module.notelycompose.resources.batch_export_settings_error_occurred
 import com.module.notelycompose.resources.batch_export_ok
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
@@ -65,8 +65,8 @@ internal fun ExportingFileStateHost(
                             Text(stringResource(Res.string.batch_export_ok))
                         }
                     },
-                    title = { Text(stringResource(Res.string.batch_export_failed)) },
-                    text = { Text(state.message) }
+                    title = { Text(stringResource(Res.string.batch_export_ok)) },
+                    text = { Text(stringResource(Res.string.batch_export_settings_error_occurred)) }
                 )
             }
         }

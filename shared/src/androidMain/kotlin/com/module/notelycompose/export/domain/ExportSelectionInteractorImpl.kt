@@ -162,12 +162,12 @@ class ExportSelectionInteractorImpl(
                 val jsonObject = JSONObject().apply {
                     put("textFile", textFileNames.getOrNull(i) ?: "")
                     put("audioFile", audioFileNames.getOrNull(i) ?: "")
-                    put("timestamp", SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date()))
+                    put("timestamp", SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(Date()))
                 }
                 jsonArray.put(jsonObject)
             }
 
-            val timestampJson = SimpleDateFormat("yyyy-MM-ddHH-mm-ss", Locale.getDefault()).format(Date())
+            val timestampJson = SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(Date())
             val jsonFile = exportFolder.createFile("application/json", "metadata-${timestampJson}.json")
                 ?: throw Exception("Failed to create JSON metadata file")
 
