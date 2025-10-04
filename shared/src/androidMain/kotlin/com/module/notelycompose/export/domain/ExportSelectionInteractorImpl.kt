@@ -101,30 +101,32 @@ class ExportSelectionInteractorImpl(
 
             if(shouldExportAudio) {
                 audioPath.forEachIndexed { index, path ->
-                    val timestampAudio = SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(Date())
-                    val sourceFile = File(path)
-                    if (!sourceFile.exists()) {
-                        return@withContext Result.failure(Exception("Audio file not found: $path"))
-                    }
-
-                    val textTitle = titles[index].takeIf { it.isNotBlank() } ?: TEXT_BLANK_DEFAULT
-                    val audioFileName = "${textTitle}-audio-${timestampAudio}.wav"
-                    val mimeType = getMimeType(audioFileName)
-                    val audioFile = exportFolder.createFile(mimeType, audioFileName)
-                        ?: return@withContext Result.failure(Exception("Failed to create audio file $index"))
-
-                    context.contentResolver.openOutputStream(audioFile.uri)?.use { outputStream ->
-                        FileInputStream(sourceFile).use { inputStream ->
-                            inputStream.copyTo(outputStream)
+                    if(path.isNotEmpty()) {
+                        val timestampAudio = SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(Date())
+                        val sourceFile = File(path)
+                        if (!sourceFile.exists()) {
+                            return@withContext Result.failure(Exception("Audio file not found: $path"))
                         }
-                    }
-                    audioFileNames.add(audioFileName)
 
-                    // Update progress
-                    completedItems++
-                    val progress = completedItems.toFloat() / totalItems.toFloat()
-                    withContext(Dispatchers.Main) {
-                        onProgress(progress)
+                        val textTitle = titles[index].takeIf { it.isNotBlank() } ?: TEXT_BLANK_DEFAULT
+                        val audioFileName = "${textTitle}-audio-${timestampAudio}.wav"
+                        val mimeType = getMimeType(audioFileName)
+                        val audioFile = exportFolder.createFile(mimeType, audioFileName)
+                            ?: return@withContext Result.failure(Exception("Failed to create audio file $index"))
+
+                        context.contentResolver.openOutputStream(audioFile.uri)?.use { outputStream ->
+                            FileInputStream(sourceFile).use { inputStream ->
+                                inputStream.copyTo(outputStream)
+                            }
+                        }
+                        audioFileNames.add(audioFileName)
+
+                        // Update progress
+                        completedItems++
+                        val progress = completedItems.toFloat() / totalItems.toFloat()
+                        withContext(Dispatchers.Main) {
+                            onProgress(progress)
+                        }
                     }
                 }
             }

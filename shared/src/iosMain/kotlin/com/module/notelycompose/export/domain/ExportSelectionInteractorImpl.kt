@@ -172,41 +172,43 @@ class ExportSelectionInteractorImpl : ExportSelectionInteractor {
 
             if (shouldExportAudio) {
                 audioPath.forEachIndexed { index, path ->
-                    val timestampAudio = getFormattedDate(PATTERN_DATE_FORMAT)
-                    val sourceUrl = NSURL.fileURLWithPath(path)
+                    if(path.isNotEmpty()) {
+                        val timestampAudio = getFormattedDate(PATTERN_DATE_FORMAT)
+                        val sourceUrl = NSURL.fileURLWithPath(path)
 
-                    if (!fileManager.fileExistsAtPath(path)) {
-                        return@withContext Result.failure(Exception("Audio file not found: $path"))
-                    }
-
-                    val textTitle = titles.getOrNull(index)?.takeIf { it.isNotBlank() } ?: TEXT_BLANK_DEFAULT
-                    val audioFileName = "${textTitle}-audio-${timestampAudio}.wav"
-
-                    val destUrl = exportFolderUrl.URLByAppendingPathComponent(audioFileName)
-                        ?: return@withContext Result.failure(Exception("Failed to create audio file path $index"))
-
-                    // Copy audio file
-                    memScoped {
-                        val error = alloc<ObjCObjectVar<NSError?>>()
-                        val success = fileManager.copyItemAtURL(
-                            sourceUrl,
-                            destUrl,
-                            error = error.ptr
-                        )
-
-                        if (!success) {
-                            return@withContext Result.failure(
-                                Exception("Failed to copy audio file $index: ${error.value?.localizedDescription}")
-                            )
+                        if (!fileManager.fileExistsAtPath(path)) {
+                            return@withContext Result.failure(Exception("Audio file not found: $path"))
                         }
-                    }
 
-                    audioFileNames.add(audioFileName)
+                        val textTitle = titles.getOrNull(index)?.takeIf { it.isNotBlank() } ?: TEXT_BLANK_DEFAULT
+                        val audioFileName = "${textTitle}-audio-${timestampAudio}.wav"
 
-                    completedItems++
-                    val progress = completedItems.toFloat() / totalItems.toFloat()
-                    withContext(Dispatchers.Main) {
-                        onProgress(progress)
+                        val destUrl = exportFolderUrl.URLByAppendingPathComponent(audioFileName)
+                            ?: return@withContext Result.failure(Exception("Failed to create audio file path $index"))
+
+                        // Copy audio file
+                        memScoped {
+                            val error = alloc<ObjCObjectVar<NSError?>>()
+                            val success = fileManager.copyItemAtURL(
+                                sourceUrl,
+                                destUrl,
+                                error = error.ptr
+                            )
+
+                            if (!success) {
+                                return@withContext Result.failure(
+                                    Exception("Failed to copy audio file $index: ${error.value?.localizedDescription}")
+                                )
+                            }
+                        }
+
+                        audioFileNames.add(audioFileName)
+
+                        completedItems++
+                        val progress = completedItems.toFloat() / totalItems.toFloat()
+                        withContext(Dispatchers.Main) {
+                            onProgress(progress)
+                        }
                     }
                 }
             }
