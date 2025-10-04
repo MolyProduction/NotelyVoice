@@ -20,7 +20,7 @@
 
     <!-- Delete Dialog -->
     <string name="confirmation">Confirm</string>
-    <string name="confirmation_text">Do you want to delete the Note?</string>
+    <string name="confirmation_text">Do you want to delete the Note? This action cannot be undone</string>
     <string name="recording_confirmation_text">Are you sure you want to delete the recording?</string>
     <string name="confirmation_delete">Delete</string>
     <string name="confirmation_cancel">Cancel</string>
@@ -138,7 +138,7 @@
 
     <!-- Settings Screen -->
     <string name="settings">Settings</string>
-    <string name="customize_your_experience">Customize your experience</string>
+    <string name="customize_your_experience">Scroll down to see all settings</string>
     <string name="language_and_region">Language &amp; Region</string>
     <string name="transcription_language">Transcription Language</string>
     <string name="language_used_for_voice_transcription">Language used for voice transcription</string>
@@ -196,6 +196,16 @@
     <string name="batch_export_select_at_least_one_option">Please select at least one option</string>
     <string name="batch_export_title">Export</string>
     <string name="batch_export_no_selection_made">No selection made, please select an item to export</string>
+    <string name="batch_export_settings_title">Export multiple notes</string>
+    <string name="batch_export_settings_description">LONG PRESS any note card to show export options on the notes list</string>
+    <string name="batch_export_settings_how_to">How to export multiple notes</string>
+    <string name="batch_export_settings_how_to_description_1">LONG PRESS any note card to enter selection mode, then export multiple notes at once</string>
+    <string name="batch_export_settings_how_to_description_2">Long press note</string>
+    <string name="batch_export_settings_how_to_description_3">Select notes to export</string>
+    <string name="batch_export_settings_how_to_description_4">Tap the export button at the bottom</string>
+    <string name="batch_export_settings_how_to_1">1.</string>
+    <string name="batch_export_settings_how_to_2">2.</string>
+    <string name="batch_export_settings_how_to_3">3.</string>
     <!-- Import -->
     <string name="import_failed_title">Import Failed</string>
 </resources>
