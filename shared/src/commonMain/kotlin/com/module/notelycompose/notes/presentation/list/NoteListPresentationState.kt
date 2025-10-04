@@ -5,6 +5,7 @@ import com.module.notelycompose.notes.presentation.list.model.NotePresentationMo
 data class NoteListPresentationState(
     val originalNotes: List<NotePresentationModel> = emptyList(),
     val filteredNotes: List<NotePresentationModel> = emptyList(),
-    val selectedTabTitle: String="All",
-    val showEmptyContent: Boolean = false
+    val selectedTabIndex: Int = NotesFilterConstants.ALL,
+    val showEmptyContent: Boolean = false,
+    val allNotesSizeStr: String = ""
 )

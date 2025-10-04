@@ -58,7 +58,7 @@
     <string name="note_detail_more_options">More options</string>
 
     <!-- Date Tab Bar -->
-    <string name="date_tab_bar_all">All</string>
+    <string name="date_tab_bar_all">All %1$s</string>
     <string name="date_tab_bar_starred">Starred</string>
     <string name="date_tab_bar_voices">Voices</string>
     <string name="date_tab_bar_recent">Recent</string>
