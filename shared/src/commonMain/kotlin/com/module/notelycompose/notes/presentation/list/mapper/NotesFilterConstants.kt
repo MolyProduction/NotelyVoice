@@ -1,8 +1,8 @@
 package com.module.notelycompose.notes.presentation.list.mapper
 
 object NotesFilterConstants {
-    const val ALL = "ALL"
-    const val STARRED = "STARRED"
-    const val VOICES = "VOICES"
-    const val RECENT = "RECENT"
+    const val ALL = 0
+    const val STARRED = 1
+    const val VOICES = 2
+    const val RECENT = 3
 }

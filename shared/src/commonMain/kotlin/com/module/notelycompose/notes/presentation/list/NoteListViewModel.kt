@@ -76,8 +76,8 @@ class NoteListViewModel(
         // Combine notes flow with filter and search
         combine(
             getAllNotesUseCase.execute(),
-            _state.map { it.selectedTabTitle }.distinctUntilChanged(),
-        ) { notes, filter ->
+            _state.map { it.selectedTabIndex }.distinctUntilChanged(),
+            ) { notes, filter ->
             Pair(notes, filter)
         }.onEach { (notes, filter) ->
             handleNotesUpdate(notes, filter, "")
@@ -100,11 +100,11 @@ class NoteListViewModel(
 
     private fun applyFilters(
         notes: List<NotePresentationModel>,
-        filter: String,
+        selectedTabIndex: Int,
         query: String
     ): List<NotePresentationModel> {
         val domainFilter = notesFilterMapper.mapToDomainModel(
-            notesFilterMapper.mapStringToPresentationModel(filter)
+            notesFilterMapper.mapStringToPresentationModel(selectedTabIndex)
         )
         if (query.isBlank() && (domainFilter == NotesFilterDomainModel.ALL || domainFilter == NotesFilterDomainModel.RECENT)) {
             return notes
@@ -119,7 +119,7 @@ class NoteListViewModel(
 
     private fun handleNotesUpdate(
         notes: List<NoteDomainModel>,
-        filter: String,
+        selectedTabIndex: Int,
         query: String
     ) {
 
@@ -162,8 +162,8 @@ class NoteListViewModel(
         return presentationState.filteredNotes.map { notePresentationMapper.mapToUiModel(it) }
     }
 
-    private fun setSelectedTab(tabTitle: String) {
-        _state.value = _state.value.copy(selectedTabTitle = tabTitle)
+    private fun setSelectedTab(tabIndex: Int) {
+        _state.value = _state.value.copy(selectedTabIndex = tabIndex)
     }
 
     private fun isVoiceNote(note: NotePresentationModel): Boolean {
