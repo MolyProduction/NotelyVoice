@@ -31,6 +31,10 @@ import androidx.compose.ui.unit.dp
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.platform.getPlatform
 import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.cancel
+import com.module.notelycompose.resources.copy
+import com.module.notelycompose.resources.ic_cancel_all
+import com.module.notelycompose.resources.ic_copy
 import com.module.notelycompose.resources.top_bar_back
 import com.module.notelycompose.resources.top_bar_export_audio_folder
 import com.module.notelycompose.resources.top_bar_import_audio
@@ -40,6 +44,7 @@ import com.module.notelycompose.resources.top_bar_export_as_pdf
 import com.module.notelycompose.resources.top_bar_import_video
 import com.module.notelycompose.resources.vectors.IcChevronLeft
 import com.module.notelycompose.resources.vectors.Images
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -47,6 +52,7 @@ fun DetailNoteTopBar(
     title: String = stringResource(Res.string.top_bar_my_note),
     onNavigateBack: () -> Unit,
     onShare: () -> Unit = {},
+    onCopy: () -> Unit = {},
     onExportAudio: () -> Unit,
     onImportClick: () -> Unit = {},
     onImportVideoClick: () -> Unit = {},
@@ -61,6 +67,7 @@ fun DetailNoteTopBar(
             title = title,
             onNavigateBack = onNavigateBack,
             onShare = onShare,
+            onCopy = onCopy,
             onExportAudio = onExportAudio,
             onImportClick = {
                 if (!isRecordingExist) {
@@ -131,6 +138,7 @@ fun DetailAndroidNoteTopBar(
     title: String,
     onNavigateBack: () -> Unit,
     onShare: () -> Unit,
+    onCopy: () -> Unit,
     onExportAudio: () -> Unit,
     onImportClick: () -> Unit,
     onImportVideoClick: () -> Unit,
@@ -149,6 +157,14 @@ fun DetailAndroidNoteTopBar(
             }
         },
         actions = {
+            IconButton(onClick = { onCopy() }) {
+                Icon(
+                    painter = painterResource(Res.drawable.ic_copy),
+                    contentDescription = stringResource(Res.string.copy),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
             IconButton(onClick = { onShare() }) {
                 Icon(
                     imageVector = Icons.Filled.Share,
