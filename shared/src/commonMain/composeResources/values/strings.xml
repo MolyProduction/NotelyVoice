@@ -142,6 +142,7 @@
     <string name="customize_your_experience">Scroll down to see all settings</string>
     <string name="language_and_region">Language &amp; Region</string>
     <string name="transcription_language">Transcription Language</string>
+    <string name="transcription_model_selection">Model Selection</string>
     <string name="language_used_for_voice_transcription">Language used for voice transcription</string>
     <string name="select_language">Select language</string>
     <string name="appearance">Appearance</string>

@@ -5,9 +5,11 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
+import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
 import com.module.notelycompose.notes.ui.settings.languageCodeMap
 import com.module.notelycompose.platform.Theme
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +28,7 @@ class PreferencesRepository(
         private val KEY_THEME = stringPreferencesKey("theme")
         private val KEY_MODEL_DOWNLOAD_ID = longPreferencesKey("model_download_id")
         private val KEY_BODY_TEXT_SIZE = floatPreferencesKey("body_text_size")
+        private val KEY_MODEL_SELECTION = intPreferencesKey("model_selection")
     }
 
     suspend fun hasCompletedOnboarding(): Boolean {
@@ -77,6 +80,16 @@ class PreferencesRepository(
     suspend fun setBodyTextSize(size: Float) {
         dataStore.edit { prefs ->
             prefs[KEY_BODY_TEXT_SIZE] = size
+        }
+    }
+
+    fun getModelSelection(): Flow<Int> = dataStore.data.map { prefs ->
+        prefs[KEY_MODEL_SELECTION] ?: NO_MODEL_SELECTION
+    }
+
+    suspend fun setModelSelection(modelSelection: Int) {
+        dataStore.edit { prefs ->
+            prefs[KEY_MODEL_SELECTION] = modelSelection
         }
     }
 }

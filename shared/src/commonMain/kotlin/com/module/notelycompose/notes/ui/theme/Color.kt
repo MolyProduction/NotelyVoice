@@ -46,7 +46,9 @@ val DarkCustomColors = CustomColors(
     settingsBodyTextColor = Color.Gray,
     settingsBodyBorderColor = Color.DarkGray,
     selectAllCheckboxColor = Color(0xFFBD7D4E),
-    selectAllCancelColor = Color.Gray
+    selectAllCancelColor = Color.Gray,
+    modelSelectionDescColor = Color.LightGray,
+    modelSelectionBgColor = Color.Black
 )
 
 val LightCustomColors = CustomColors(
@@ -92,7 +94,9 @@ val LightCustomColors = CustomColors(
     settingsBodyTextColor = Color.DarkGray,
     settingsBodyBorderColor = Color.LightGray,
     selectAllCheckboxColor = Color(0xFFBD7D4E),
-    selectAllCancelColor = Color.White
+    selectAllCancelColor = Color.White,
+    modelSelectionDescColor = Color.DarkGray,
+    modelSelectionBgColor = Color.White
 )
 
 // Create a CompositionLocal to hold the custom colors

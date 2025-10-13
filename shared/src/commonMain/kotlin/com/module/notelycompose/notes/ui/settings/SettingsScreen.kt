@@ -39,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
+import com.module.notelycompose.modelDownloader.OPTIMIZED_MODEL_SELECTION
 import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
 import com.module.notelycompose.notes.extension.intBodyFontSizes
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
@@ -76,12 +78,14 @@ import com.module.notelycompose.resources.export
 import com.module.notelycompose.resources.ic_export_selections
 import com.module.notelycompose.resources.navigate
 import org.jetbrains.compose.resources.painterResource
+import com.module.notelycompose.resources.transcription_model_selection
 
 @Composable
 fun SettingsScreen(
     navigateBack: () -> Unit,
     navigateToLanguages: () -> Unit,
     navigateToSettingsText: () -> Unit,
+    navigateToModelSelection: () -> Unit,
     preferencesRepository: PreferencesRepository = koinInject()
 ) {
     val language by preferencesRepository.getDefaultTranscriptionLanguage()
@@ -89,6 +93,9 @@ fun SettingsScreen(
     val uiMode by preferencesRepository.getTheme().collectAsState(Theme.SYSTEM.name)
     val coroutineScope = rememberCoroutineScope()
     val bodyTextSize = preferencesRepository.getBodyTextSize().collectAsState(TEXT_SIZE_BODY).value
+    val modelSavedSelection = preferencesRepository.getModelSelection().collectAsState(
+        NO_MODEL_SELECTION
+    ).value
 
     Column(
         modifier = Modifier
@@ -120,6 +127,13 @@ fun SettingsScreen(
                             preferencesRepository.setTheme(it.name)
                         }
                     }
+                )
+            }
+
+            item {
+                LanguageModelSelectionSection(
+                    navigateToModelSelection = navigateToModelSelection,
+                    modelSavedSelection = modelSavedSelection
                 )
             }
 
@@ -566,6 +580,7 @@ fun TextSizeSettingItem(
     }
 }
 
+
 @Composable
 fun ExportSettingSection() {
     Column {
@@ -763,6 +778,102 @@ fun ExportSettingSection() {
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun LanguageModelSelectionSection(
+    navigateToModelSelection: () -> Unit,
+    modelSavedSelection: Int
+) {
+    Column(
+        modifier = Modifier.clickable {
+            navigateToModelSelection()
+        }
+    ) {
+        Text(
+            text = stringResource(Res.string.transcription_model_selection),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = LocalCustomColors.current.bodyContentColor,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+
+        SettingsModelOptionCard(
+            model = when (modelSavedSelection) {
+                OPTIMIZED_MODEL_SELECTION -> {
+                    ModelOption(
+                        title = "Optimized model (multilingual)",
+                        description = "Highest accuracy available\n" +
+                                "Supports all languages except Hindi & Gujarati\n" +
+                                "Larger file size, slower performance",
+                        size = "468 MB"
+                    )
+                }
+                else -> {
+                    ModelOption(
+                        title = "Standard model (multilingual)",
+                        description = "Faster performance and smaller file size\n" +
+                                "Supports all languages",
+                        size = "142 MB"
+                    )
+                }
+            },
+            onClick = {
+                navigateToModelSelection()
+            },
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+    }
+}
+
+@Composable
+fun SettingsModelOptionCard(
+    model: ModelOption,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(
+            LocalCustomColors.current.modelSelectionBgColor
+        ),
+        border = androidx.compose.foundation.BorderStroke(1.dp, LocalCustomColors.current.bodyContentColor)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = model.title,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = LocalCustomColors.current.bodyContentColor,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+
+                Text(
+                    text = model.description,
+                    fontSize = 14.sp,
+                    color = LocalCustomColors.current.modelSelectionDescColor,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
+                Text(
+                    text = model.size,
+                    fontSize = 14.sp,
+                    color = LocalCustomColors.current.modelSelectionDescColor
+                )
             }
         }
     }

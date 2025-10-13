@@ -47,5 +47,7 @@ data class CustomColors(
     val settingsBodyTextColor: Color,
     val settingsBodyBorderColor: Color,
     val selectAllCheckboxColor: Color,
-    val selectAllCancelColor: Color
+    val selectAllCancelColor: Color,
+    val modelSelectionDescColor: Color,
+    val modelSelectionBgColor: Color
 )
