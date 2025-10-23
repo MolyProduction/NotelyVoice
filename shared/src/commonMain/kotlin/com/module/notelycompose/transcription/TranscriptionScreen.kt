@@ -143,20 +143,36 @@ fun TranscriptionScreen(
 //                    )
 //                }
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                OutlinedButton(
-                    modifier = Modifier.weight(1f),
-                    enabled = !transcriptionUiState.inTranscription,
-                    border = BorderStroke(
-                        width = 2.dp,
-                        color = if(!transcriptionUiState.inTranscription) {
-                            LocalCustomColors.current.bodyContentColor
-                        } else {
-                            LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f),
+                        enabled = !transcriptionUiState.inTranscription,
+                        border = BorderStroke(
+                            width = 2.dp,
+                            color = if(!transcriptionUiState.inTranscription) {
+                                LocalCustomColors.current.bodyContentColor
+                            } else {
+                                LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
+                            }
+                        ),
+                        shape = RoundedCornerShape(4.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = LocalCustomColors.current.bodyContentColor,
+                            disabledContentColor = LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
+                        ),
+                        content = {
+                            Text(
+                                stringResource(Res.string.transcription_dialog_append)
+                            )
+                        },
+                        onClick = {
+                            val result = if (transcriptionUiState.viewOriginalText) transcriptionUiState.originalText else transcriptionUiState.summarizedText
+                            editorViewModel.onUpdateContent(TextFieldValue("${editorState.content.text}\n$result"))
+                            navigateBack()
                         }
                     ),
                     shape = RoundedCornerShape(4.dp),
@@ -176,33 +192,33 @@ fun TranscriptionScreen(
                     }
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
-                OutlinedButton(
-                    modifier = Modifier.weight(1f),
-                    enabled = !transcriptionUiState.inTranscription,
-                    border = BorderStroke(
-                        width = 2.dp,
-                        color = if(!transcriptionUiState.inTranscription) {
-                            LocalCustomColors.current.bodyContentColor
-                        } else {
-                            LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
-                        }
-                    ),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = LocalCustomColors.current.bodyContentColor,
-                        disabledContentColor = LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
-                    ),
-                    content = {
-                        Text(
-                            if(transcriptionUiState.viewOriginalText) stringResource(Res.string.transcription_dialog_summarize) else
-                                stringResource(Res.string.transcription_dialog_original),
-                            fontSize = 12.sp
-                        )
-                    }, onClick = {
-                        viewModel.summarize()
-                    })
-            }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f),
+                        enabled = !transcriptionUiState.inTranscription,
+                        border = BorderStroke(
+                            width = 2.dp,
+                            color = if(!transcriptionUiState.inTranscription) {
+                                LocalCustomColors.current.bodyContentColor
+                            } else {
+                                LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
+                            }
+                        ),
+                        shape = RoundedCornerShape(4.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = LocalCustomColors.current.bodyContentColor,
+                            disabledContentColor = LocalCustomColors.current.bodyContentColor.copy(alpha = 0.38f)
+                        ),
+                        content = {
+                            Text(
+                                if(transcriptionUiState.viewOriginalText) stringResource(Res.string.transcription_dialog_summarize) else
+                                    stringResource(Res.string.transcription_dialog_original),
+                                fontSize = 12.sp
+                            )
+                        }, onClick = {
+                            viewModel.summarize()
+                        })
+                }
 
         }
     }

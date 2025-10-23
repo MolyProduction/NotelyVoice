@@ -51,7 +51,6 @@ import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 val languageCodeMap = mapOf(
-    //"auto" to "Auto detect",
     "en" to "English",
     "ar" to "Arabic",
     "ca" to "Catalan",
@@ -61,6 +60,8 @@ val languageCodeMap = mapOf(
     "fr" to "French",
     "gl" to "Galician",
     "de" to "German",
+    "gu" to "Gujarati",
+    "hi" to "Hindi",
     "id" to "Indonesian",
     "it" to "Italian",
     "ja" to "Japanese",
@@ -76,6 +77,7 @@ val languageCodeMap = mapOf(
     "th" to "Thai",
     "tr" to "Turkish",
     "uk" to "Ukrainian",
+    "ur" to "Urdu",
     "vi" to "Vietnamese",
     "auto" to "Auto detect (less accurate)"
 )
