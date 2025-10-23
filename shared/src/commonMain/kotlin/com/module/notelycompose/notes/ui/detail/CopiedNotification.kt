@@ -27,6 +27,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.module.notelycompose.resources.Res
+import com.module.notelycompose.resources.copied
+import com.module.notelycompose.resources.search_bar_search_description
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun CopiedNotification(
@@ -67,7 +71,7 @@ fun CopiedNotification(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Copied!",
+                            text = stringResource(Res.string.copied),
                             color = Color.White,
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Medium
