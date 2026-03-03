@@ -210,4 +210,5 @@
     <string name="batch_export_settings_no_folder_selected">Folder selection cancelled</string>
     <!-- Import -->
     <string name="import_failed_title">Import Failed</string>
+    <string name="copied">Copied!</string>
 </resources>

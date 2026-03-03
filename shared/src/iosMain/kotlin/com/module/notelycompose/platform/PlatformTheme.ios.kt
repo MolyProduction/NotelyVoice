@@ -142,4 +142,8 @@ actual class PlatformUtils {
     ) {
 
     }
+
+    actual fun copyTextToClipboard(text: String, onResult: (Boolean, String?) -> Unit) {
+
+    }
 }
