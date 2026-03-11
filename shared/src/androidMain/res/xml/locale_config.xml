@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Declares supported app locales for Android 13+ per-app language preferences.
+     Android will automatically use values-de/ for German devices and
+     values/ (English) as fallback for all other languages. -->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="de"/>
+    <locale android:name="en"/>
+</locale-config>
