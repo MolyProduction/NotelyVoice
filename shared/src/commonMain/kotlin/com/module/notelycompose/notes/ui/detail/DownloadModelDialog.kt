@@ -12,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.module.notelycompose.modelDownloader.GERMAN_MODEL
 import com.module.notelycompose.modelDownloader.HINDI_MODEL
 import org.jetbrains.compose.resources.stringResource
 import com.module.notelycompose.resources.Res
 import com.module.notelycompose.resources.download_required
 import com.module.notelycompose.resources.download_required_for_hindi
+import com.module.notelycompose.resources.download_required_for_german
 import com.module.notelycompose.resources.for_accurate_transcription
 import com.module.notelycompose.resources.take_few_minutes
 import com.module.notelycompose.resources.download
@@ -25,6 +27,7 @@ import com.module.notelycompose.modelDownloader.TranscriptionModel
 import com.module.notelycompose.resources.file_size_approx
 import com.module.notelycompose.resources.file_model_english
 import com.module.notelycompose.resources.file_model_hindi
+import com.module.notelycompose.resources.file_model_german_turbo
 
 @Composable
 fun DownloadModelDialog(
@@ -33,16 +36,16 @@ fun DownloadModelDialog(
     transcriptionModel: TranscriptionModel,
     modifier: Modifier = Modifier
 ) {
-    val fileInfo: String = if(transcriptionModel.getModelDownloadType() == HINDI_MODEL) {
-        stringResource(Res.string.file_model_hindi)
-    } else {
-        stringResource(Res.string.file_model_english)
+    val fileInfo: String = when (transcriptionModel.getModelDownloadType()) {
+        HINDI_MODEL -> stringResource(Res.string.file_model_hindi)
+        GERMAN_MODEL -> stringResource(Res.string.file_model_german_turbo)
+        else -> stringResource(Res.string.file_model_english)
     }
 
-    val downloadRequired: String = if(transcriptionModel.getModelDownloadType() == HINDI_MODEL) {
-        stringResource(Res.string.download_required_for_hindi)
-    } else {
-        stringResource(Res.string.download_required)
+    val downloadRequired: String = when (transcriptionModel.getModelDownloadType()) {
+        HINDI_MODEL -> stringResource(Res.string.download_required_for_hindi)
+        GERMAN_MODEL -> stringResource(Res.string.download_required_for_german)
+        else -> stringResource(Res.string.download_required)
     }
 
     AlertDialog(

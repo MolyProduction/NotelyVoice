@@ -116,11 +116,13 @@
     <!-- Download Dialog -->
     <string name="download_required">Download erforderlich</string>
     <string name="download_required_for_hindi">Download für Hindi erforderlich</string>
+    <string name="download_required_for_german">Download für Deutsches Modell erforderlich</string>
     <string name="for_accurate_transcription">Für eine genaue Transkription muss das KI-Modell heruntergeladen werden.</string>
     <string name="take_few_minutes">Dies kann einige Minuten dauern und erfordert eine stabile Internetverbindung.</string>
     <string name="file_size_approx">Dateigröße: ca. %1$s</string>
     <string name="file_model_english">Mehrsprachiges Modell (unterstützt 50+ Sprachen)</string>
     <string name="file_model_hindi">Für Hindi optimiertes Modell</string>
+    <string name="file_model_german_turbo">Deutsches Large-v3-Turbo-Modell (hohe Genauigkeit)</string>
     <string name="download">Herunterladen</string>
     <!-- Settings Screen -->
     <string name="settings">Einstellungen</string>
