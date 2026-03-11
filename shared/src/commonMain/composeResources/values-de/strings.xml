@@ -124,6 +124,24 @@
     <string name="file_model_hindi">Für Hindi optimiertes Modell</string>
     <string name="file_model_german_turbo">Deutsches Large-v3-Turbo-Modell (hohe Genauigkeit)</string>
     <string name="download">Herunterladen</string>
+    <!-- Speech Recognition Mode Selection -->
+    <string name="speech_recognition">Spracherkennung</string>
+    <string name="speech_recognition_desc">Wähle dein Spracherkennungsmodell</string>
+    <string name="speech_mode_german_quick_title">Deutsch – Schnell</string>
+    <string name="speech_mode_german_quick_subtitle">Eingebettetes Modell · Sofort einsatzbereit · ~75 MB</string>
+    <string name="speech_mode_german_accurate_title">Deutsch – Genau</string>
+    <string name="speech_mode_german_accurate_subtitle">Hohe Erkennungsqualität · Download ~1,6 GB</string>
+    <string name="speech_mode_multilingual_title">Mehrsprachig</string>
+    <string name="speech_mode_multilingual_subtitle">50+ Sprachen · Download erforderlich</string>
+    <string name="speech_mode_status_ready">✓ Bereit</string>
+    <string name="speech_mode_status_download">⬇ Herunterladen</string>
+    <string name="speech_mode_multilingual_standard_option">Standard (Tiny) · ~142 MB Download</string>
+    <string name="speech_mode_multilingual_extended_option">Erweitert (Small) · ~465 MB Download</string>
+    <string name="manage_models">Heruntergeladene Modelle verwalten</string>
+    <string name="manage_models_desc">Modelle löschen, um Speicherplatz freizugeben</string>
+    <string name="model_cannot_delete">Eingebettet (kann nicht gelöscht werden)</string>
+    <string name="delete_model">Löschen</string>
+    <string name="model_info_size">%1$s MB</string>
     <!-- Settings Screen -->
     <string name="settings">Einstellungen</string>
     <string name="customize_your_experience">Nach unten scrollen, um alle Einstellungen zu sehen</string>
@@ -148,10 +166,10 @@
     <string name="onboarding_screen_one_desc">Schreibe und teile deine Notizen\nmühelos und sofort</string>
     <string name="onboarding_screen_two_title">Sprachnotiz aufnehmen\nund teilen</string>
     <string name="onboarding_screen_two_desc">Nimm Sprachnotizen auf\nund teile sie unterwegs</string>
-    <string name="onboarding_screen_three_title">Transkribieren\nund Zusammenfassen</string>
-    <string name="onboarding_screen_three_desc">Wandle Sprachnotizen in Text und\nZusammenfassungen ohne Internet um</string>
-    <string name="onboarding_screen_four_title">Unterstützt\nüber 50 Sprachen</string>
-    <string name="onboarding_screen_four_desc">Erstelle und transkribiere Notizen in\ndeiner bevorzugten Sprache</string>
+    <string name="onboarding_screen_three_title">Sofort\neinsatzbereit</string>
+    <string name="onboarding_screen_three_desc">Deutsches Sprachmodell ist eingebettet –\nTranskription ohne Download und ohne Internet</string>
+    <string name="onboarding_screen_four_title">Noch\npräziser?</string>
+    <string name="onboarding_screen_four_desc">Lade das Deutsche Turbo-Modell in den\nEinstellungen für höchste Genauigkeit herunter</string>
     <!-- Setting Bottom Sheet -->
     <string name="settings_light_theme">Helles Design</string>
     <string name="settings_dark_theme">Dunkles Design</string>

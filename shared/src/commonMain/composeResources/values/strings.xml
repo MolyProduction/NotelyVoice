@@ -124,6 +124,24 @@
     <string name="file_model_hindi">Hindi-optimized model</string>
     <string name="file_model_german_turbo">German large-v3-turbo model (high accuracy)</string>
     <string name="download">Download</string>
+    <!-- Speech Recognition Mode Selection -->
+    <string name="speech_recognition">Speech Recognition</string>
+    <string name="speech_recognition_desc">Choose your speech recognition model</string>
+    <string name="speech_mode_german_quick_title">German – Quick</string>
+    <string name="speech_mode_german_quick_subtitle">Bundled model · Instant · ~75 MB</string>
+    <string name="speech_mode_german_accurate_title">German – Accurate</string>
+    <string name="speech_mode_german_accurate_subtitle">High accuracy · Download ~1.6 GB</string>
+    <string name="speech_mode_multilingual_title">Multilingual</string>
+    <string name="speech_mode_multilingual_subtitle">50+ languages · Download required</string>
+    <string name="speech_mode_status_ready">✓ Ready</string>
+    <string name="speech_mode_status_download">⬇ Download</string>
+    <string name="speech_mode_multilingual_standard_option">Standard (Tiny) · ~142 MB</string>
+    <string name="speech_mode_multilingual_extended_option">Extended (Small) · ~465 MB</string>
+    <string name="manage_models">Manage Downloaded Models</string>
+    <string name="manage_models_desc">Delete models to free up storage</string>
+    <string name="model_cannot_delete">Built-in (cannot be deleted)</string>
+    <string name="delete_model">Delete</string>
+    <string name="model_info_size">%1$s MB</string>
     <!-- Settings Screen -->
     <string name="settings">Settings</string>
     <string name="customize_your_experience">Scroll down to see all settings</string>

@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.module.notelycompose.modelDownloader.GERMAN_MODEL
 import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
 import com.module.notelycompose.modelDownloader.OPTIMIZED_MODEL_SELECTION
 import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
@@ -85,6 +86,9 @@ import com.module.notelycompose.resources.optimized_model_setting_size
 import com.module.notelycompose.resources.standard_model_title
 import com.module.notelycompose.resources.standard_model_setting_desc
 import com.module.notelycompose.resources.standard_model_setting_size
+import com.module.notelycompose.resources.speech_mode_german_quick_title
+import com.module.notelycompose.resources.speech_mode_german_accurate_title
+import com.module.notelycompose.resources.speech_mode_multilingual_title
 
 @Composable
 fun SettingsScreen(
@@ -95,7 +99,7 @@ fun SettingsScreen(
     preferencesRepository: PreferencesRepository = koinInject()
 ) {
     val language by preferencesRepository.getDefaultTranscriptionLanguage()
-        .collectAsState(languageCodeMap.entries.first().key)
+        .collectAsState(GERMAN_MODEL)
     val uiMode by preferencesRepository.getTheme().collectAsState(Theme.SYSTEM.name)
     val coroutineScope = rememberCoroutineScope()
     val bodyTextSize = preferencesRepository.getBodyTextSize().collectAsState(TEXT_SIZE_BODY).value
@@ -139,7 +143,8 @@ fun SettingsScreen(
             item {
                 LanguageModelSelectionSection(
                     navigateToModelSelection = navigateToModelSelection,
-                    modelSavedSelection = modelSavedSelection
+                    modelSavedSelection = modelSavedSelection,
+                    currentLanguage = language
                 )
             }
 
@@ -792,13 +797,26 @@ fun ExportSettingSection() {
 @Composable
 private fun LanguageModelSelectionSection(
     navigateToModelSelection: () -> Unit,
-    modelSavedSelection: Int
+    modelSavedSelection: Int,
+    currentLanguage: String = GERMAN_MODEL
 ) {
-    Column(
-        modifier = Modifier.clickable {
-            navigateToModelSelection()
-        }
-    ) {
+    val isGerman = currentLanguage == GERMAN_MODEL
+    val isOptimized = modelSavedSelection == OPTIMIZED_MODEL_SELECTION
+
+    val currentTitle = when {
+        isGerman && isOptimized -> "🇩🇪 " + stringResource(Res.string.speech_mode_german_accurate_title)
+        isGerman -> "🇩🇪 " + stringResource(Res.string.speech_mode_german_quick_title)
+        isOptimized -> "🌐 " + stringResource(Res.string.speech_mode_multilingual_title) + " – Erweitert"
+        else -> "🌐 " + stringResource(Res.string.speech_mode_multilingual_title) + " – Standard"
+    }
+    val currentDesc = when {
+        isGerman && isOptimized -> stringResource(Res.string.optimized_model_setting_desc)
+        isGerman -> stringResource(Res.string.standard_model_setting_desc)
+        isOptimized -> stringResource(Res.string.optimized_model_setting_desc)
+        else -> stringResource(Res.string.standard_model_setting_desc)
+    }
+
+    Column(modifier = Modifier.clickable { navigateToModelSelection() }) {
         Text(
             text = stringResource(Res.string.transcription_model_selection),
             fontSize = 24.sp,
@@ -808,25 +826,8 @@ private fun LanguageModelSelectionSection(
         )
 
         SettingsModelOptionCard(
-            model = when (modelSavedSelection) {
-                OPTIMIZED_MODEL_SELECTION -> {
-                    ModelOption(
-                        title = stringResource(Res.string.optimized_model_title),
-                        description = stringResource(Res.string.optimized_model_setting_desc),
-                        size = stringResource(Res.string.optimized_model_setting_size)
-                    )
-                }
-                else -> {
-                    ModelOption(
-                        title = stringResource(Res.string.standard_model_title),
-                        description = stringResource(Res.string.standard_model_setting_desc),
-                        size = stringResource(Res.string.standard_model_setting_size)
-                    )
-                }
-            },
-            onClick = {
-                navigateToModelSelection()
-            },
+            model = ModelOption(title = currentTitle, description = currentDesc),
+            onClick = { navigateToModelSelection() },
             modifier = Modifier.padding(bottom = 16.dp)
         )
     }
