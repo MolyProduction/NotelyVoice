@@ -67,7 +67,11 @@ actual class Transcriber(
     private fun loadBaseModel(modelFileName: String) {
         try {
             debugPrintln{"Loading model: $modelFileName\n"}
-            val modelFile = File(modelsPath, modelFileName)
+            val targetDir = modelsPath ?: run {
+                debugPrintln { "External storage unavailable — cannot load model $modelFileName" }
+                return
+            }
+            val modelFile = File(targetDir, modelFileName)
             if (!modelFile.exists()) {
                 extractFromAssets(modelFileName, modelFile)
             }
@@ -94,8 +98,8 @@ actual class Transcriber(
     }
 
     actual fun doesModelExists(modelFileName: String) : Boolean{
-        val modelFile = File(modelsPath, modelFileName)
-        if (modelFile.exists()) return true
+        val modelFile = modelsPath?.let { File(it, modelFileName) }
+        if (modelFile?.exists() == true) return true
         return try {
             context.assets.open(modelFileName).use { true }
         } catch (e: Exception) {
@@ -104,12 +108,12 @@ actual class Transcriber(
     }
 
     actual fun deleteModel(modelFileName: String): Boolean {
-        val modelFile = File(modelsPath, modelFileName)
+        val modelFile = modelsPath?.let { File(it, modelFileName) } ?: return false
         return if (modelFile.exists()) modelFile.delete() else false
     }
 
     actual fun getModelFileSizeBytes(modelFileName: String): Long {
-        val modelFile = File(modelsPath, modelFileName)
+        val modelFile = modelsPath?.let { File(it, modelFileName) } ?: return 0L
         return if (modelFile.exists()) modelFile.length() else 0L
     }
 
@@ -139,6 +143,7 @@ actual class Transcriber(
         onError : () -> Unit
     ) {
         if (!canTranscribe) {
+            onError()
             return
         }
 
@@ -155,7 +160,8 @@ actual class Transcriber(
             val start = System.currentTimeMillis()
             val chunkResults = mutableListOf<ChunkTranscriptionResult>()
             var completedChunks = 0
-            
+            var previousChunkPrompt: String? = null
+
             streamingChunks.forEachIndexed { chunkIndex, streamingChunk ->
                 if (!isTranscribing) {
                     debugPrintln{"Transcription stopped by user"}
@@ -177,7 +183,11 @@ actual class Transcriber(
                     val startProgress = (completedChunks * chunkProgress).toInt().coerceIn(0, 100)
                     onProgress(startProgress)
                     
-                    val result = whisperContext?.transcribeData(chunkData, language, callback = object : WhisperCallback {
+                    val result = whisperContext?.transcribeData(
+                        chunkData,
+                        language,
+                        initialPrompt = previousChunkPrompt,
+                        callback = object : WhisperCallback {
                         override fun onNewSegment(startMs: Long, endMs: Long, text: String) {
                             // Adjust timing to account for chunk position in original audio
                             val chunkStartTimeMs = (streamingChunk.startOffset - 44) / (streamingChunk.header.sampleRate * streamingChunk.header.channels * (streamingChunk.header.bitsPerSample / 8.0) / 1000.0)
@@ -212,7 +222,11 @@ actual class Transcriber(
                     })
                     
                     chunkText = result ?: ""
-                    
+
+                    // Letzten Teil des Chunks als Prompt für nächsten Chunk speichern
+                    val rawText = chunkSegments.joinToString(" ") { it.text.trim() }
+                    previousChunkPrompt = if (rawText.length > 100) rawText.takeLast(100) else rawText.ifBlank { null }
+
                     // Create a temporary AudioChunk for compatibility with existing merge logic
                     val tempAudioChunk = com.module.notelycompose.utils.AudioChunk(
                         startSample = ((streamingChunk.startOffset - 44) / (streamingChunk.header.channels * (streamingChunk.header.bitsPerSample / 8))).toInt(),

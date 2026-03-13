@@ -3,7 +3,8 @@ package com.module.notelycompose.platform
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import de.molyecho.notlyvoic.android.BuildConfig
+import de.molyecho.notlyvoice.android.BuildConfig
+import org.koin.core.context.GlobalContext
 
 class AndroidPlatform(
     private val version: String,
@@ -29,9 +30,6 @@ class AndroidPlatform(
     }
 }
 
-actual fun getPlatform(): Platform = AndroidPlatform(
-    version = "",
-    context = null
-)
+actual fun getPlatform(): Platform = GlobalContext.get().get()
 
 actual fun isDebugMode(): Boolean = BuildConfig.DEBUG

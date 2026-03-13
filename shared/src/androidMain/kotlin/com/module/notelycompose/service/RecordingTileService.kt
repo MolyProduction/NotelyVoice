@@ -3,7 +3,7 @@ package com.module.notelycompose.service
 import android.graphics.drawable.Icon
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import de.molyecho.notlyvoic.android.R
+import de.molyecho.notlyvoice.android.R
 import com.module.notelycompose.extensions.launchMainActivityFromTile
 import com.module.notelycompose.extensions.startRecordingService
 
