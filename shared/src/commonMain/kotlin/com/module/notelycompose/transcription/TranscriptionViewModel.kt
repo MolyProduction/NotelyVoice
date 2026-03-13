@@ -22,8 +22,9 @@ const val SPACE_STR = " "
 class TranscriptionViewModel(
     private val transcriber: Transcriber,
     private val preferencesRepository: PreferencesRepository,
-    private val modelSelection: ModelSelection
-) :ViewModel(){
+    private val modelSelection: ModelSelection,
+    private val serviceController: TranscriptionServiceController
+) : ViewModel() {
     private val _uiState = MutableStateFlow(TranscriptionUiState())
     val uiState: StateFlow<TranscriptionUiState> = _uiState
 
@@ -43,6 +44,7 @@ class TranscriptionViewModel(
 
     fun startRecognizer(filePath: String) {
         debugPrintln{"startRecognizer ========================="}
+        serviceController.startTranscriptionService()
         viewModelScope.launch(Dispatchers.IO) {
             if (transcriber.hasRecordingPermission()) {
                 // Show loading indicator immediately so the user sees feedback.
@@ -66,7 +68,7 @@ class TranscriptionViewModel(
                             )
                         }
                     }, onNewSegment = { _, _, text ->
-                        
+
                         val delimiter = if(_uiState.value.originalText.endsWith(".")) "\n\n" else SPACE_STR
                         debugPrintln{"\n text ========================= $text"}
                         _uiState.update { current ->
@@ -80,6 +82,7 @@ class TranscriptionViewModel(
 
                     },
                     onComplete = {
+                        serviceController.stopTranscriptionService()
                         debugPrintln{"\n completed ========================= "}
                         _uiState.update {current ->
                             current.copy(
@@ -88,6 +91,7 @@ class TranscriptionViewModel(
                         }
                     },
                     onError = {
+                        serviceController.stopTranscriptionService()
                         debugPrintln{"\n error ========================= "}
                         _uiState.update {current ->
                             current.copy(
@@ -97,12 +101,16 @@ class TranscriptionViewModel(
                             )
                         }
                     })
+            } else {
+                // No permission — service was started optimistically, stop it immediately
+                serviceController.stopTranscriptionService()
             }
         }
 
     }
 
     fun stopRecognizer() {
+        serviceController.stopTranscriptionService()
         _uiState.update { current ->
             current.copy(inTranscription = false)
         }
@@ -113,6 +121,7 @@ class TranscriptionViewModel(
     }
 
     fun finishRecognizer() {
+        serviceController.stopTranscriptionService()
         _uiState.update { current ->
             current.copy(
                 inTranscription = false,
