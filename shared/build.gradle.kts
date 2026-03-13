@@ -159,7 +159,7 @@ kotlin {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "com.module.notelycompose.resources"
+    packageOfResClass = "de.molyecho.notlyvoice.resources"
     generateResClass = always
 }
 
@@ -170,7 +170,7 @@ sqldelight {
     }
 }
 android {
-    namespace = "de.molyecho.notlyvoic.android"
+    namespace = "de.molyecho.notlyvoice.android"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -179,7 +179,7 @@ android {
     // Removed src/commonMain/resources
     // sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
-        applicationId = "de.molyecho.notlyvoic.android"
+        applicationId = "de.molyecho.notlyvoice.android"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 27
@@ -190,14 +190,6 @@ android {
         buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -210,7 +202,7 @@ android {
             excludes += "META-INF/LICENSE*"
             excludes += "META-INF/NOTICE*"
             excludes += "META-INF/*.version"
-            excludes += "assets/composeResources/com.module.notelycompose.resources/strings.xml"
+            excludes += "assets/composeResources/de.molyecho.notlyvoice.resources/strings.xml"
         }
 
         // Force deterministic file ordering
@@ -227,8 +219,13 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             // uncomment to run on release for testing
             // signingConfig = signingConfigs.getByName("debug")
         }

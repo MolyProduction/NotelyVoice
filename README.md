@@ -12,7 +12,7 @@ Ein Fork von [NotelyVoice](https://github.com/tosinonikute/NotelyVoice), optimie
 
 - **Sofort einsatzbereit** – Deutsches Tiny-Modell (75 MB) ist direkt im APK eingebettet, kein Download nötig
 - **Offline-Transkription** – Sprache wird vollständig auf dem Gerät verarbeitet, keine Cloud-Anbindung
-- **Optionales Turbo-Modell** – Hochgenaues Large-v3-Turbo-Modell (~1,6 GB) für beste Erkennungsqualität
+- **Optionales Turbo-Modell** – Hochgenaues Large-v3-Turbo-Modell (~574 MB) für beste Erkennungsqualität
 - **Mehrsprachig** – Multilingual-Modell (50+ Sprachen) optional herunterladbar
 - **Notizen mit Sprachaufnahme** – Aufnahmen direkt in Notizen einbetten und transkribieren
 - **Export** – Notizen als PDF oder TXT exportieren, Audioaufnahmen teilen
@@ -26,7 +26,7 @@ Ein Fork von [NotelyVoice](https://github.com/tosinonikute/NotelyVoice), optimie
 | Modus | Modell | Größe | Herkunft |
 |-------|--------|-------|----------|
 | Deutsch – Schnell | ggml-tiny-german | ~75 MB | Eingebettet im APK |
-| Deutsch – Genau | ggml-large-v3-turbo-german | ~1,6 GB | Download erforderlich |
+| Deutsch – Genau | ggml-large-v3-turbo-german-q5_0 | ~574 MB | Download erforderlich |
 | Mehrsprachig Standard | ggml-tiny (multilingual) | ~142 MB | Download erforderlich |
 | Mehrsprachig Erweitert | ggml-small (multilingual) | ~465 MB | Download erforderlich |
 
@@ -70,7 +70,7 @@ Das APK liegt anschließend unter `androidApp/build/outputs/apk/debug/`.
 | Standardsprache | Englisch | Deutsch |
 | Bundled-Modell | Keins | Deutsches Tiny-Modell |
 | App-Name | Notely Voice | MolyEcho |
-| Paketname | `com.module.notelycompose.android` | `de.molyecho.notlyvoic.android` |
+| Paketname | `com.module.notelycompose.android` | `de.molyecho.notlyvoice.android` |
 | Modell-Auswahl UI | Sprachauswahl + Modell getrennt | Integrierte Modi-Auswahl (Schnell / Genau / Mehrsprachig) |
 
 ---
@@ -79,7 +79,7 @@ Das APK liegt anschließend unter `androidApp/build/outputs/apk/debug/`.
 
 - **NotelyVoice** – Originale App von [Tosin Onikute](https://github.com/tosinonikute/NotelyVoice)
 - **Deutsches Tiny-Modell (Standard)** – [primeline/whisper-tiny-german-1224](https://huggingface.co/primeline/whisper-tiny-german-1224) auf HuggingFace (eingebettetes Standard-Modell, ~75 MB)
-- **Deutsches Turbo-Modell** – [primeline/whisper-large-v3-turbo-german](https://huggingface.co/primeline/whisper-large-v3-turbo-german) auf HuggingFace
+- **Deutsches Turbo-Modell** – [F1sk/whisper-large-v3-turbo-german-ggml-q5_0](https://huggingface.co/F1sk/whisper-large-v3-turbo-german-ggml-q5_0) auf HuggingFace
 - **whisper.cpp** – [ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp) für GGML-Inferenz
 
 ---
