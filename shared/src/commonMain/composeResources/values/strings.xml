@@ -81,6 +81,9 @@
     <string name="recording_ui_loading">loading</string>
     <string name="recording_ui_loading_rotation">loading rotation</string>
     <string name="recording_ui_checkmark">checkmark</string>
+    <string name="recording_stop_dialog_title">Stop recording?</string>
+    <string name="recording_stop_dialog_confirm">Stop</string>
+    <string name="recording_stop_dialog_dismiss">Keep recording</string>
     <!-- Player UI -->
     <string name="player_ui_initial_time">00:00</string>
     <string name="player_ui_pause">Pause</string>

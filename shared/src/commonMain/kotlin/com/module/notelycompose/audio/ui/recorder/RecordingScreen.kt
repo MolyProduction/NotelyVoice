@@ -31,10 +31,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -64,6 +66,9 @@ import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.platform.HandlePlatformBackNavigation
 import com.module.notelycompose.platform.getPlatform
 import de.molyecho.notlyvoice.resources.Res
+import de.molyecho.notlyvoice.resources.recording_stop_dialog_confirm
+import de.molyecho.notlyvoice.resources.recording_stop_dialog_dismiss
+import de.molyecho.notlyvoice.resources.recording_stop_dialog_title
 import de.molyecho.notlyvoice.resources.recording_ui_checkmark
 import de.molyecho.notlyvoice.resources.recording_ui_microphone
 import de.molyecho.notlyvoice.resources.recording_ui_tap_start_record
@@ -94,6 +99,8 @@ fun RecordingScreen(
     val recordingState by viewModel.audioRecorderPresentationState.collectAsStateWithLifecycle()
     val screenState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    var showStopConfirmDialog by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -107,8 +114,7 @@ fun RecordingScreen(
                 onNavigateBack = navigateBack,
                 onTapToRecord = {
                     viewModel.onStartRecording(noteId)
-                },
-                onStopRecording = viewModel::onStopRecording
+                }
             )
 
             ScreenState.Recording -> RecordingInProgressScreen(
@@ -117,7 +123,7 @@ fun RecordingScreen(
                     debugPrintln { "onStop recording" }
                     viewModel.onStopRecording()
                 },
-                onNavigateBack = navigateBack,
+                onNavigateBack = { showStopConfirmDialog = true },
                 isRecordPaused = recordingState.isRecordPaused,
                 onPauseRecording = viewModel::onPauseRecording,
                 onResumeRecording = viewModel::onResumeRecording
@@ -136,8 +142,33 @@ fun RecordingScreen(
         }
     }
 
-    HandlePlatformBackNavigation(enabled = true) {
+    // System back: intercept during active recording to show confirmation dialog
+    HandlePlatformBackNavigation(enabled = screenState == ScreenState.Recording) {
+        showStopConfirmDialog = true
+    }
+    // System back: allow normal navigation in all other states
+    HandlePlatformBackNavigation(enabled = screenState != ScreenState.Recording) {
         navigateBack()
+    }
+
+    if (showStopConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showStopConfirmDialog = false },
+            title = { Text(stringResource(Res.string.recording_stop_dialog_title)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showStopConfirmDialog = false
+                    viewModel.onStopRecording()
+                }) {
+                    Text(stringResource(Res.string.recording_stop_dialog_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showStopConfirmDialog = false }) {
+                    Text(stringResource(Res.string.recording_stop_dialog_dismiss))
+                }
+            }
+        )
     }
 }
 
@@ -145,7 +176,6 @@ fun RecordingScreen(
 private fun RecordingInitialScreen(
     onNavigateBack: () -> Unit,
     onTapToRecord: () -> Unit,
-    onStopRecording: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -153,8 +183,7 @@ private fun RecordingInitialScreen(
             .background(LocalCustomColors.current.bodyBackgroundColor)
     ) {
         RecordingUiComponentBackButton(
-            onNavigateBack = onNavigateBack,
-            onStopRecording = onStopRecording
+            onBackPress = onNavigateBack
         )
 
         Column(
@@ -242,8 +271,7 @@ private fun LandscapeRecordingInProgressScreen(
             .verticalScroll(rememberScrollState())
     ) {
         RecordingUiComponentBackButton(
-            onNavigateBack = onNavigateBack,
-            onStopRecording = onStopRecording
+            onBackPress = onNavigateBack
         )
 
         Column(
@@ -354,8 +382,7 @@ private fun PotraitRecordingInProgressScreen(
             .background(LocalCustomColors.current.bodyBackgroundColor)
     ) {
         RecordingUiComponentBackButton(
-            onNavigateBack = onNavigateBack,
-            onStopRecording = onStopRecording
+            onBackPress = onNavigateBack
         )
 
         Column(
@@ -547,15 +574,11 @@ internal fun RecordingSuccessScreen() {
 
 @Composable
 private fun RecordingUiComponentBackButton(
-    onNavigateBack: () -> Unit,
-    onStopRecording: () -> Unit
+    onBackPress: () -> Unit
 ) {
     if (getPlatform().isAndroid) {
         IconButton(
-            onClick = {
-                onStopRecording()
-                onNavigateBack()
-            },
+            onClick = { onBackPress() },
             modifier = Modifier.padding(16.dp)
         ) {
             Icon(
@@ -569,10 +592,7 @@ private fun RecordingUiComponentBackButton(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(16.dp)
-                .clickable {
-                    onStopRecording()
-                    onNavigateBack()
-                }
+                .clickable { onBackPress() }
         ) {
             Icon(
                 imageVector = Images.Icons.IcChevronLeft,
