@@ -4,8 +4,9 @@ import android.content.Context
 import com.module.notelycompose.FolderPickerHandler
 import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
@@ -24,7 +25,8 @@ class ExportSelectionInteractorImpl(
     private val folderPickerHandler: FolderPickerHandler
 ): ExportSelectionInteractor {
 
-    @OptIn(DelicateCoroutinesApi::class)
+    private val exportScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     override fun exportAllSelection(
         texts: List<String>,
         titles: List<String>,
@@ -35,25 +37,16 @@ class ExportSelectionInteractorImpl(
         onResult: (Result<String>) -> Unit
     ) {
         folderPickerHandler.pickFolder { folderUri ->
-
             if (folderUri == null) {
                 onResult(Result.failure(NoFolderSelectedException("Folder selection cancelled")))
                 return@pickFolder
             }
-
-            kotlinx.coroutines.GlobalScope.launch(Dispatchers.IO) {
+            exportScope.launch {
                 val result = performTextExport(
-                    folderUri,
-                    texts,
-                    titles,
-                    audioPath,
-                    shouldExportAudio,
-                    shouldExportTxt,
-                    onProgress
+                    folderUri, texts, titles, audioPath,
+                    shouldExportAudio, shouldExportTxt, onProgress
                 )
-                withContext(Dispatchers.Main) {
-                    onResult(result)
-                }
+                withContext(Dispatchers.Main) { onResult(result) }
             }
         }
     }
@@ -99,7 +92,7 @@ class ExportSelectionInteractorImpl(
                     // Update progress
                     completedItems++
                     val progress = completedItems.toFloat() / totalItems.toFloat()
-                    kotlinx.coroutines.MainScope().launch {
+                    withContext(Dispatchers.Main) {
                         onProgress(progress)
                     }
                 }
@@ -130,7 +123,7 @@ class ExportSelectionInteractorImpl(
                         // Update progress
                         completedItems++
                         val progress = completedItems.toFloat() / totalItems.toFloat()
-                        kotlinx.coroutines.MainScope().launch {
+                        withContext(Dispatchers.Main) {
                             onProgress(progress)
                         }
                     }
