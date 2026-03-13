@@ -16,7 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -79,6 +78,7 @@ actual class Transcriber(
             resetInactivityTimer() // Inaktivität zurücksetzen, Timer neu starten
             return
         }
+        cancelInactivityTimer() // Stop running timer before mutating state
         debugPrintln { "speech: initialize model $modelFileName" }
         // Release previous context before loading a new one
         whisperContext?.release()
@@ -86,7 +86,9 @@ actual class Transcriber(
         currentLoadedModelName = null
         canTranscribe = false
         loadBaseModel(modelFileName)
-        resetInactivityTimer() // Timer starten nach erfolgreichem Laden
+        if (whisperContext != null) {
+            resetInactivityTimer() // Only start timer if model loaded successfully
+        }
     }
 
     private fun loadBaseModel(modelFileName: String) {
