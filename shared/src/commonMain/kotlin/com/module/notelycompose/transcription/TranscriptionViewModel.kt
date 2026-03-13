@@ -148,7 +148,11 @@ class TranscriptionViewModel(
         stopRecognizer()
         // viewModelScope is already cancelled at this point — use a fresh scope for cleanup
         CoroutineScope(Dispatchers.IO).launch {
-            transcriber.finish()
+            try {
+                transcriber.finish()
+            } catch (e: Throwable) {
+                e.printStackTrace()
+            }
         }
     }
 }

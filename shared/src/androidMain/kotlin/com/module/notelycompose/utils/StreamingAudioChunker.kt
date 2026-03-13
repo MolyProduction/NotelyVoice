@@ -61,7 +61,7 @@ class StreamingAudioChunker {
      * 
      * @param filePath Path to the WAV file
      * @param chunkSizeBytes Size of each chunk in bytes (default: 10MB)
-     * @param overlapSizeBytes Size of overlap between chunks in bytes (default: 1MB)
+     * @param overlapSizeBytes Size of overlap between chunks in bytes (default: 2MB)
      * @return List of StreamingAudioChunk objects
      */
     fun splitWavFileIntoChunks(
