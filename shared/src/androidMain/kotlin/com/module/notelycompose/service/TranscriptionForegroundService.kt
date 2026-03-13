@@ -20,9 +20,6 @@ class TranscriptionForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_STOP -> stopSelf()
-        }
         return START_NOT_STICKY
     }
 
@@ -57,7 +54,6 @@ class TranscriptionForegroundService : Service() {
 
     companion object {
         const val ACTION_START = "START_TRANSCRIPTION"
-        const val ACTION_STOP = "STOP_TRANSCRIPTION"
         private const val CHANNEL_ID = "transcription_channel"
         private const val NOTIFICATION_ID = 2
     }
