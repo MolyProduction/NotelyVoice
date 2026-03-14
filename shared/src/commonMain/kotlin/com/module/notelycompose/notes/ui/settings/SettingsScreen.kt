@@ -941,8 +941,6 @@ private fun AccentColorOption(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .clip(CircleShape)
-                .background(accent.darkColor)
                 .then(
                     if (isSelected) {
                         Modifier.border(
@@ -952,6 +950,8 @@ private fun AccentColorOption(
                         )
                     } else Modifier
                 )
+                .clip(CircleShape)
+                .background(accent.darkColor)
                 .clickable { onSelected() }
         )
         Spacer(modifier = Modifier.height(4.dp))
