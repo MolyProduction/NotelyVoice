@@ -84,10 +84,8 @@ import de.molyecho.notlyvoice.resources.transcription_model_selection
 import de.molyecho.notlyvoice.resources.optimized_model_title
 import de.molyecho.notlyvoice.resources.multilingual_model_setting_desc
 import de.molyecho.notlyvoice.resources.optimized_model_setting_desc
-import de.molyecho.notlyvoice.resources.optimized_model_setting_size
 import de.molyecho.notlyvoice.resources.standard_model_title
 import de.molyecho.notlyvoice.resources.standard_model_setting_desc
-import de.molyecho.notlyvoice.resources.standard_model_setting_size
 import de.molyecho.notlyvoice.resources.model_label_german_accurate
 import de.molyecho.notlyvoice.resources.model_label_german_quick
 import de.molyecho.notlyvoice.resources.model_label_multilingual_extended
