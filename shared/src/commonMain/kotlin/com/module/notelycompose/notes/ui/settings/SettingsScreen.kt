@@ -89,6 +89,10 @@ import de.molyecho.notlyvoice.resources.standard_model_setting_desc
 import de.molyecho.notlyvoice.resources.model_label_german_accurate
 import de.molyecho.notlyvoice.resources.model_label_german_quick
 import de.molyecho.notlyvoice.resources.model_label_multilingual_extended
+import androidx.compose.foundation.shape.CircleShape
+import com.module.notelycompose.notes.ui.theme.AccentTheme
+import de.molyecho.notlyvoice.resources.accent_color
+import de.molyecho.notlyvoice.resources.accent_color_description
 
 @Composable
 fun SettingsScreen(
@@ -106,6 +110,9 @@ fun SettingsScreen(
     val modelSavedSelection = preferencesRepository.getModelSelection().collectAsState(
         NO_MODEL_SELECTION
     ).value
+
+    val accentMode by preferencesRepository.getAccentTheme().collectAsState(AccentTheme.GREEN.name)
+    val selectedAccent = runCatching { AccentTheme.valueOf(accentMode) }.getOrDefault(AccentTheme.GREEN)
 
     Column(
         modifier = Modifier
@@ -135,6 +142,17 @@ fun SettingsScreen(
                     onThemeSelected = {
                         coroutineScope.launch {
                             preferencesRepository.setTheme(it.name)
+                        }
+                    }
+                )
+            }
+
+            item {
+                AccentColorSection(
+                    selectedAccent = selectedAccent,
+                    onAccentSelected = {
+                        coroutineScope.launch {
+                            preferencesRepository.setAccentTheme(it.name)
                         }
                     }
                 )
@@ -875,5 +893,73 @@ fun SettingsModelOptionCard(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun AccentColorSection(
+    selectedAccent: AccentTheme,
+    onAccentSelected: (AccentTheme) -> Unit
+) {
+    Column {
+        Text(
+            text = stringResource(Res.string.accent_color),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            color = LocalCustomColors.current.bodyContentColor,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Text(
+            text = stringResource(Res.string.accent_color_description),
+            fontSize = 14.sp,
+            color = LocalCustomColors.current.bodyContentColor,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            AccentTheme.entries.forEach { accent ->
+                AccentColorOption(
+                    accent = accent,
+                    isSelected = selectedAccent == accent,
+                    onSelected = { onAccentSelected(accent) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AccentColorOption(
+    accent: AccentTheme,
+    isSelected: Boolean,
+    onSelected: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(accent.darkColor)
+                .then(
+                    if (isSelected) {
+                        Modifier.border(
+                            3.dp,
+                            LocalCustomColors.current.sortAscendingIconColor,
+                            CircleShape
+                        )
+                    } else Modifier
+                )
+                .clickable { onSelected() }
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = accent.displayName,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+            color = LocalCustomColors.current.bodyContentColor
+        )
     }
 }
