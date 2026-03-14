@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.module.notelycompose.modelDownloader.GERMAN_MODEL
 import com.module.notelycompose.modelDownloader.MULTILINGUAL_EXTENDED_SELECTION
-import com.module.notelycompose.modelDownloader.MULTILINGUAL_STANDARD_SELECTION
 import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
 import com.module.notelycompose.modelDownloader.OPTIMIZED_MODEL_SELECTION
 import com.module.notelycompose.notes.extension.TEXT_SIZE_BODY
@@ -805,13 +804,11 @@ private fun LanguageModelSelectionSection(
     // so multilingual models show correctly even when transcription language stays "de".
     val currentTitle = when (modelSavedSelection) {
         OPTIMIZED_MODEL_SELECTION                       -> stringResource(Res.string.model_label_german_accurate)
-        MULTILINGUAL_STANDARD_SELECTION,
         MULTILINGUAL_EXTENDED_SELECTION                 -> stringResource(Res.string.model_label_multilingual_extended)
         else                                            -> stringResource(Res.string.model_label_german_quick)
     }
     val currentDesc = when (modelSavedSelection) {
         OPTIMIZED_MODEL_SELECTION                       -> stringResource(Res.string.optimized_model_setting_desc)
-        MULTILINGUAL_STANDARD_SELECTION,
         MULTILINGUAL_EXTENDED_SELECTION                 -> stringResource(Res.string.multilingual_model_setting_desc)
         else                                            -> stringResource(Res.string.standard_model_setting_desc)
     }

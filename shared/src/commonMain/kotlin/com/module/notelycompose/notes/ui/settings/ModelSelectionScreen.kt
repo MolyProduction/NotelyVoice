@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.module.notelycompose.modelDownloader.MULTILINGUAL_EXTENDED_SELECTION
-import com.module.notelycompose.modelDownloader.MULTILINGUAL_STANDARD_SELECTION
 import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
 import com.module.notelycompose.modelDownloader.OPTIMIZED_MODEL_SELECTION
 import com.module.notelycompose.modelDownloader.STANDARD_MODEL_SELECTION
