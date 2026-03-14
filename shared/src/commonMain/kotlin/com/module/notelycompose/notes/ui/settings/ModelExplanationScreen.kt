@@ -15,6 +15,8 @@ import com.module.notelycompose.platform.getPlatform
 import de.molyecho.notlyvoice.resources.Res
 import de.molyecho.notlyvoice.resources.ai_model_description
 import de.molyecho.notlyvoice.resources.ai_model_title
+import de.molyecho.notlyvoice.resources.multilingual_model_description
+import de.molyecho.notlyvoice.resources.multilingual_model_title
 import de.molyecho.notlyvoice.resources.optimized_model_description
 import de.molyecho.notlyvoice.resources.optimized_model_title
 import de.molyecho.notlyvoice.resources.standard_model_description
@@ -85,6 +87,20 @@ fun ModelExplanationScreen(
 
             Text(
                 text = stringResource(Res.string.optimized_model_description),
+                fontSize = 16.sp,
+                color = LocalCustomColors.current.modelSelectionDescColor,
+                modifier = Modifier.padding(bottom = 24.dp)
+            )
+
+            Text(
+                text = stringResource(Res.string.multilingual_model_title),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = LocalCustomColors.current.bodyContentColor
+            )
+
+            Text(
+                text = stringResource(Res.string.multilingual_model_description),
                 fontSize = 16.sp,
                 color = LocalCustomColors.current.modelSelectionDescColor,
                 modifier = Modifier.padding(bottom = 24.dp)

@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -21,48 +22,47 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.module.notelycompose.platform.getPlatform
 import com.module.notelycompose.notes.ui.theme.PoppingsFontFamily
 import com.module.notelycompose.platform.presentation.PlatformUiState
 import com.module.notelycompose.platform.presentation.PlatformViewModel
 import kotlinx.coroutines.launch
 import de.molyecho.notlyvoice.resources.Res
-import de.molyecho.notlyvoice.resources.onboarding_ios_one
-import de.molyecho.notlyvoice.resources.onboarding_ios_three
-import de.molyecho.notlyvoice.resources.onboarding_ios_two
-import de.molyecho.notlyvoice.resources.onboarding_ios_four
+import de.molyecho.notlyvoice.resources.ic_topbar_logo
+import de.molyecho.notlyvoice.resources.icon
+import de.molyecho.notlyvoice.resources.molyecho_logo
+import de.molyecho.notlyvoice.resources.model_label_german_accurate
+import de.molyecho.notlyvoice.resources.model_label_german_quick
+import de.molyecho.notlyvoice.resources.model_label_multilingual_extended
 import de.molyecho.notlyvoice.resources.onboarding_android_one
 import de.molyecho.notlyvoice.resources.onboarding_android_tablet_one
 import de.molyecho.notlyvoice.resources.onboarding_android_tablet_two
-import de.molyecho.notlyvoice.resources.onboarding_android_tablet_three
-import de.molyecho.notlyvoice.resources.onboarding_android_tablet_four
-import de.molyecho.notlyvoice.resources.onboarding_ios_tablet_one
-import de.molyecho.notlyvoice.resources.onboarding_ios_tablet_two
-import de.molyecho.notlyvoice.resources.onboarding_ios_tablet_three
-import de.molyecho.notlyvoice.resources.onboarding_ios_tablet_four
-import de.molyecho.notlyvoice.resources.onboarding_android_three
-import de.molyecho.notlyvoice.resources.molyecho_logo
-import de.molyecho.notlyvoice.resources.onboarding_android_four
 import de.molyecho.notlyvoice.resources.onboarding_android_two
 import de.molyecho.notlyvoice.resources.onboarding_get_started
+import de.molyecho.notlyvoice.resources.onboarding_ios_one
+import de.molyecho.notlyvoice.resources.onboarding_ios_tablet_one
+import de.molyecho.notlyvoice.resources.onboarding_ios_tablet_two
+import de.molyecho.notlyvoice.resources.onboarding_ios_two
+import de.molyecho.notlyvoice.resources.onboarding_models_subtitle
+import de.molyecho.notlyvoice.resources.onboarding_models_title
 import de.molyecho.notlyvoice.resources.onboarding_next
-import de.molyecho.notlyvoice.resources.onboarding_skip
-import de.molyecho.notlyvoice.resources.onboarding_screen_one_title
 import de.molyecho.notlyvoice.resources.onboarding_screen_one_desc
-import de.molyecho.notlyvoice.resources.onboarding_screen_two_title
+import de.molyecho.notlyvoice.resources.onboarding_screen_one_title
 import de.molyecho.notlyvoice.resources.onboarding_screen_two_desc
-import de.molyecho.notlyvoice.resources.onboarding_screen_three_title
-import de.molyecho.notlyvoice.resources.onboarding_screen_three_desc
-import de.molyecho.notlyvoice.resources.onboarding_screen_four_title
-import de.molyecho.notlyvoice.resources.onboarding_screen_four_desc
+import de.molyecho.notlyvoice.resources.onboarding_screen_two_title
+import de.molyecho.notlyvoice.resources.onboarding_skip
+import de.molyecho.notlyvoice.resources.onboarding_welcome_tagline
+import de.molyecho.notlyvoice.resources.speech_mode_german_accurate_subtitle
+import de.molyecho.notlyvoice.resources.speech_mode_german_quick_subtitle
+import de.molyecho.notlyvoice.resources.speech_mode_multilingual_subtitle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+
+private val MolyGreen = Color(0xFF5E8040)
+private val OnboardingBackground = Color(0xFFF8F8F8)
 
 data class OnboardingPage(
     val title: String,
     val description: String,
-    val backgroundColor: Color,
-    val textColor: Color,
     val androidResources: Painter,
     val iOSResources: Painter
 )
@@ -72,12 +72,10 @@ fun OnboardingWalkthrough(
     onFinish: () -> Unit = {},
     platformState: PlatformUiState
 ) {
-    val pages = mutableListOf(
+    val featurePages = listOf(
         OnboardingPage(
             title = stringResource(Res.string.onboarding_screen_one_title),
             description = stringResource(Res.string.onboarding_screen_one_desc),
-            backgroundColor = Color(0xFFFFFAD0),
-            textColor = Color(0xFFCA7F58),
             androidResources = when {
                 platformState.isTablet -> painterResource(Res.drawable.onboarding_android_tablet_one)
                 else -> painterResource(Res.drawable.onboarding_android_one)
@@ -90,8 +88,6 @@ fun OnboardingWalkthrough(
         OnboardingPage(
             title = stringResource(Res.string.onboarding_screen_two_title),
             description = stringResource(Res.string.onboarding_screen_two_desc),
-            backgroundColor = Color(0xFFFFFAD0),
-            textColor = Color(0xFFCA7F58),
             androidResources = when {
                 platformState.isTablet -> painterResource(Res.drawable.onboarding_android_tablet_two)
                 else -> painterResource(Res.drawable.onboarding_android_two)
@@ -100,50 +96,24 @@ fun OnboardingWalkthrough(
                 platformState.isTablet -> painterResource(Res.drawable.onboarding_ios_tablet_two)
                 else -> painterResource(Res.drawable.onboarding_ios_two)
             }
-        ),
-        OnboardingPage(
-            title = stringResource(Res.string.onboarding_screen_three_title),
-            description = stringResource(Res.string.onboarding_screen_three_desc),
-            backgroundColor = Color(0xFFFFFAD0),
-            textColor = Color(0xFFCA7F58),
-            androidResources = when {
-                platformState.isTablet -> painterResource(Res.drawable.onboarding_android_tablet_three)
-                else -> painterResource(Res.drawable.onboarding_android_three)
-            },
-            iOSResources = when {
-                platformState.isTablet -> painterResource(Res.drawable.onboarding_ios_tablet_three)
-                else -> painterResource(Res.drawable.onboarding_ios_three)
-            }
-        ),
-        OnboardingPage(
-            title = stringResource(Res.string.onboarding_screen_four_title),
-            description = stringResource(Res.string.onboarding_screen_four_desc),
-            backgroundColor = Color(0xFFFFFAD0),
-            textColor = Color(0xFFCA7F58),
-            androidResources = when {
-                platformState.isTablet -> painterResource(Res.drawable.onboarding_android_tablet_four)
-                else -> painterResource(Res.drawable.onboarding_android_four)
-            },
-            iOSResources = when {
-                platformState.isTablet -> painterResource(Res.drawable.onboarding_ios_tablet_four)
-                else -> painterResource(Res.drawable.onboarding_ios_four)
-            }
         )
     )
 
-    val pagerState = rememberPagerState(pageCount = { pages.size })
+    val pageCount = 4
+    val pagerState = rememberPagerState(pageCount = { pageCount })
     val coroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(pages[pagerState.currentPage].backgroundColor)
+            .background(OnboardingBackground)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing),
+            modifier = Modifier
+                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Status Bar Spacer
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
@@ -154,9 +124,7 @@ fun OnboardingWalkthrough(
             ) {
                 TextButton(
                     onClick = onFinish,
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = Color.Black
-                    ),
+                    colors = ButtonDefaults.textButtonColors(contentColor = Color.Black),
                     shape = RoundedCornerShape(50)
                 ) {
                     Text(
@@ -169,24 +137,22 @@ fun OnboardingWalkthrough(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Pager Content
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(0.dp)
             ) { page ->
-                if (page == 0) {
-                    MolyEchoWelcomePage(textColor = pages[0].textColor)
-                } else {
-                    OnboardingPageContent(
-                        page = pages[page],
+                when (page) {
+                    0 -> MolyEchoWelcomePage()
+                    pageCount - 1 -> ModelOverviewPage()
+                    else -> OnboardingPageContent(
+                        page = featurePages[page - 1],
                         isTablet = platformState.isTablet,
                         isAndroid = platformState.isAndroid
                     )
                 }
             }
 
-            // Bottom Navigation Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -195,16 +161,15 @@ fun OnboardingWalkthrough(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 PageIndicators(
-                    pageCount = pages.size,
+                    pageCount = pageCount,
                     currentPage = pagerState.currentPage,
-                    activeColor = pages[pagerState.currentPage].textColor,
-                    inactiveColor = pages[pagerState.currentPage].textColor.copy(alpha = 0.3f)
+                    activeColor = MolyGreen,
+                    inactiveColor = MolyGreen.copy(alpha = 0.3f)
                 )
 
-                // Next/Get Started Button
                 Button(
                     onClick = {
-                        if (pagerState.currentPage == pages.size - 1) {
+                        if (pagerState.currentPage == pageCount - 1) {
                             onFinish()
                         } else {
                             coroutineScope.launch {
@@ -213,14 +178,15 @@ fun OnboardingWalkthrough(
                         }
                     },
                     modifier = Modifier.height(48.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = pages[pagerState.currentPage].textColor
-                    ),
+                    colors = ButtonDefaults.buttonColors(containerColor = MolyGreen),
                     shape = RoundedCornerShape(50),
                     contentPadding = PaddingValues(horizontal = 32.dp, vertical = 12.dp)
                 ) {
                     Text(
-                        text = if (pagerState.currentPage == pages.size - 1) stringResource(Res.string.onboarding_get_started) else stringResource(Res.string.onboarding_next),
+                        text = if (pagerState.currentPage == pageCount - 1)
+                            stringResource(Res.string.onboarding_get_started)
+                        else
+                            stringResource(Res.string.onboarding_next),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White
@@ -234,7 +200,7 @@ fun OnboardingWalkthrough(
 }
 
 @Composable
-fun MolyEchoWelcomePage(textColor: Color) {
+fun MolyEchoWelcomePage() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -254,7 +220,16 @@ fun MolyEchoWelcomePage(textColor: Color) {
             fontSize = 44.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = PoppingsFontFamily(),
-            color = textColor,
+            color = Color(0xFF1A1A1A),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = stringResource(Res.string.onboarding_welcome_tagline),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = PoppingsFontFamily(),
+            color = MolyGreen,
             textAlign = TextAlign.Center
         )
     }
@@ -267,14 +242,24 @@ fun OnboardingPageContent(
     isAndroid: Boolean
 ) {
     val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp)
-            .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        VoiceNotePageContent(page, isTablet, isAndroid)
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            VoiceNotePageContent(page, isTablet, isAndroid)
+        }
+        Image(
+            painter = painterResource(Res.drawable.ic_topbar_logo),
+            contentDescription = null,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(horizontal = 24.dp)
+                .size(30.dp)
+        )
     }
 }
 
@@ -284,22 +269,16 @@ fun VoiceNotePageContent(
     isTablet: Boolean,
     isAndroid: Boolean
 ) {
-
-    val resource = if(isAndroid) {
-        page.androidResources
-    } else {
-        page.iOSResources
-    }
-
-    val descriptionFontSize = if(isTablet) 20.sp else 18.sp
-    val imageIllustrationWidth = if(isTablet) 800.dp else 360.dp
+    val resource = if (isAndroid) page.androidResources else page.iOSResources
+    val descriptionFontSize = if (isTablet) 20.sp else 18.sp
+    val imageIllustrationWidth = if (isTablet) 800.dp else 360.dp
 
     Text(
         text = page.title,
         fontSize = 32.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = PoppingsFontFamily(),
-        color = page.textColor,
+        color = Color(0xFF1A1A1A),
         textAlign = TextAlign.Start,
         modifier = Modifier
             .fillMaxWidth()
@@ -312,15 +291,13 @@ fun VoiceNotePageContent(
         verticalArrangement = Arrangement.Bottom
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = resource,
                 contentDescription = "Image illustration",
-                modifier = Modifier
-                    .width(imageIllustrationWidth),
+                modifier = Modifier.width(imageIllustrationWidth),
                 contentScale = ContentScale.FillWidth
             )
         }
@@ -332,9 +309,99 @@ fun VoiceNotePageContent(
             color = Color(0xFF333333),
             textAlign = TextAlign.Center,
             lineHeight = 24.sp,
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = 24.dp)
         )
+    }
+}
+
+@Composable
+fun ModelInfoCard(
+    name: String,
+    traits: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFFF0F5EA))
+    ) {
+        Box(
+            modifier = Modifier
+                .width(4.dp)
+                .fillMaxHeight()
+                .background(MolyGreen)
+        )
+        Column(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp)
+        ) {
+            Text(
+                text = name,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF1A1A1A)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = traits,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color(0xFF555555)
+            )
+        }
+    }
+}
+
+@Composable
+fun ModelOverviewPage() {
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp)
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Image(
+            painter = painterResource(Res.drawable.icon),
+            contentDescription = "MolyEcho",
+            modifier = Modifier.size(88.dp),
+            contentScale = ContentScale.Fit
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(Res.string.onboarding_models_title),
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = PoppingsFontFamily(),
+            color = Color(0xFF1A1A1A),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(Res.string.onboarding_models_subtitle),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            color = Color(0xFF555555),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        ModelInfoCard(
+            name = stringResource(Res.string.model_label_german_quick),
+            traits = stringResource(Res.string.speech_mode_german_quick_subtitle)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ModelInfoCard(
+            name = stringResource(Res.string.model_label_german_accurate),
+            traits = stringResource(Res.string.speech_mode_german_accurate_subtitle)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ModelInfoCard(
+            name = stringResource(Res.string.model_label_multilingual_extended),
+            traits = stringResource(Res.string.speech_mode_multilingual_subtitle)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -370,10 +437,7 @@ fun PageIndicators(
                 modifier = Modifier
                     .width(animatedWidth)
                     .height(8.dp)
-                    .background(
-                        animatedColor,
-                        RoundedCornerShape(4.dp)
-                    )
+                    .background(animatedColor, RoundedCornerShape(4.dp))
             )
         }
     }
