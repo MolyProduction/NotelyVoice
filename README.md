@@ -37,7 +37,6 @@ Beim ersten Start wählt ihr ein Modell aus – es wird einmalig heruntergeladen
 | **Deutsch – Schnell** *(Standard)* | ggml-large-v3-turbo-german-q5_0 | ~574 MB | Alltag, schnelle Notizen |
 | **Deutsch – Genau** | ggml-large-v3-turbo-german | ~1,62 GB | Lange Texte, hohe Genauigkeit |
 | **Mehrsprachig** | ggml-small (multilingual) | ~465 MB | 50+ Sprachen |
-| **Hindi / Gujarati** | ggml-base-hi | ~140 MB | Spezialisiert |
 
 Die deutschen Modelle wurden von der Community auf HuggingFace feingetunt und sind speziell für deutsche Spracherkennung optimiert – deutlich besser als generische Multilingual-Modelle.
 
