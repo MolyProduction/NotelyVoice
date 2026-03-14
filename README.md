@@ -1,42 +1,45 @@
-# MolyEcho – Deutsche Spracherkennung
+# MolyEcho
 
-Ein Fork von [NotelyVoice](https://github.com/tosinonikute/NotelyVoice), optimiert für deutsche Spracherkennung mit eingebettetem Offline-Modell.
+**Euer persönlicher Schreiberling.**
+Erstellt Notizen, nimmt Sprache auf und wandelt sie in Text um – vollständig auf eurem Gerät, ohne dass auch nur ein einziges Wort eure Hand verlässt.
 
-**Paketname:** `de.molyecho.notlyvoice.android`  
-**Version:** 1.2.6  
-**Lizenz:** GPL-3.0
+Eine Internetverbindung wird nur einmalig benötigt, wenn ihr beim ersten Start ein Sprachmodell herunterladet. Danach arbeitet MolyEcho vollständig offline.
+
+---
+
+## Was ist MolyEcho?
+
+MolyEcho ist eine Android-App für Notizen mit integrierter Offline-Spracherkennung, optimiert für die deutsche Sprache. Aufnahmen werden direkt auf dem Gerät transkribiert – kein Server, keine Cloud, keine Datenweitergabe.
+
+Hinter der Transkription steckt [whisper.cpp](https://github.com/ggerganov/whisper.cpp) mit speziell auf Deutsch feingetunten Modellen.
 
 ---
 
 ## Features
 
-- **Sofort einsatzbereit** – Deutsches Tiny-Modell (75 MB) ist direkt im APK eingebettet, kein Download nötig
-- **Offline-Transkription** – Sprache wird vollständig auf dem Gerät verarbeitet, keine Cloud-Anbindung
-- **Optionales Turbo-Modell** – Hochgenaues Large-v3-Turbo-Modell (~574 MB) für beste Erkennungsqualität
-- **Mehrsprachig** – Multilingual-Modell (50+ Sprachen) optional herunterladbar
-- **Notizen mit Sprachaufnahme** – Aufnahmen direkt in Notizen einbetten und transkribieren
+- **100 % Offline** – Sprache bleibt auf eurem Gerät, keine Cloud-Anbindung
+- **Optimiert für Deutsch** – speziell auf Deutsch feingetunte Whisper-Modelle
+- **Wählbare Modellgröße** – von schnell & kompakt bis hochgenau
+- **Notizen mit Sprachaufnahme** – Aufnahmen direkt in Notizen einbetten
 - **Export** – Notizen als PDF oder TXT exportieren, Audioaufnahmen teilen
-- **Dark/Light Mode** – Systemthema oder manuelle Auswahl
-- **Markdown-ähnliche Formatierung** – Fett, Kursiv, Überschriften, Listen
+- **Formatierung** – Fett, Kursiv, Überschriften, Listen
+- **Dark / Light Mode** – Systemthema oder manuelle Auswahl
+- **Datenschutz by Design** – keine Accounts, kein Tracking, keine Telemetrie
 
 ---
 
-## Modelle
+## Sprachmodelle
 
-| Modus | Modell | Größe | Herkunft |
-|-------|--------|-------|----------|
-| Deutsch – Schnell | ggml-tiny-german | ~75 MB | Eingebettet im APK |
-| Deutsch – Genau | ggml-large-v3-turbo-german-q5_0 | ~574 MB | Download erforderlich |
-| Mehrsprachig Standard | ggml-tiny (multilingual) | ~142 MB | Download erforderlich |
-| Mehrsprachig Erweitert | ggml-small (multilingual) | ~465 MB | Download erforderlich |
+Beim ersten Start wählt ihr ein Modell aus – es wird einmalig heruntergeladen und danach offline genutzt.
 
----
+| Modus | Modell | Größe | Empfohlen für |
+|-------|--------|-------|---------------|
+| **Deutsch – Schnell** *(Standard)* | ggml-large-v3-turbo-german-q5_0 | ~574 MB | Alltag, schnelle Notizen |
+| **Deutsch – Genau** | ggml-large-v3-turbo-german | ~1,62 GB | Lange Texte, hohe Genauigkeit |
+| **Mehrsprachig** | ggml-small (multilingual) | ~465 MB | 50+ Sprachen |
+| **Hindi / Gujarati** | ggml-base-hi | ~140 MB | Spezialisiert |
 
-## Screenshots
-
-| Notizliste | Notiz bearbeiten | Sprachmodell-Auswahl |
-|-----------|-----------------|----------------------|
-| ![Notizliste](https://placehold.co/300x600?text=Notizliste) | ![Editor](https://placehold.co/300x600?text=Editor) | ![Modelle](https://placehold.co/300x600?text=Modelle) |
+Die deutschen Modelle wurden von der Community auf HuggingFace feingetunt und sind speziell für deutsche Spracherkennung optimiert – deutlich besser als generische Multilingual-Modelle.
 
 ---
 
@@ -51,52 +54,41 @@ Ein Fork von [NotelyVoice](https://github.com/tosinonikute/NotelyVoice), optimie
 ### Schritte
 
 ```bash
-git clone https://github.com/<dein-nutzername>/MolyEcho.git
+git clone https://github.com/MolyProduction/MolyEcho.git
 cd MolyEcho
 ./gradlew :androidApp:assembleDebug
 ```
 
 Das APK liegt anschließend unter `androidApp/build/outputs/apk/debug/`.
 
-> **Hinweis:** Das eingebettete German-Tiny-Modell (`ggml-tiny-german.bin`) muss sich unter  
-> `shared/src/androidMain/assets/ggml-tiny-german.bin` befinden, bevor der Build startet.
-
 ---
 
-## Unterschiede zum Original
+## Datenschutz
 
-| Feature | NotelyVoice (Original) | MolyEcho (Dieser Fork) |
-|---------|------------------------|------------------------|
-| Standardsprache | Englisch | Deutsch |
-| Bundled-Modell | Keins | Deutsches Tiny-Modell |
-| App-Name | Notely Voice | MolyEcho |
-| Paketname | `com.module.notelycompose.android` | `de.molyecho.notlyvoice.android` |
-| Modell-Auswahl UI | Sprachauswahl + Modell getrennt | Integrierte Modi-Auswahl (Schnell / Genau / Mehrsprachig) |
+MolyEcho verarbeitet alle Sprach- und Textdaten ausschließlich lokal auf eurem Gerät:
+
+- Keine Übertragung von Audiodaten oder Transkriptionen
+- Keine Nutzerkonten oder Registrierung
+- Keine Analyse- oder Tracking-Bibliotheken
+- Internetverbindung nur beim erstmaligen Modell-Download
 
 ---
 
 ## Credits
 
-- **NotelyVoice** – Originale App von [Tosin Onikute](https://github.com/tosinonikute/NotelyVoice)
-- **Deutsches Tiny-Modell (Standard)** – [primeline/whisper-tiny-german-1224](https://huggingface.co/primeline/whisper-tiny-german-1224) auf HuggingFace (eingebettetes Standard-Modell, ~75 MB)
-- **Deutsches Turbo-Modell** – [F1sk/whisper-large-v3-turbo-german-ggml-q5_0](https://huggingface.co/F1sk/whisper-large-v3-turbo-german-ggml-q5_0) auf HuggingFace
-- **whisper.cpp** – [ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp) für GGML-Inferenz
-
----
-
-## Changelog
-
-- Standardmodell auf primeline/whisper-tiny-german-1224 aktualisiert (bessere Genauigkeit, gleiche Größe)
+- **NotelyVoice** – Ursprüngliche App von [Tosin Onikute](https://github.com/tosinonikute/NotelyVoice) *(Basis dieses Forks)*
+- **Deutsches Turbo-Modell (Schnell)** – [F1sk/whisper-large-v3-turbo-german-ggml-q5_0](https://huggingface.co/F1sk/whisper-large-v3-turbo-german-ggml-q5_0)
+- **Deutsches Turbo-Modell (Genau)** – [cstr/whisper-large-v3-turbo-german](https://huggingface.co/cstr/whisper-large-v3-turbo-german)
+- **whisper.cpp** – [ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp)
 
 ---
 
 ## Lizenz
 
-Dieses Projekt steht unter der **GNU General Public License v3.0**.  
-Siehe [LICENSE](LICENSE) für Details.
+GNU General Public License v3.0 – siehe [LICENSE](LICENSE).
 
 ```
-MolyEcho – Deutsche Spracherkennung
+MolyEcho
 Copyright (C) 2024  Contributors
 
 This program is free software: you can redistribute it and/or modify
