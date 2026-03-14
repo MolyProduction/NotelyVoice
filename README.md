@@ -17,14 +17,46 @@ Hinter der Transkription steckt [whisper.cpp](https://github.com/ggerganov/whisp
 
 ## Features
 
-- **100 % Offline** – Sprache bleibt auf eurem Gerät, keine Cloud-Anbindung
-- **Optimiert für Deutsch** – speziell auf Deutsch feingetunte Whisper-Modelle
-- **Wählbare Modellgröße** – von schnell & kompakt bis hochgenau
-- **Notizen mit Sprachaufnahme** – Aufnahmen direkt in Notizen einbetten
-- **Export** – Notizen als PDF oder TXT exportieren, Audioaufnahmen teilen
-- **Formatierung** – Fett, Kursiv, Überschriften, Listen
+### ✏️ Notizen
+
+- **Rich-Text-Editor** – Formatiere Notizen mit Überschriften (Titel, Überschrift, Unterüberschrift), **Fett**, *Kursiv*, Unterstrichen und Textausrichtung (links, zentriert, rechts)
+- **Aufzählungslisten** – Strukturierte Listenpunkte direkt im Editor
+- **Anpassbare Schriftgröße** – Editor-Textgröße individuell einstellen
+- **Volltextsuche** – Jede Notiz sofort per Suchleiste finden
+- **Intelligentes Filtern** – Notizen nach Typ sortieren: Alle, Markiert ⭐, Sprachnotizen, Zuletzt bearbeitet
+- **Notizen markieren** – Wichtige Notizen als Favorit (Stern) hervorheben
+- **Zusammenfassung** – Lange Transkriptionen automatisch auf die Kernaussagen kürzen (lokal, kein KI-Server)
+
+### 🎙️ Spracherkennung
+
+- **Hochgenaue Offline-Transkription** – Whisper wandelt Sprache direkt auf dem Gerät in Text um – kein Server, keine Cloud
+- **Optimiert für Deutsch** – speziell feingetunte Whisper-Modelle für deutsche Sprache
+- **50+ Sprachen** – über das Mehrsprachig-Modell auch international nutzbar
+- **Nahtlose Integration** – Aufnahme direkt in die Notiz transkribieren oder später manuell starten
+- **Audio-/Video-Import** – externe Aufnahmen importieren und transkribieren lassen
+- **Unbegrenzte Transkriptionen** – kein Limit, kein Abo
+- **Wählbare Modellgröße** – von schnell & kompakt bis höchstgenau (Details siehe [Sprachmodelle](#sprachmodelle))
+
+### 🎧 Aufnahme & Wiedergabe
+
+- **Integrierte Aufnahme** – Sprachnotizen direkt in der App aufnehmen, pausieren und stoppen
+- **Audiowiedergabe** – Aufnahmen direkt aus der Notiz abspielen
+- **Quick-Settings-Kachel** – Aufnahme per Android-Schnelleinstellung starten, ohne die App zu öffnen
+- **Hintergrundaufnahme** – Aufnahme läuft weiter, auch wenn der Bildschirm gesperrt ist
+
+### 📤 Export & Teilen
+
+- **Export als PDF oder TXT** – einzelne Notizen in gängige Formate exportieren
+- **Batch-Export** – mehrere Notizen gleichzeitig exportieren (Audio + TXT)
+- **Text teilen** – Notiztext direkt an WhatsApp, Nachrichten, Drive oder andere Apps senden
+- **Audio teilen** – Aufnahmen direkt aus der App weitergeben
+
+### ⚙️ Allgemein
+
+- **100 % Offline** – nach dem einmaligen Modell-Download vollständig ohne Internet
 - **Dark / Light Mode** – Systemthema oder manuelle Auswahl
 - **Datenschutz by Design** – keine Accounts, kein Tracking, keine Telemetrie
+- **Android & iOS** – entwickelt mit Kotlin Multiplatform + Compose Multiplatform
 
 ---
 
