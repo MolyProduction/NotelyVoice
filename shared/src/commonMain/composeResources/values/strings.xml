@@ -130,12 +130,12 @@
     <!-- Speech Recognition Mode Selection -->
     <string name="speech_recognition">Speech Recognition</string>
     <string name="speech_recognition_desc">Choose your speech recognition model</string>
-    <string name="speech_mode_german_quick_title">German – Quick</string>
+    <string name="speech_mode_german_quick_title">German – Moly Optimized</string>
     <string name="speech_mode_german_quick_subtitle">~574 MB download · Fast &amp; precise</string>
     <string name="speech_mode_german_accurate_title">German – Accurate</string>
-    <string name="speech_mode_german_accurate_subtitle">Highest accuracy · Download ~1.6 GB</string>
+    <string name="speech_mode_german_accurate_subtitle">~1.6 GB download · Highest accuracy</string>
     <string name="speech_mode_multilingual_title">Multilingual</string>
-    <string name="speech_mode_multilingual_subtitle">50+ languages · Download required</string>
+    <string name="speech_mode_multilingual_subtitle">~465 MB download · 50+ languages</string>
     <string name="speech_mode_status_ready">✓ Ready</string>
     <string name="speech_mode_status_download">⬇ Download</string>
 
@@ -229,8 +229,9 @@
     <string name="optimized_model_title">Optimized Model (Multilingual)</string>
     <string name="optimized_model_description">This is the more powerful option that gives you the most accurate transcriptions possible. It takes a bit longer and uses more storage, but catches more words correctly, especially with accents or background noise. Like a luxury car - bigger and slower, but delivers premium quality. Note: doesn't support Hindi/Gujarati.</string>
     <!-- settings -->
-    <string name="standard_model_setting_desc">Faster performance and smaller file size\nSupports all languages</string>
-    <string name="optimized_model_setting_desc">Highest accuracy available\nLarger file size, slower performance\nSupports all languages except Hindi/Gujarati</string>
+    <string name="standard_model_setting_desc">Our model for German, fast &amp; precise</string>
+    <string name="optimized_model_setting_desc">~1.6 GB download · Highest accuracy</string>
+    <string name="multilingual_model_setting_desc">~465 MB download · 50+ languages</string>
     <string name="standard_model_setting_size">142 MB</string>
     <string name="optimized_model_setting_size">465 MB</string>
     <string name="settings_model_selection">Model Selection</string>
@@ -239,7 +240,7 @@
     <!-- Model section labels and full model labels (replaces hardcoded strings in Kotlin) -->
     <string name="section_label_german">🇩🇪 German</string>
     <string name="section_label_multilingual">🌐 Multilingual</string>
-    <string name="model_label_german_quick">🇩🇪 German – Quick</string>
+    <string name="model_label_german_quick">🇩🇪 German – Moly Optimized</string>
     <string name="model_label_german_accurate">🇩🇪 German – Accurate</string>
 
     <string name="model_label_multilingual_extended">🌐 Multilingual Extended</string>

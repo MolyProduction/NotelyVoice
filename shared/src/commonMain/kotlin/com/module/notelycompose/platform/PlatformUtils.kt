@@ -1,8 +1,8 @@
 package com.module.notelycompose.platform
 
 enum class Theme(val displayName: String) {
-    LIGHT("Light"),
-    DARK("Dark"),
+    LIGHT("Hell"),
+    DARK("Dunkel"),
     SYSTEM("System")
 }
 

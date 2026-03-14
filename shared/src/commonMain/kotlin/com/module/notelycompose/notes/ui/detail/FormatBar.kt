@@ -164,8 +164,8 @@ private fun FormatOption(
 }
 
 enum class FormatOptionTextFormat(val title: String) {
-    Title("Title"),
-    Heading("Heading"),
-    Subheading("Subheading"),
-    Body("Body")
+    Title("Titel"),
+    Heading("Überschrift"),
+    Subheading("Unterüberschrift"),
+    Body("Text")
 }

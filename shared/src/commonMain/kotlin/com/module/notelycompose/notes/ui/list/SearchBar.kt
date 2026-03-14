@@ -104,7 +104,7 @@ fun SearchBar(
                     ) {
                         androidx.compose.material3.Icon(
                             imageVector = Icons.Default.Clear,
-                            contentDescription = "Clear",
+                            contentDescription = "Löschen",
                             tint = LocalCustomColors.current.languageSearchCancelIconTintColor,
                             modifier = Modifier.size(14.dp)
                         )

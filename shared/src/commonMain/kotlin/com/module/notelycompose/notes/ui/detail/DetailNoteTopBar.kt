@@ -176,7 +176,7 @@ fun DetailAndroidNoteTopBar(
             IconButton(onClick = { onShare() }) {
                 Icon(
                     imageVector = Icons.Filled.Share,
-                    contentDescription = "Share note"
+                    contentDescription = "Notiz teilen"
                 )
             }
             // Hide dropdown menu
@@ -235,7 +235,7 @@ fun DetailIOSNoteTopBar(
             IconButton(onClick = { onShare() }) {
                 Icon(
                     imageVector = Icons.Filled.Share,
-                    contentDescription = "Share note",
+                    contentDescription = "Notiz teilen",
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -267,7 +267,7 @@ fun DetailDropDownMenu(
         IconButton(onClick = { dropdownExpanded = true }) {
             Icon(
                 imageVector = Icons.Filled.MoreVert,
-                contentDescription = "More options"
+                contentDescription = "Weitere Optionen"
             )
         }
 

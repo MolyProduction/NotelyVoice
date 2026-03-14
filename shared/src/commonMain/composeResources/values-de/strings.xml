@@ -130,12 +130,12 @@
     <!-- Speech Recognition Mode Selection -->
     <string name="speech_recognition">Spracherkennung</string>
     <string name="speech_recognition_desc">Wähle dein Spracherkennungsmodell</string>
-    <string name="speech_mode_german_quick_title">Deutsch – Schnell</string>
+    <string name="speech_mode_german_quick_title">Deutsch – Moly optimiert</string>
     <string name="speech_mode_german_quick_subtitle">~574 MB Download · Schnell &amp; präzise</string>
     <string name="speech_mode_german_accurate_title">Deutsch – Genau</string>
-    <string name="speech_mode_german_accurate_subtitle">Höchste Genauigkeit · Download ~1,6 GB</string>
+    <string name="speech_mode_german_accurate_subtitle">~1,6 GB Download · Höchste Genauigkeit</string>
     <string name="speech_mode_multilingual_title">Mehrsprachig</string>
-    <string name="speech_mode_multilingual_subtitle">50+ Sprachen · Download erforderlich</string>
+    <string name="speech_mode_multilingual_subtitle">~465 MB Download · 50+ Sprachen</string>
     <string name="speech_mode_status_ready">✓ Bereit</string>
     <string name="speech_mode_status_download">⬇ Herunterladen</string>
 
@@ -229,8 +229,9 @@
     <string name="optimized_model_title">Optimiertes Modell (Mehrsprachig)</string>
     <string name="optimized_model_description">Dies ist die leistungsstärkere Option für höchste Transkriptionsgenauigkeit. Es dauert etwas länger und benötigt mehr Speicherplatz, erkennt aber mehr Wörter korrekt – besonders bei Akzenten oder Hintergrundgeräuschen. Wie ein Luxusauto – größer und langsamer, aber erstklassige Qualität. Hinweis: kein Hindi/Gujarati-Support.</string>
     <!-- settings -->
-    <string name="standard_model_setting_desc">Schnellere Leistung und kleinere Dateigröße\nUnterstützt alle Sprachen</string>
-    <string name="optimized_model_setting_desc">Höchste verfügbare Genauigkeit\nGrößere Datei, langsamere Leistung\nUnterstützt alle Sprachen außer Hindi/Gujarati</string>
+    <string name="standard_model_setting_desc">Unser Modell für Deutsch, schnell &amp; präzise</string>
+    <string name="optimized_model_setting_desc">~1,6 GB Download · Höchste Genauigkeit</string>
+    <string name="multilingual_model_setting_desc">~465 MB Download · 50+ Sprachen</string>
     <string name="standard_model_setting_size">142 MB</string>
     <string name="optimized_model_setting_size">465 MB</string>
     <string name="settings_model_selection">Modellauswahl</string>
@@ -239,7 +240,7 @@
     <!-- Model section labels and full model labels (replaces hardcoded strings in Kotlin) -->
     <string name="section_label_german">🇩🇪 Deutsch</string>
     <string name="section_label_multilingual">🌐 Mehrsprachig</string>
-    <string name="model_label_german_quick">🇩🇪 Deutsch – Schnell</string>
+    <string name="model_label_german_quick">🇩🇪 Deutsch – Moly optimiert</string>
     <string name="model_label_german_accurate">🇩🇪 Deutsch – Genau</string>
 
     <string name="model_label_multilingual_extended">🌐 Mehrsprachig Erweitert</string>

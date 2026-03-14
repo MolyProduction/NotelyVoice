@@ -61,38 +61,38 @@ import de.molyecho.notlyvoice.resources.language_selection_select_language
 import org.jetbrains.compose.resources.stringResource
 
 val languageCodeMap = mapOf(
-    "en" to "English",
-    "ar" to "Arabic",
-    "ca" to "Catalan",
-    "zh" to "Chinese",
-    "cs" to "Czech",
-    "nl" to "Dutch",
-    "fi" to "Finnish",
-    "fr" to "French",
-    "gl" to "Galician",
-    "de" to "German",
+    "en" to "Englisch",
+    "ar" to "Arabisch",
+    "ca" to "Katalanisch",
+    "zh" to "Chinesisch",
+    "cs" to "Tschechisch",
+    "nl" to "Niederländisch",
+    "fi" to "Finnisch",
+    "fr" to "Französisch",
+    "gl" to "Galicisch",
+    "de" to "Deutsch",
     "gu" to "Gujarati",
     "hi" to "Hindi",
-    "id" to "Indonesian",
-    "it" to "Italian",
-    "ja" to "Japanese",
-    "ko" to "Korean",
-    "ms" to "Malay",
-    "no" to "Norwegian",
-    "sk" to "Slovak",
-    "fa" to "Persian (Farsi)",
-    "pl" to "Polish",
-    "pt" to "Portuguese",
-    "ru" to "Russian",
-    "es" to "Spanish",
-    "sv" to "Swedish",
+    "id" to "Indonesisch",
+    "it" to "Italienisch",
+    "ja" to "Japanisch",
+    "ko" to "Koreanisch",
+    "ms" to "Malaiisch",
+    "no" to "Norwegisch",
+    "sk" to "Slowakisch",
+    "fa" to "Persisch (Farsi)",
+    "pl" to "Polnisch",
+    "pt" to "Portugiesisch",
+    "ru" to "Russisch",
+    "es" to "Spanisch",
+    "sv" to "Schwedisch",
     "tl" to "Tagalog",
-    "th" to "Thai",
-    "tr" to "Turkish",
-    "uk" to "Ukrainian",
+    "th" to "Thailändisch",
+    "tr" to "Türkisch",
+    "uk" to "Ukrainisch",
     "ur" to "Urdu",
-    "vi" to "Vietnamese",
-    "auto" to "Auto detect (less accurate)"
+    "vi" to "Vietnamesisch",
+    "auto" to "Automatisch erkennen (weniger genau)"
 )
 
 @Composable
@@ -162,7 +162,7 @@ fun LanguageSelectionScreen(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search",
+                        contentDescription = "Suchen",
                         tint = LocalCustomColors.current.languageSearchBorderColor
                     )
                 },
@@ -179,7 +179,7 @@ fun LanguageSelectionScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Clear,
-                                contentDescription = "Clear",
+                                contentDescription = "Löschen",
                                 tint = LocalCustomColors.current.languageSearchCancelIconTintColor,
                                 modifier = Modifier.size(14.dp)
                             )
@@ -259,7 +259,7 @@ fun LanguageSelectionScreen(
                                         if(languageEntry.key == previousSelectedLanguage) {
                                             Icon(
                                                 imageVector = Icons.Default.Check,
-                                                contentDescription = "Selected",
+                                                contentDescription = "Ausgewählt",
                                                 tint = LocalCustomColors.current.languageListTextColor,
                                                 modifier = Modifier.size(20.dp)
                                             )

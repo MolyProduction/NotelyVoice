@@ -18,3 +18,6 @@ MolyEcho.png
 ic_launcher_foreground.png
 ic_notification.png
 ic_topbar_logo.png
+
+# Local-only documentation (not for GitHub)
+docs/
