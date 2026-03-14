@@ -26,6 +26,7 @@ class PreferencesRepository(
         private val KEY_MODEL_DOWNLOAD_ID = longPreferencesKey("model_download_id")
         private val KEY_BODY_TEXT_SIZE = floatPreferencesKey("body_text_size")
         private val KEY_MODEL_SELECTION = intPreferencesKey("model_selection")
+        private val KEY_ACCENT_THEME = stringPreferencesKey("accent_theme")
     }
 
     suspend fun hasCompletedOnboarding(): Boolean {
@@ -87,6 +88,16 @@ class PreferencesRepository(
     suspend fun setModelSelection(modelSelection: Int) {
         dataStore.edit { prefs ->
             prefs[KEY_MODEL_SELECTION] = modelSelection
+        }
+    }
+
+    fun getAccentTheme(): Flow<String> = dataStore.data.map { prefs ->
+        prefs[KEY_ACCENT_THEME] ?: "GREEN"
+    }
+
+    suspend fun setAccentTheme(accent: String) {
+        dataStore.edit { prefs ->
+            prefs[KEY_ACCENT_THEME] = accent
         }
     }
 

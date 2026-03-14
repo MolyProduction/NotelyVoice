@@ -38,10 +38,22 @@ private val DarkColorPalette = darkColors(
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    accentTheme: AccentTheme = AccentTheme.GREEN,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColorPalette else LightColorPalette
-    val customColors = if (darkTheme) DarkCustomColors else LightCustomColors
+    val accent = if (darkTheme) accentTheme.darkColor else accentTheme.lightColor
+    val customColors = if (darkTheme) {
+        DarkCustomColors.copy(
+            sortAscendingIconColor = accent,
+            bottomBarIconColor = accent
+        )
+    } else {
+        LightCustomColors.copy(
+            sortAscendingIconColor = accent
+            // bottomBarIconColor stays Color.White in Light mode
+        )
+    }
     val typography = Typography(
         body1 = TextStyle(
             fontFamily = FontFamily.Default,

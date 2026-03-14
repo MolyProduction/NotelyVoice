@@ -38,6 +38,7 @@ import com.module.notelycompose.onboarding.data.PreferencesRepository
 import com.module.notelycompose.onboarding.presentation.OnboardingViewModel
 import com.module.notelycompose.onboarding.presentation.model.OnboardingState
 import com.module.notelycompose.onboarding.ui.OnboardingWalkthrough
+import com.module.notelycompose.notes.ui.theme.AccentTheme
 import com.module.notelycompose.platform.Theme
 import com.module.notelycompose.platform.presentation.PlatformUiState
 import com.module.notelycompose.platform.presentation.PlatformViewModel
@@ -58,12 +59,15 @@ fun App(
     preferencesRepository: PreferencesRepository = koinInject()
 ) {
     val uiMode by preferencesRepository.getTheme().collectAsState(Theme.SYSTEM.name)
+    val accentMode by preferencesRepository.getAccentTheme().collectAsState(AccentTheme.GREEN.name)
+    val accentTheme = runCatching { AccentTheme.valueOf(accentMode) }.getOrDefault(AccentTheme.GREEN)
     MyApplicationTheme(
         darkTheme = when (uiMode) {
             Theme.DARK.name -> true
             Theme.LIGHT.name -> false
             else -> isSystemInDarkTheme()
-        }
+        },
+        accentTheme = accentTheme
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),

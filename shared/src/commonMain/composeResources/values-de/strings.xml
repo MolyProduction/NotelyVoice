@@ -155,6 +155,8 @@
     <string name="appearance">Darstellung</string>
     <string name="theme">Design</string>
     <string name="choose_how_the_app_looks">Passe das Aussehen der App an</string>
+    <string name="accent_color">Akzentfarbe</string>
+    <string name="accent_color_description">Legt die Hauptfarbe für Icons und Schaltflächen fest.</string>
     <string name="accessibility">Barrierefreiheit</string>
     <string name="body_text_size">Textkörpergröße</string>
     <string name="body_text_preferred_text">Stelle deine bevorzugte Textkörpergröße für den Notiz-Editor ein, um das Schreiberlebnis zu verbessern.</string>
