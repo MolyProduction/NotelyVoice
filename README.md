@@ -56,7 +56,7 @@ Hinter der Transkription steckt [whisper.cpp](https://github.com/ggerganov/whisp
 - **100 % Offline** – nach dem einmaligen Modell-Download vollständig ohne Internet
 - **Dark / Light Mode** – Systemthema oder manuelle Auswahl
 - **Datenschutz by Design** – keine Accounts, kein Tracking, keine Telemetrie
-- **Android & iOS** – entwickelt mit Kotlin Multiplatform + Compose Multiplatform
+- **Kotlin Multiplatform** – entwickelt mit KMP + Compose Multiplatform
 
 ---
 
