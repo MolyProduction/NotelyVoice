@@ -155,6 +155,8 @@
     <string name="appearance">Appearance</string>
     <string name="theme">Theme</string>
     <string name="choose_how_the_app_looks">Choose how the app looks and feels</string>
+    <string name="accent_color">Accent Color</string>
+    <string name="accent_color_description">Sets the highlight color for icons and buttons.</string>
     <string name="accessibility">Accessibility</string>
     <string name="body_text_size">Body text size</string>
     <string name="body_text_preferred_text">Set your preferred body text size for the notes editor to enhance your writing experience.</string>
