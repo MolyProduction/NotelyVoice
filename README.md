@@ -1,9 +1,13 @@
 # MolyEcho
 
-**Euer persönlicher Schreiberling.**
-Erstellt Notizen, nimmt Sprache auf und wandelt sie in Text um – vollständig auf eurem Gerät, ohne dass auch nur ein einziges Wort eure Hand verlässt.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/fastlane/metadata/android/en-US/images/icon.png" width="110" alt="MolyEcho Logo">
+</p>
 
-Eine Internetverbindung wird nur einmalig benötigt, wenn ihr beim ersten Start ein Sprachmodell herunterladet. Danach arbeitet MolyEcho vollständig offline.
+<p align="center"><strong>Euer persönlicher Schreiberling.</strong></p>
+<p align="center">Erstellt Notizen, nimmt Sprache auf und wandelt sie in Text um – vollständig auf eurem Gerät, ohne dass auch nur ein einziges Wort eure Hand verlässt.</p>
+
+<p align="center">Eine Internetverbindung wird nur einmalig benötigt, wenn ihr beim ersten Start ein Sprachmodell herunterladet. Danach arbeitet MolyEcho vollständig offline.</p>
 
 ---
 
@@ -12,6 +16,12 @@ Eine Internetverbindung wird nur einmalig benötigt, wenn ihr beim ersten Start 
 MolyEcho ist eine Android-App für Notizen mit integrierter Offline-Spracherkennung, optimiert für die deutsche Sprache. Aufnahmen werden direkt auf dem Gerät transkribiert – kein Server, keine Cloud, keine Datenweitergabe.
 
 Hinter der Transkription steckt [whisper.cpp](https://github.com/ggerganov/whisper.cpp) mit speziell auf Deutsch feingetunten Modellen.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="210" alt="Rich-Text-Editor">
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="210" alt="Transkriptionsergebnis">
+</p>
 
 ---
 
@@ -51,6 +61,12 @@ Hinter der Transkription steckt [whisper.cpp](https://github.com/ggerganov/whisp
 - **Text teilen** – Notiztext direkt an WhatsApp, Nachrichten, Drive oder andere Apps senden
 - **Audio teilen** – Aufnahmen direkt aus der App weitergeben
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="210" alt="Teilen-Optionen">
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="210" alt="Einstellungen">
+</p>
+
 ### ⚙️ Allgemein
 
 - **100 % Offline** – nach dem einmaligen Modell-Download vollständig ohne Internet
@@ -72,6 +88,10 @@ Beim ersten Start wählt ihr ein Modell aus – es wird einmalig heruntergeladen
 
 > **Hinweis zum Standardmodell:** Das Modell *Deutsch – Genau* wurde von uns eigens für MolyEcho quantisiert und auf HuggingFace veröffentlicht. Mit ~574 MB ist es aktuell die genaueste deutsche Whisper-Variante unter 1,4 GB – präzise genug für den Alltag, kompakt genug für jedes Smartphone.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="210" alt="Modell herunterladen">
+</p>
+
 ---
 
 ## Build
@@ -91,6 +111,10 @@ cd MolyEcho
 ```
 
 Das APK liegt anschließend unter `androidApp/build/outputs/apk/debug/`.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/MolyProduction/MolyEcho/main/assets/layered_architecture_diagram.png" width="380" alt="Architektur">
+</p>
 
 ---
 
