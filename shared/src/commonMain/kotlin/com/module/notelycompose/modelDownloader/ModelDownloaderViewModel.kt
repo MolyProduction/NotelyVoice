@@ -73,6 +73,19 @@ class ModelDownloaderViewModel(
         }
     }
 
+    fun downloadModelForSettings(model: TranscriptionModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val modelUrl = model.url
+            if (modelUrl == null) {
+                _effects.emit(DownloaderEffect.ModelsAreReady())
+                return@launch
+            }
+            _uiState.value = DownloaderUiState(model)
+            downloader.startDownload(modelUrl, model.name)
+            trackDownload()
+        }
+    }
+
     private suspend fun trackDownload() {
         _effects.emit(DownloaderEffect.DownloadEffect())
         downloader.trackDownloadProgress(

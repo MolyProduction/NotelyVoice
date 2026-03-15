@@ -66,4 +66,12 @@ class ModelSelection(private val preferencesRepository: PreferencesRepository) {
     }
 
     fun getDefaultTranscriptionModel() = models[1] // German q5_0 "Schnell"
+
+    fun getModelBySelection(selectionConstant: Int): TranscriptionModel {
+        return when (selectionConstant) {
+            OPTIMIZED_MODEL_SELECTION       -> models[2]
+            MULTILINGUAL_EXTENDED_SELECTION -> models[0]
+            else                            -> models[1]
+        }
+    }
 }

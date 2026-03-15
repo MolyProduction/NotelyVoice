@@ -20,10 +20,15 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.module.notelycompose.modelDownloader.DownloaderDialog
+import com.module.notelycompose.modelDownloader.DownloaderEffect
+import com.module.notelycompose.modelDownloader.ModelDownloaderViewModel
+import com.module.notelycompose.modelDownloader.ModelSelection
 import com.module.notelycompose.modelDownloader.MULTILINGUAL_EXTENDED_SELECTION
 import com.module.notelycompose.modelDownloader.NO_MODEL_SELECTION
 import com.module.notelycompose.modelDownloader.OPTIMIZED_MODEL_SELECTION
 import com.module.notelycompose.modelDownloader.STANDARD_MODEL_SELECTION
+import com.module.notelycompose.notes.ui.detail.DownloadModelDialog
 import com.module.notelycompose.notes.ui.detail.AndroidNoteTopBar
 import com.module.notelycompose.notes.ui.detail.IOSNoteTopBar
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
@@ -57,6 +62,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 private const val MODE_GERMAN_QUICK = 0
 private const val MODE_GERMAN_ACCURATE = 1
@@ -73,7 +79,9 @@ fun ModelSelectionScreen(
     navigateBack: () -> Unit,
     navigateToModelExplanation: () -> Unit,
     preferencesRepository: PreferencesRepository = koinInject(),
-    transcriber: Transcriber = koinInject()
+    transcriber: Transcriber = koinInject(),
+    modelSelectionHelper: ModelSelection = koinInject(),
+    downloaderViewModel: ModelDownloaderViewModel = koinViewModel()
 ) {
     val modelSelection by preferencesRepository.getModelSelection().collectAsState(NO_MODEL_SELECTION)
     val coroutineScope = rememberCoroutineScope()
@@ -94,6 +102,19 @@ fun ModelSelectionScreen(
     var multiExtendedSizeMB by remember { mutableStateOf(0L) }
     var showManageModels by remember { mutableStateOf(false) }
     var isNavigating by remember { mutableStateOf(false) }
+    var pendingDownloadMode by remember { mutableStateOf<Int?>(null) }
+    var showDownloadProgress by remember { mutableStateOf(false) }
+    val downloaderUiState by downloaderViewModel.uiState.collectAsState()
+
+    LaunchedEffect("downloader_effects") {
+        downloaderViewModel.effects.collect { effect ->
+            when (effect) {
+                is DownloaderEffect.ModelsAreReady -> navigateBack()
+                is DownloaderEffect.ErrorEffect -> navigateBack() // fallback: download at transcription time
+                else -> {}
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
@@ -110,17 +131,28 @@ fun ModelSelectionScreen(
         if (isNavigating) return
         isNavigating = true
         coroutineScope.launch {
-            // Model selection and transcription language are decoupled.
-            // The language pref stays "de" for all modes — multilingual Whisper models
-            // support German transcription when given language="de".
-            // Only the modelSelection value determines which model file is loaded.
-            when (mode) {
-                MODE_GERMAN_QUICK          -> preferencesRepository.setModelSelection(STANDARD_MODEL_SELECTION)
-                MODE_GERMAN_ACCURATE       -> preferencesRepository.setModelSelection(OPTIMIZED_MODEL_SELECTION)
-                MODE_MULTILINGUAL_EXTENDED -> preferencesRepository.setModelSelection(MULTILINGUAL_EXTENDED_SELECTION)
+            // Save preference first — this is also the fallback if the download fails.
+            val selectionConstant = when (mode) {
+                MODE_GERMAN_QUICK          -> STANDARD_MODEL_SELECTION
+                MODE_GERMAN_ACCURATE       -> OPTIMIZED_MODEL_SELECTION
+                MODE_MULTILINGUAL_EXTENDED -> MULTILINGUAL_EXTENDED_SELECTION
+                else                       -> STANDARD_MODEL_SELECTION
             }
-            // Navigate only after the preference is fully saved to DataStore.
-            navigateBack()
+            preferencesRepository.setModelSelection(selectionConstant)
+
+            val isReady = when (mode) {
+                MODE_GERMAN_QUICK          -> schnellReady
+                MODE_GERMAN_ACCURATE       -> genauReady
+                MODE_MULTILINGUAL_EXTENDED -> multiExtendedReady
+                else                       -> true
+            }
+            if (isReady) {
+                navigateBack()
+            } else {
+                // Model not yet downloaded — show confirmation dialog.
+                isNavigating = false
+                pendingDownloadMode = mode
+            }
         }
     }
 
@@ -242,6 +274,36 @@ fun ModelSelectionScreen(
                 )
             }
         }
+    }
+
+    pendingDownloadMode?.let { mode ->
+        val selectionConstant = when (mode) {
+            MODE_GERMAN_QUICK          -> STANDARD_MODEL_SELECTION
+            MODE_GERMAN_ACCURATE       -> OPTIMIZED_MODEL_SELECTION
+            MODE_MULTILINGUAL_EXTENDED -> MULTILINGUAL_EXTENDED_SELECTION
+            else                       -> STANDARD_MODEL_SELECTION
+        }
+        val model = modelSelectionHelper.getModelBySelection(selectionConstant)
+        DownloadModelDialog(
+            transcriptionModel = model,
+            onDownload = {
+                pendingDownloadMode = null
+                showDownloadProgress = true
+                downloaderViewModel.downloadModelForSettings(model)
+            },
+            onCancel = {
+                pendingDownloadMode = null
+                navigateBack()
+            }
+        )
+    }
+
+    if (showDownloadProgress) {
+        DownloaderDialog(
+            transcriptionModel = downloaderUiState.selectedModel,
+            downloaderUiState = downloaderUiState,
+            onDismiss = {}
+        )
     }
 }
 
