@@ -19,6 +19,7 @@
         tools:ignore="SelectedPhotoAccess" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"
         tools:ignore="SelectedPhotoAccess"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name="com.module.notelycompose.NoteApp"

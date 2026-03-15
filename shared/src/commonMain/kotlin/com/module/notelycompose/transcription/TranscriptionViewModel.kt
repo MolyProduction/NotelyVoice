@@ -49,12 +49,16 @@ class TranscriptionViewModel(
             if (transcriber.hasRecordingPermission()) {
                 // Show loading indicator immediately so the user sees feedback.
                 _uiState.update { current ->
-                    current.copy(inTranscription = true)
+                    current.copy(inTranscription = true, isModelLoading = true)
                 }
                 // Initialize the correct model sequentially before transcribing.
                 // This prevents the race condition where start() runs before the model is loaded.
                 val modelFileName = modelSelection.getSelectedModel()
                 transcriber.initialize(modelFileName.name)
+
+                // Model is loaded (or was already cached) — update notification and UI
+                serviceController.notifyTranscriptionPhaseTranscribing()
+                _uiState.update { it.copy(isModelLoading = false) }
 
                 val transcriptionLanguage = preferencesRepository.getDefaultTranscriptionLanguage().first()
                     .ifBlank { "de" } // defensive: ensure non-empty language code
@@ -72,9 +76,7 @@ class TranscriptionViewModel(
                         val delimiter = if(_uiState.value.originalText.endsWith(".")) "\n\n" else SPACE_STR
                         debugPrintln{"\n text ========================= $text"}
                         _uiState.update { current ->
-                            // TODO: Verify this change
                             current.copy(
-                                // originalText = "${_uiState.value.originalText}$delimiter${text.trim()}".trim(),
                                 originalText = segmenter.segmentText("${_uiState.value.originalText.trim()}$delimiter${text.trim()}".trim()).joinToString("\n\n"),
                                 partialText = text
                             )
@@ -82,7 +84,8 @@ class TranscriptionViewModel(
 
                     },
                     onComplete = {
-                        serviceController.stopTranscriptionService()
+                        // Signal service to post completion notification and stop itself
+                        serviceController.notifyTranscriptionComplete()
                         debugPrintln{"\n completed ========================= "}
                         _uiState.update {current ->
                             current.copy(
@@ -97,6 +100,7 @@ class TranscriptionViewModel(
                         _uiState.update {current ->
                             current.copy(
                                 inTranscription = false,
+                                isModelLoading = false,
                                 progress = 100,
                                 hasError = true
                             )
@@ -111,14 +115,12 @@ class TranscriptionViewModel(
     }
 
     fun stopRecognizer() {
-        serviceController.stopTranscriptionService()
         _uiState.update { current ->
-            current.copy(inTranscription = false)
+            current.copy(inTranscription = false, isModelLoading = false)
         }
         viewModelScope.launch {
             transcriber.stop()
         }
-
     }
 
     fun finishRecognizer() {
@@ -126,6 +128,7 @@ class TranscriptionViewModel(
         _uiState.update { current ->
             current.copy(
                 inTranscription = false,
+                isModelLoading = false,
                 originalText = "",
                 finalText = "",
                 partialText = "",
@@ -156,13 +159,19 @@ class TranscriptionViewModel(
     }
 
     override fun onCleared() {
-        stopRecognizer()
-        // viewModelScope is already cancelled at this point — use a fresh scope for cleanup
+        // onCleared() may be called while model loading is in progress (user swiped app
+        // away). We must NOT stop the service here — finish() uses a Mutex to wait for
+        // the JNI call. This coroutine: (1) aborts transcription, (2) waits for model
+        // loading to complete, (3) only then stops the service.
+        _uiState.update { it.copy(inTranscription = false, isModelLoading = false) }
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                transcriber.stop()
                 transcriber.finish()
             } catch (e: Throwable) {
                 e.printStackTrace()
+            } finally {
+                serviceController.stopTranscriptionService()
             }
         }
     }

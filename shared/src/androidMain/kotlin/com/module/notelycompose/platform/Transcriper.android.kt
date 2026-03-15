@@ -19,6 +19,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.io.File
 import kotlin.coroutines.resume
 
@@ -35,6 +37,13 @@ actual class Transcriber(
     private var currentLoadedModelName: String? = null
     private val inactivityScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var inactivityJob: Job? = null
+
+    // Serializes model loading and finish() so finish() always waits until the JNI
+    // call completes before releasing the context and stopping the service.
+    private val modelLoadMutex = Mutex()
+
+    // Set to true by finish() so loadBaseModel() can self-cancel after JNI returns.
+    @Volatile private var isCancelled = false
 
     companion object {
         private const val INACTIVITY_TIMEOUT_MS = 10 * 60 * 1000L // 10 Minuten
@@ -75,40 +84,50 @@ actual class Transcriber(
     actual suspend fun initialize(modelFileName: String) {
         if (currentLoadedModelName == modelFileName && whisperContext != null) {
             debugPrintln { "speech: model $modelFileName already loaded, skipping re-init" }
-            resetInactivityTimer() // Inaktivität zurücksetzen, Timer neu starten
+            resetInactivityTimer()
             return
         }
-        cancelInactivityTimer() // Stop running timer before mutating state
+        isCancelled = false // reset for new initialization
+        cancelInactivityTimer()
         debugPrintln { "speech: initialize model $modelFileName" }
-        // Release previous context before loading a new one
         whisperContext?.release()
         whisperContext = null
         currentLoadedModelName = null
         canTranscribe = false
         loadBaseModel(modelFileName)
+        if (isCancelled) return
         if (whisperContext != null) {
-            resetInactivityTimer() // Only start timer if model loaded successfully
+            resetInactivityTimer()
         }
     }
 
-    private fun loadBaseModel(modelFileName: String) {
-        try {
-            debugPrintln { "Loading model: $modelFileName\n" }
-            val targetDir = modelsPath ?: run {
-                debugPrintln { "External storage unavailable — cannot load model $modelFileName" }
-                return
+    private suspend fun loadBaseModel(modelFileName: String) {
+        modelLoadMutex.withLock {
+            if (isCancelled) return@withLock
+            try {
+                debugPrintln { "Loading model: $modelFileName\n" }
+                val targetDir = modelsPath ?: run {
+                    debugPrintln { "External storage unavailable — cannot load model $modelFileName" }
+                    return@withLock
+                }
+                val modelFile = File(targetDir, modelFileName)
+                if (!modelFile.exists()) {
+                    extractFromAssets(modelFileName, modelFile)
+                }
+                whisperContext = WhisperContext.createContextFromFile(modelFile.absolutePath)
+                if (isCancelled) {
+                    // finish() was called while JNI ran – release immediately
+                    whisperContext?.release()
+                    whisperContext = null
+                    return@withLock
+                }
+                canTranscribe = true
+                currentLoadedModelName = modelFileName
+            } catch (e: OutOfMemoryError) {
+                e.printStackTrace()
+            } catch (e: Throwable) {
+                e.printStackTrace()
             }
-            val modelFile = File(targetDir, modelFileName)
-            if (!modelFile.exists()) {
-                extractFromAssets(modelFileName, modelFile)
-            }
-            whisperContext = WhisperContext.createContextFromFile(modelFile.absolutePath)
-            canTranscribe = true
-            currentLoadedModelName = modelFileName
-        } catch (e: OutOfMemoryError) {
-            e.printStackTrace()
-        } catch (e: Throwable) {
-            e.printStackTrace()
         }
     }
 
@@ -163,11 +182,17 @@ actual class Transcriber(
     }
 
     actual suspend fun finish() {
+        isCancelled = true
         cancelInactivityTimer()
-        whisperContext?.release()
-        whisperContext = null
-        currentLoadedModelName = null
-        canTranscribe = false
+        // Wait for any in-progress loadBaseModel() JNI call to complete before releasing
+        // the context. This prevents the foreground service from being stopped while the
+        // JNI thread is still executing.
+        modelLoadMutex.withLock {
+            whisperContext?.release()
+            whisperContext = null
+            currentLoadedModelName = null
+            canTranscribe = false
+        }
     }
 
     private fun resetInactivityTimer() {

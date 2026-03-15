@@ -159,7 +159,7 @@
     <string name="accent_color_description">Sets the highlight color for icons and buttons.</string>
     <string name="accessibility">Accessibility</string>
     <string name="body_text_size">Body text size</string>
-    <string name="body_text_preferred_text">Set your preferred body text size for the notes editor to enhance your writing experience.</string>
+    <string name="body_text_preferred_text">Adjusts the text size in the note editor only. Other text in the app is not affected.</string>
     <string name="body_text_default">Default</string>
     <string name="body_text_pt">%1$d pt</string>
     <!-- Onboarding Screen -->
@@ -199,7 +199,7 @@
     <string name="language_selection_select_language">Select Language</string>
     <!-- Accessibility -->
     <string name="accessibility_example">Example %1$d pt</string>
-    <string name="accessibility_desc">Use the slider to set the preferred writing body size for the notes editor, customise your experience.</string>
+    <string name="accessibility_desc">Use the slider to adjust the text size in the note editor. Other text in the app is not affected.</string>
     <string name="accessibility_a">A</string>
     <string name="accessibility_default">Default is 14 pt</string>
     <!-- Batch Export feature -->
@@ -255,4 +255,6 @@
     <string name="model_label_german_accurate">🇩🇪 German – Accurate</string>
 
     <string name="model_label_multilingual_extended">🌐 Multilingual Extended</string>
+    <!-- Transcription Screen Loading State -->
+    <string name="transcription_loading_model">Loading speech recognition model…</string>
 </resources>

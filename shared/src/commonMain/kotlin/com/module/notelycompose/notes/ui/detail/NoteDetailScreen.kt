@@ -78,6 +78,9 @@ import com.module.notelycompose.audio.presentation.AudioImportViewModel
 import com.module.notelycompose.audio.ui.importing.ImportingAudioStateHost
 import com.module.notelycompose.modelDownloader.ModelSelection
 import com.module.notelycompose.notes.presentation.detail.TextEditorViewModel
+import com.module.notelycompose.platform.Transcriber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import com.module.notelycompose.notes.ui.share.ShareDialog
 import com.module.notelycompose.notes.ui.theme.LocalCustomColors
 import com.module.notelycompose.platform.presentation.PlatformViewModel
@@ -109,7 +112,8 @@ fun NoteDetailScreen(
     platformViewModel: PlatformViewModel = koinViewModel(),
     audioImportViewModel: AudioImportViewModel = koinViewModel(),
     editorViewModel: TextEditorViewModel,
-    modelSelection: ModelSelection = koinInject()
+    modelSelection: ModelSelection = koinInject(),
+    transcriber: Transcriber = koinInject()
 ) {
     val currentNoteId by editorViewModel.currentNoteId.collectAsStateWithLifecycle()
     val importingState by audioImportViewModel.importingAudioState.collectAsStateWithLifecycle()
@@ -132,6 +136,19 @@ fun NoteDetailScreen(
     var showExistingRecordConfirmDialog by remember { mutableStateOf(false) }
     var showCopiedTooltip by remember { mutableStateOf(false) }
     var isFabVisible by remember { mutableStateOf(true) }
+
+    // Pre-warm Whisper model in background when a recording exists so the model is
+    // ready (or partially cached) by the time the user taps "Transkribieren".
+    LaunchedEffect(editorState.recording.recordingPath) {
+        if (editorState.recording.recordingPath.isNotEmpty()) {
+            withContext(Dispatchers.IO) {
+                runCatching {
+                    val model = modelSelection.getSelectedModel()
+                    transcriber.initialize(model.name)
+                }
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         if (noteId.toLong() > 0L) {

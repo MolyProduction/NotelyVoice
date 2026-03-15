@@ -2,6 +2,7 @@ package com.module.notelycompose.transcription
 
 data class TranscriptionUiState(
     val inTranscription: Boolean = false,
+    val isModelLoading: Boolean = false,
     val viewOriginalText: Boolean = true,
     val finalText: String = "",
     val partialText: String = "",
