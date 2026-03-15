@@ -119,7 +119,7 @@ fun SettingsTextSizeScreen(
                 Text(
                     text = stringResource(Res.string.body_text_size),
                     style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Bold,
                     color = LocalCustomColors.current.bodyContentColor
                 )
 

@@ -572,7 +572,7 @@ fun TextSizeSettingItem(
                 Text(
                     text = title,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.SemiBold,
                     color = LocalCustomColors.current.bodyContentColor
                 )
 
@@ -939,21 +939,22 @@ private fun AccentColorOption(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(48.dp)
+                .size(56.dp)
                 .then(
-                    if (isSelected) {
-                        Modifier.border(
-                            3.dp,
-                            LocalCustomColors.current.sortAscendingIconColor,
-                            CircleShape
-                        )
-                    } else Modifier
+                    if (isSelected) Modifier.background(accent.darkColor.copy(alpha = 0.25f), CircleShape)
+                    else Modifier
                 )
-                .clip(CircleShape)
-                .background(accent.darkColor)
                 .clickable { onSelected() }
-        )
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .clip(CircleShape)
+                    .background(accent.darkColor)
+            )
+        }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = accent.displayName,

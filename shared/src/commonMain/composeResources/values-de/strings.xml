@@ -159,7 +159,7 @@
     <string name="accent_color_description">Legt die Hauptfarbe für Icons und Schaltflächen fest.</string>
     <string name="accessibility">Barrierefreiheit</string>
     <string name="body_text_size">Textkörpergröße</string>
-    <string name="body_text_preferred_text">Stelle deine bevorzugte Textkörpergröße für den Notiz-Editor ein, um das Schreiberlebnis zu verbessern.</string>
+    <string name="body_text_preferred_text">Ändert die Schriftgröße nur im Notiz-Editor. Andere Texte in der App werden nicht beeinflusst.</string>
     <string name="body_text_default">Standard</string>
     <string name="body_text_pt">%1$d pt</string>
     <!-- Onboarding Screen -->
@@ -199,7 +199,7 @@
     <string name="language_selection_select_language">Sprache auswählen</string>
     <!-- Accessibility -->
     <string name="accessibility_example">Beispiel %1$d pt</string>
-    <string name="accessibility_desc">Verwende den Schieberegler, um die bevorzugte Schriftgröße für den Notiz-Editor festzulegen und dein Erlebnis anzupassen.</string>
+    <string name="accessibility_desc">Verwende den Schieberegler, um die Schriftgröße im Notiz-Editor anzupassen. Andere Texte in der App werden nicht verändert.</string>
     <string name="accessibility_a">A</string>
     <string name="accessibility_default">Standard ist 14 pt</string>
     <!-- Batch Export feature -->
