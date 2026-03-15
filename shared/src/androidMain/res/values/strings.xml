@@ -5,4 +5,9 @@
     <string name="notification_recording_text">Tap to stop recording</string>
     <string name="notification_transcription_title">Transcription in progress</string>
     <string name="notification_transcription_text">MolyEcho is transcribing your recording</string>
+    <string name="notification_model_loading_title">Loading model…</string>
+    <string name="notification_model_loading_text">MolyEcho is preparing the speech recognition model</string>
+    <string name="notification_transcription_done_title">Transcription complete</string>
+    <string name="notification_transcription_done_text">Tap to view the result in MolyEcho</string>
+    <string name="notification_transcription_done_channel_name">Transcription complete</string>
 </resources>

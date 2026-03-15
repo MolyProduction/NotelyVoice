@@ -1,12 +1,20 @@
 package com.module.notelycompose.transcription
 
+import androidx.compose.animation.core.EaseInOutSine
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.alpha
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,6 +55,7 @@ import com.module.notelycompose.platform.getPlatform
 import com.module.notelycompose.resources.vectors.IcChevronLeft
 import com.module.notelycompose.resources.vectors.Images
 import de.molyecho.notlyvoice.resources.Res
+import de.molyecho.notlyvoice.resources.molyecho_logo
 import de.molyecho.notlyvoice.resources.top_bar_back
 import de.molyecho.notlyvoice.resources.transcription_dialog_append
 import de.molyecho.notlyvoice.resources.transcription_dialog_original
@@ -54,6 +63,8 @@ import de.molyecho.notlyvoice.resources.transcription_dialog_summarize
 import de.molyecho.notlyvoice.resources.transcription_dialog_error_got_it
 import de.molyecho.notlyvoice.resources.transcription_dialog_error_audio_file_title
 import de.molyecho.notlyvoice.resources.transcription_dialog_error_audio_file_desc
+import de.molyecho.notlyvoice.resources.transcription_loading_model
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -118,13 +129,48 @@ fun TranscriptionScreen(
                         style = TextStyle(fontSize = editorState.bodyTextSize.sp)
                     )
                 }
-                if(transcriptionUiState.inTranscription && transcriptionUiState.progress == 0){
+                if (transcriptionUiState.isModelLoading) {
+                    val infiniteTransition = rememberInfiniteTransition(label = "logo_pulse")
+                    val pulseAlpha by infiniteTransition.animateFloat(
+                        initialValue = 0.5f,
+                        targetValue = 1.0f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(800, easing = EaseInOutSine),
+                            repeatMode = RepeatMode.Reverse
+                        ),
+                        label = "logo_pulse_alpha"
+                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Image(
+                            painter = painterResource(Res.drawable.molyecho_logo),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .padding(top = 8.dp)
+                                .alpha(pulseAlpha),
+                            contentScale = ContentScale.Fit
+                        )
+                        Text(
+                            text = stringResource(Res.string.transcription_loading_model),
+                            color = LocalCustomColors.current.bodyContentColor,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp)
+                        )
+                        LinearProgressIndicator(
+                            modifier = Modifier.padding(vertical = 4.dp).fillMaxWidth(),
+                            strokeCap = StrokeCap.Round
+                        )
+                    }
+                } else if (transcriptionUiState.inTranscription && transcriptionUiState.progress == 0) {
                     LinearProgressIndicator(
                         modifier = Modifier.padding(vertical = 12.dp).fillMaxWidth(),
                         strokeCap = StrokeCap.Round
                     )
-                } else if(transcriptionUiState.inTranscription && transcriptionUiState.progress in 1..99){
-                   SmoothLinearProgressBar((transcriptionUiState.progress / 100f))
+                } else if (transcriptionUiState.inTranscription && transcriptionUiState.progress in 1..99) {
+                    SmoothLinearProgressBar((transcriptionUiState.progress / 100f))
                 }
 //                FloatingActionButton(
 //                    modifier = Modifier.padding(vertical = 8.dp),

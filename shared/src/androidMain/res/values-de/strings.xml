@@ -5,4 +5,9 @@
     <string name="notification_recording_text">Tippen zum Beenden der Aufnahme</string>
     <string name="notification_transcription_title">Transkription läuft</string>
     <string name="notification_transcription_text">MolyEcho transkribiert deine Aufnahme</string>
+    <string name="notification_model_loading_title">Modell wird geladen…</string>
+    <string name="notification_model_loading_text">MolyEcho bereitet das Spracherkennungsmodell vor</string>
+    <string name="notification_transcription_done_title">Transkription abgeschlossen</string>
+    <string name="notification_transcription_done_text">Tippe um das Ergebnis in MolyEcho anzusehen</string>
+    <string name="notification_transcription_done_channel_name">Transkription abgeschlossen</string>
 </resources>

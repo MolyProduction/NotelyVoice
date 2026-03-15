@@ -18,4 +18,28 @@ class AndroidTranscriptionServiceController(
     override fun stopTranscriptionService() {
         context.stopService(Intent(context, TranscriptionForegroundService::class.java))
     }
+
+    override fun notifyTranscriptionPhaseLoading() {
+        context.startService(
+            Intent(context, TranscriptionForegroundService::class.java).apply {
+                action = TranscriptionForegroundService.ACTION_PHASE_LOADING
+            }
+        )
+    }
+
+    override fun notifyTranscriptionPhaseTranscribing() {
+        context.startService(
+            Intent(context, TranscriptionForegroundService::class.java).apply {
+                action = TranscriptionForegroundService.ACTION_PHASE_TRANSCRIBING
+            }
+        )
+    }
+
+    override fun notifyTranscriptionComplete() {
+        context.startService(
+            Intent(context, TranscriptionForegroundService::class.java).apply {
+                action = TranscriptionForegroundService.ACTION_COMPLETE
+            }
+        )
+    }
 }

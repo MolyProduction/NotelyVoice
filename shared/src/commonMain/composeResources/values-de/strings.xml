@@ -255,4 +255,6 @@
     <string name="model_label_german_accurate">🇩🇪 Deutsch – Genau</string>
 
     <string name="model_label_multilingual_extended">🌐 Mehrsprachig Erweitert</string>
+    <!-- Transcription Screen Loading State -->
+    <string name="transcription_loading_model">Spracherkennungsmodell wird geladen…</string>
 </resources>
