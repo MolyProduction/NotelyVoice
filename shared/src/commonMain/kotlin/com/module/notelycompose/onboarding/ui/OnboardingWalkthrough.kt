@@ -56,6 +56,23 @@ import de.molyecho.notlyvoice.resources.speech_mode_german_quick_subtitle
 import de.molyecho.notlyvoice.resources.speech_mode_multilingual_subtitle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import com.module.notelycompose.permissions.PermissionHandler
+import de.molyecho.notlyvoice.resources.onboarding_permission_allow
+import de.molyecho.notlyvoice.resources.onboarding_permission_battery_desc
+import de.molyecho.notlyvoice.resources.onboarding_permission_battery_settings
+import de.molyecho.notlyvoice.resources.onboarding_permission_battery_title
+import de.molyecho.notlyvoice.resources.onboarding_permission_disabled
+import de.molyecho.notlyvoice.resources.onboarding_permission_granted
+import de.molyecho.notlyvoice.resources.onboarding_permission_notifications_desc
+import de.molyecho.notlyvoice.resources.onboarding_permission_notifications_title
+import de.molyecho.notlyvoice.resources.onboarding_permissions_desc
+import de.molyecho.notlyvoice.resources.onboarding_permissions_title
+import androidx.compose.runtime.collectAsState
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 
 private val MolyGreen = Color(0xFF5E8040)
 private val OnboardingBackground = Color(0xFFF8F8F8)
@@ -350,6 +367,135 @@ fun ModelInfoCard(
                 color = Color(0xFF555555)
             )
         }
+    }
+}
+
+@Composable
+fun PermissionCard(
+    title: String,
+    description: String,
+    buttonLabel: String,
+    isGranted: Boolean,
+    onButtonClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFFF0F5EA)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .width(4.dp)
+                .fillMaxHeight()
+                .background(MolyGreen)
+        )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 12.dp, vertical = 12.dp)
+        ) {
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF1A1A1A)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = description,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color(0xFF555555)
+            )
+        }
+        OutlinedButton(
+            onClick = onButtonClick,
+            enabled = !isGranted,
+            modifier = Modifier.padding(end = 12.dp),
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = MolyGreen,
+                disabledContentColor = Color(0xFF888888)
+            )
+        ) {
+            Text(
+                text = buttonLabel,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
+}
+
+@Composable
+fun PermissionsOnboardingPage(permissionHandler: PermissionHandler) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val isNotificationGranted by permissionHandler.isNotificationGranted.collectAsState()
+    val isBatteryDisabled by permissionHandler.isBatteryOptimizationDisabled.collectAsState()
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            permissionHandler.refresh()
+        }
+    }
+
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 24.dp)
+            .verticalScroll(scrollState),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Image(
+            painter = painterResource(Res.drawable.icon),
+            contentDescription = "MolyEcho",
+            modifier = Modifier.size(88.dp),
+            contentScale = ContentScale.Fit
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(Res.string.onboarding_permissions_title),
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            fontFamily = PoppingsFontFamily(),
+            color = Color(0xFF1A1A1A),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(Res.string.onboarding_permissions_desc),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            color = Color(0xFF555555),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        PermissionCard(
+            title = stringResource(Res.string.onboarding_permission_notifications_title),
+            description = stringResource(Res.string.onboarding_permission_notifications_desc),
+            buttonLabel = if (isNotificationGranted)
+                stringResource(Res.string.onboarding_permission_granted)
+            else
+                stringResource(Res.string.onboarding_permission_allow),
+            isGranted = isNotificationGranted,
+            onButtonClick = { permissionHandler.requestNotificationPermission() }
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        PermissionCard(
+            title = stringResource(Res.string.onboarding_permission_battery_title),
+            description = stringResource(Res.string.onboarding_permission_battery_desc),
+            buttonLabel = if (isBatteryDisabled)
+                stringResource(Res.string.onboarding_permission_disabled)
+            else
+                stringResource(Res.string.onboarding_permission_battery_settings),
+            isGranted = isBatteryDisabled,
+            onButtonClick = { permissionHandler.openBatterySettings() }
+        )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
