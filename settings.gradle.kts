@@ -24,6 +24,7 @@ dependencyResolutionManagement {
         }
         mavenCentral()
         maven("https://jitpack.io")
+        // maven { url = uri("https://k2-fsa.github.io/sherpa/maven/") }  // Enable when repo is available
     }
 }
 
