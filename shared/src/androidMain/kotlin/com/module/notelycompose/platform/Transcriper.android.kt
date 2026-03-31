@@ -35,6 +35,10 @@ actual class Transcriber(
     private val modelsPath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
     private var whisperContext: WhisperContext? = null
     private var sherpaContext: SherpaWhisperContext? = null
+    // @Volatile matches the same risk accepted for currentLoadedModelName:
+    // writes to currentLoadedModelFormat are not atomic with currentLoadedModelName,
+    // but inactivity-timer cleanup is best-effort and this pair is only read
+    // inside the modelLoadMutex where it matters for correctness.
     @Volatile private var currentLoadedModelFormat: ModelFormat? = null
     private var permissionContinuation: ((Boolean) -> Unit)? = null
     private val streamingChunker = StreamingAudioChunker()
@@ -348,8 +352,8 @@ actual class Transcriber(
                         val overallProgress = (completedChunks * 100.0 / streamingChunks.size).toInt().coerceIn(0, 100)
                         onProgress(overallProgress)
 
-                        val rawText = chunkSegments.joinToString(" ") { it.text.trim() }
-                        previousChunkPrompt = if (rawText.length > 100) rawText.takeLast(100) else rawText.ifBlank { null }
+                        // Note: sherpa-onnx does not support initial prompts between chunks.
+                        // previousChunkPrompt is not used for the ONNX path.
 
                     } else {
                         // GGML path (original whisperContext code)
@@ -398,7 +402,9 @@ actual class Transcriber(
                         previousChunkPrompt = if (rawText.length > 100) rawText.takeLast(100) else rawText.ifBlank { null }
                     }
 
-                    // Create a temporary AudioChunk for compatibility with existing merge logic
+                    // TODO(pre-existing): chunkResults is accumulated here but never consumed —
+                    // the block below clears it immediately. This scaffolding is left intact
+                    // to avoid changing pre-existing GGML behavior; remove when the merge logic is implemented.
                     val tempAudioChunk = com.module.notelycompose.utils.AudioChunk(
                         startSample = ((streamingChunk.startOffset - 44) / (streamingChunk.header.channels * (streamingChunk.header.bitsPerSample / 8))).toInt(),
                         endSample = ((streamingChunk.endOffset - 44) / (streamingChunk.header.channels * (streamingChunk.header.bitsPerSample / 8))).toInt(),
