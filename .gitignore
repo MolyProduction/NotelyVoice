@@ -21,3 +21,6 @@ ic_topbar_logo.png
 
 # Local-only documentation (not for GitHub)
 docs/
+
+# sherpa-onnx AAR (downloaded separately, see lib/libs/DOWNLOAD_AAR.md)
+lib/libs/*.aar
