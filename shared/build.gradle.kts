@@ -157,7 +157,7 @@ android {
         jniLibs {
             useLegacyPackaging = true
             // 16KB Page Size Support: Use uncompressed native libraries
-            pickFirsts += listOf("**/libc++_shared.so", "**/libwhisper.so")
+            pickFirsts += listOf("**/libc++_shared.so", "**/libwhisper.so", "**/libonnxruntime.so")
         }
 
         // Ensure reproducible DEX files
