@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.ContextCompat
 import audio.utils.LauncherHolder
 import com.module.notelycompose.core.debugPrintln
@@ -54,6 +55,7 @@ actual class Transcriber(
     @Volatile private var isCancelled = false
 
     companion object {
+        private const val LOG_TAG = "Transcriber"
         private const val INACTIVITY_TIMEOUT_MS = 10 * 60 * 1000L // 10 Minuten
         val ONNX_REQUIRED_FILES = listOf(
             SherpaWhisperContext.ENCODER_FILE,
@@ -133,10 +135,19 @@ actual class Transcriber(
                 if (modelFormat == ModelFormat.ONNX) {
                     val modelDir = File(targetDir, modelFileName)
                     if (!modelDir.isDirectory) {
+                        Log.e(LOG_TAG, "ONNX model directory not found: ${modelDir.absolutePath}")
                         debugPrintln { "ONNX model directory not found: ${modelDir.absolutePath}" }
                         return@withLock
                     }
+                    // Verify all required files exist before calling into JNI
+                    val missingFiles = ONNX_REQUIRED_FILES.filter { !File(modelDir, it).exists() }
+                    if (missingFiles.isNotEmpty()) {
+                        Log.e(LOG_TAG, "ONNX model files missing in ${modelDir.absolutePath}: $missingFiles")
+                        return@withLock
+                    }
+                    Log.d(LOG_TAG, "Loading ONNX model from ${modelDir.absolutePath}")
                     sherpaContext = SherpaWhisperContext.createContext(modelDir.absolutePath)
+                    Log.d(LOG_TAG, "ONNX model loaded successfully")
                 } else {
                     val modelFile = File(targetDir, modelFileName)
                     if (!modelFile.exists()) extractFromAssets(modelFileName, modelFile)
@@ -152,8 +163,10 @@ actual class Transcriber(
                 currentLoadedModelName = modelFileName
                 currentLoadedModelFormat = modelFormat
             } catch (e: OutOfMemoryError) {
+                Log.e(LOG_TAG, "OutOfMemoryError loading model $modelFileName", e)
                 e.printStackTrace()
             } catch (e: Throwable) {
+                Log.e(LOG_TAG, "Failed to load model $modelFileName (${e.javaClass.simpleName}): ${e.message}", e)
                 e.printStackTrace()
             }
         }
@@ -211,7 +224,7 @@ actual class Transcriber(
             val channels = buffer.getShort(22).toInt()
             val sampleRate = buffer.getInt(24)
             val bitsPerSample = buffer.getShort(34).toInt()
-            val dataSize = buffer.getInt(40)
+            val dataSize = buffer.getInt(40).toLong() and 0xFFFFFFFFL
             if (sampleRate <= 0 || channels <= 0 || bitsPerSample <= 0) return 0
             (dataSize / (sampleRate * channels * (bitsPerSample / 8.0))).toInt()
         } catch (e: Exception) {
@@ -288,6 +301,9 @@ actual class Transcriber(
         onError : () -> Unit
     ) {
         if (!canTranscribe) {
+            Log.e(LOG_TAG, "start() called but model is not ready. " +
+                "model=$currentLoadedModelName format=$currentLoadedModelFormat " +
+                "whisperCtx=${whisperContext != null} sherpaCtx=${sherpaContext != null}")
             onError()
             return
         }
