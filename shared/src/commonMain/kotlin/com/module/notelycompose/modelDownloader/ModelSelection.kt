@@ -64,10 +64,9 @@ class ModelSelection(private val preferencesRepository: PreferencesRepository) {
             url = null,
             format = ModelFormat.ONNX,
             downloadFiles = listOf(
-                // TODO: Replace placeholder URLs with actual HuggingFace URLs after model upload
-                "large-v3-turbo-encoder.int8.onnx" to "https://huggingface.co/TODO/whisper-large-v3-turbo-german-sherpa-onnx/resolve/main/large-v3-turbo-encoder.int8.onnx",
-                "large-v3-turbo-decoder.int8.onnx" to "https://huggingface.co/TODO/whisper-large-v3-turbo-german-sherpa-onnx/resolve/main/large-v3-turbo-decoder.int8.onnx",
-                "large-v3-turbo-tokens.txt" to "https://huggingface.co/TODO/whisper-large-v3-turbo-german-sherpa-onnx/resolve/main/large-v3-turbo-tokens.txt"
+                "large-v3-turbo-encoder.int8.onnx" to "https://huggingface.co/MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx/resolve/main/large-v3-turbo-encoder.int8.onnx",
+                "large-v3-turbo-decoder.int8.onnx" to "https://huggingface.co/MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx/resolve/main/large-v3-turbo-decoder.int8.onnx",
+                "large-v3-turbo-tokens.txt" to "https://huggingface.co/MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx/resolve/main/large-v3-turbo-tokens.txt"
             )
         ),
         // Index 2 — German Genau GGML (unchanged)
