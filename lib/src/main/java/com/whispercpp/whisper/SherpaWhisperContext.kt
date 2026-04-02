@@ -76,7 +76,9 @@ class SherpaWhisperContext private constructor(
                 ),
                 decodingMethod = "greedy_search"
             )
-            return SherpaWhisperContext(OfflineRecognizer(config))
+            // AssetManager is only needed when loading from Android assets.
+            // We use absolute file paths, so pass null.
+            return SherpaWhisperContext(OfflineRecognizer(null, config))
         }
     }
 }
