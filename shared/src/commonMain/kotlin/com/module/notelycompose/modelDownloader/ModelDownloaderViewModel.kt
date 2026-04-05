@@ -46,7 +46,7 @@ class ModelDownloaderViewModel(
                 // a stale default from the ViewModel's initial state before init completes.
                 val currentModel = modelSelection.getSelectedModel()
                 if (!transcriber.doesModelExists(currentModel.name)) {
-                    if (currentModel.url == null) {
+                    if (!currentModel.isDownloadRequired) {
                         // Bundled model (no URL) — treat as always available, no download needed
                         _effects.emit(DownloaderEffect.ModelsAreReady())
                     } else {
@@ -63,26 +63,33 @@ class ModelDownloaderViewModel(
 
     fun startDownload() {
         viewModelScope.launch(Dispatchers.IO) {
-            val modelUrl = uiState.value.selectedModel.url
-            if (modelUrl == null) {
-                _effects.emit(DownloaderEffect.ErrorEffect())
-                return@launch
+            val model = uiState.value.selectedModel
+            if (model.downloadFiles != null) {
+                startMultiFileDownload(model)
+            } else {
+                val modelUrl = model.url ?: run {
+                    _effects.emit(DownloaderEffect.ErrorEffect())
+                    return@launch
+                }
+                downloader.startDownload(modelUrl, model.name)
+                trackDownload()
             }
-            downloader.startDownload(modelUrl, uiState.value.selectedModel.name)
-            trackDownload()
         }
     }
 
     fun downloadModelForSettings(model: TranscriptionModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            val modelUrl = model.url
-            if (modelUrl == null) {
-                _effects.emit(DownloaderEffect.ModelsAreReady())
-                return@launch
-            }
             _uiState.value = DownloaderUiState(model)
-            downloader.startDownload(modelUrl, model.name)
-            trackDownload()
+            if (model.downloadFiles != null) {
+                startMultiFileDownload(model)
+            } else {
+                val modelUrl = model.url ?: run {
+                    _effects.emit(DownloaderEffect.ModelsAreReady())
+                    return@launch
+                }
+                downloader.startDownload(modelUrl, model.name)
+                trackDownload()
+            }
         }
     }
 
@@ -106,5 +113,49 @@ class ModelDownloaderViewModel(
         }, onFailed = {
             viewModelScope.launch { _effects.emit(DownloaderEffect.ErrorEffect()) }
         })
+    }
+
+    private suspend fun startMultiFileDownload(model: TranscriptionModel) {
+        // KNOWN LIMITATION: If the app is killed between files, hasRunningDownload() may detect
+        // the last file's download ID and call trackDownload() with the top-level model name,
+        // which will complete for that one file and emit ModelsAreReady with an incomplete directory.
+        // doesModelExists() will return false on next launch and re-trigger the full download.
+        // Full resume support would require persisting per-file progress state.
+        val files = model.downloadFiles ?: return
+        val totalFiles = files.size
+        _effects.emit(DownloaderEffect.DownloadEffect())
+        var success = true
+
+        for ((index, fileEntry) in files.withIndex()) {
+            if (!success) break
+            val (fileName, url) = fileEntry
+            // Store each file in a subdirectory named after the model
+            val destPath = "${model.name}/$fileName"
+
+            downloader.startDownload(url, destPath)
+
+            downloader.trackDownloadProgress(
+                destPath,
+                onProgressUpdated = { progress, downloadedMB, totalMB ->
+                    val aggregateProgress = ((index * 100 + progress) / totalFiles).coerceIn(0, 100)
+                    _uiState.update { current ->
+                        current.copy(
+                            progress = aggregateProgress.toFloat(),
+                            downloaded = downloadedMB,
+                            total = totalMB
+                        )
+                    }
+                },
+                onSuccess = { /* download of this file succeeded, loop continues */ },
+                onFailed = { _ ->
+                    success = false
+                    viewModelScope.launch { _effects.emit(DownloaderEffect.ErrorEffect()) }
+                }
+            )
+        }
+
+        if (success) {
+            _effects.emit(DownloaderEffect.ModelsAreReady())
+        }
     }
 }
