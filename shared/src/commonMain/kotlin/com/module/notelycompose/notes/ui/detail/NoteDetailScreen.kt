@@ -137,6 +137,7 @@ fun NoteDetailScreen(
     var showExistingRecordConfirmDialog by remember { mutableStateOf(false) }
     var showCopiedTooltip by remember { mutableStateOf(false) }
     var isFabVisible by remember { mutableStateOf(true) }
+    var autoTranscribeConsumed by remember { mutableStateOf(false) }
 
     // Pre-warm Whisper model in background when a recording exists so the model is
     // ready (or partially cached) by the time the user taps "Transkribieren".
@@ -153,8 +154,10 @@ fun NoteDetailScreen(
 
     // Auto-navigiert zur Transkription, wenn die Notiz über den Share-Flow erstellt wurde.
     // Feuert erneut, wenn recordingPath aus der DB nachgeladen wird (anfangs leer).
+    // Das Flag verhindert doppelte Navigation bei mehrfachen DB-Updates.
     LaunchedEffect(autoTranscribe, editorState.recording.recordingPath) {
-        if (autoTranscribe && editorState.recording.recordingPath.isNotBlank()) {
+        if (autoTranscribe && !autoTranscribeConsumed && editorState.recording.recordingPath.isNotBlank()) {
+            autoTranscribeConsumed = true
             navigateToTranscription()
         }
     }

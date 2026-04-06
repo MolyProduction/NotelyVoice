@@ -61,6 +61,11 @@ import com.module.notelycompose.platform.presentation.PlatformUiState
 import com.module.notelycompose.platform.presentation.PlatformViewModel
 import com.module.notelycompose.transcription.TranscriptionScreen
 import com.module.notelycompose.permissions.rememberPermissionHandler
+import de.molyecho.notlyvoice.resources.Res
+import de.molyecho.notlyvoice.resources.share_import_error_title
+import de.molyecho.notlyvoice.resources.share_import_ok
+import de.molyecho.notlyvoice.resources.share_import_preparing
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -282,7 +287,7 @@ fun NoteAppRoot(platformUiState: PlatformUiState, openModelSelection: Boolean = 
                     CircularProgressIndicator()
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Audiodatei wird vorbereitet…",
+                        text = stringResource(Res.string.share_import_preparing),
                         color = Color.White
                     )
                 }
@@ -294,11 +299,11 @@ fun NoteAppRoot(platformUiState: PlatformUiState, openModelSelection: Boolean = 
             val message = (shareState as ShareImportState.Error).message
             AlertDialog(
                 onDismissRequest = { shareCoordinator.consumed() },
-                title = { Text("Fehler beim Importieren") },
+                title = { Text(stringResource(Res.string.share_import_error_title)) },
                 text = { Text(message) },
                 confirmButton = {
                     TextButton(onClick = { shareCoordinator.consumed() }) {
-                        Text("OK")
+                        Text(stringResource(Res.string.share_import_ok))
                     }
                 }
             )

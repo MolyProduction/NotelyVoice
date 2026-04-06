@@ -95,6 +95,9 @@ class MainActivity : AppCompatActivity() {
         if (intent?.action != Intent.ACTION_SEND) return
         val uri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, android.net.Uri::class.java)
             ?: return
-        ShareIntentBus.incoming.tryEmit(uri)
+        if (!ShareIntentBus.incoming.tryEmit(uri)) {
+            ShareIntentBus.incoming.resetReplayCache()
+            ShareIntentBus.incoming.tryEmit(uri)
+        }
     }
 }
