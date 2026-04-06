@@ -42,6 +42,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -137,7 +138,7 @@ fun NoteDetailScreen(
     var showExistingRecordConfirmDialog by remember { mutableStateOf(false) }
     var showCopiedTooltip by remember { mutableStateOf(false) }
     var isFabVisible by remember { mutableStateOf(true) }
-    var autoTranscribeConsumed by remember { mutableStateOf(false) }
+    var autoTranscribeConsumed by rememberSaveable { mutableStateOf(false) }
 
     // Pre-warm Whisper model in background when a recording exists so the model is
     // ready (or partially cached) by the time the user taps "Transkribieren".
