@@ -39,7 +39,7 @@ Hinter der Transkription stecken [whisper.cpp](https://github.com/ggerganov/whis
 - **Nahtlose Integration** – Aufnahme direkt in die Notiz transkribieren oder später manuell starten
 - **Audio-/Video-Import** – externe Aufnahmen importieren und transkribieren lassen
 - **Unbegrenzte Transkriptionen** – kein Limit, kein Abo
-- **Wählbare Modellgröße** – von schnell & kompakt bis höchstgenau (Details siehe [Sprachmodelle](#sprachmodelle))
+- **Drei Modelle wählbar** – Moly Optimiert (ONNX, Standard), Genau (GGML) und Mehrsprachig (Details siehe [Sprachmodelle](#sprachmodelle))
 
 ### 🎧 Aufnahme & Wiedergabe
 
@@ -74,11 +74,11 @@ Beim ersten Start wählt ihr ein Modell aus – es wird einmalig heruntergeladen
 
 | Modus | Format | Größe | Empfohlen für |
 |-------|--------|-------|---------------|
-| **Deutsch – Schnell** *(Standard)* | ONNX (sherpa-onnx) | ~990 MB | Alltag, schnelle Notizen |
-| **Deutsch – Genau** | GGML (whisper.cpp) | ~1,62 GB | Lange Texte, hohe Genauigkeit |
-| **Mehrsprachig** | GGML (whisper.cpp) | ~465 MB | 50+ Sprachen |
+| **Deutsch – Moly Optimiert** *(Standard)* | ONNX (sherpa-onnx) | ~990 MB | Alltag, hochpräzise Transkription |
+| **Deutsch – Genau** | GGML (whisper.cpp) | ~1,62 GB | Lange Texte, maximale Genauigkeit |
+| **Mehrsprachig** | GGML (whisper.cpp) | ~465 MB | 50+ Sprachen, schnelle Notizen |
 
-> **Hinweis zum Standardmodell:** Das ONNX-Modell *Deutsch – Schnell* wurde von uns eigens für MolyEcho konvertiert und auf HuggingFace veröffentlicht. Es läuft über sherpa-onnx und bietet schnelle Transkription direkt auf dem Gerät – optimiert für deutschen Alltagseinsatz.
+> **Hinweis zum Standardmodell:** *Deutsch – Moly Optimiert* ist unser eigens für MolyEcho konvertiertes ONNX-Modell, das wir auf HuggingFace veröffentlicht haben. Es läuft über sherpa-onnx mit INT8-Quantisierung und liefert hochpräzise deutsche Transkriptionen – die beste Wahl für den Alltag.
 
 ---
 
@@ -116,7 +116,7 @@ MolyEcho verarbeitet alle Sprach- und Textdaten ausschließlich lokal auf eurem 
 ## Credits
 
 - **NotelyVoice** – Ursprüngliche App von [Tosin Onikute](https://github.com/tosinonikute/NotelyVoice) *(Basis dieses Forks)*
-- **ONNX-Modell (Deutsch – Schnell)** – von uns konvertiert und veröffentlicht: [MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx](https://huggingface.co/MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx)
+- **Deutsch – Moly Optimiert (ONNX)** – von uns konvertiert und veröffentlicht: [MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx](https://huggingface.co/MolyProduction/whisper-large-v3-turbo-german-sherpa-onnx)
 - **GGML-Modell (Deutsch – Genau)** – [cstr/whisper-large-v3-turbo-german-ggml](https://huggingface.co/cstr/whisper-large-v3-turbo-german-ggml)
 - **sherpa-onnx** – [k2-fsa/sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)
 - **whisper.cpp** – [ggerganov/whisper.cpp](https://github.com/ggerganov/whisper.cpp)
