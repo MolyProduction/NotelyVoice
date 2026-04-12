@@ -48,7 +48,7 @@ actual class Transcriber(
     private val streamingChunker = StreamingAudioChunker()
     @Volatile private var currentLoadedModelName: String? = null
     private val inactivityScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private var inactivityJob: Job? = null
+    @Volatile private var inactivityJob: Job? = null
 
     // Serializes model loading and finish() so finish() always waits until the JNI
     // call completes before releasing the context and stopping the service.
