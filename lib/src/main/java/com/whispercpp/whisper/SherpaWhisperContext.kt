@@ -46,8 +46,12 @@ class SherpaWhisperContext private constructor(
         }
         executor.shutdown()
         try {
-            // Warte auf sauberes Beenden aller noch laufenden Executor-Tasks
-            executor.awaitTermination(3, TimeUnit.SECONDS)
+            // Defensive: warte auf vollständige Terminierung des Executors
+            // (Single-Thread-Executor hat nach shutdown() keine weiteren Tasks — kehrt sofort zurück)
+            if (!executor.awaitTermination(3, TimeUnit.SECONDS)) {
+                Log.w(LOG_TAG, "Executor did not terminate in time, forcing shutdown")
+                executor.shutdownNow()
+            }
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
             executor.shutdownNow()
