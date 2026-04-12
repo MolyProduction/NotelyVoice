@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 private const val LOG_TAG = "SherpaWhisperContext"
 
@@ -44,6 +45,13 @@ class SherpaWhisperContext private constructor(
             Log.e(LOG_TAG, "Error releasing ONNX recognizer", e)
         }
         executor.shutdown()
+        try {
+            // Warte auf sauberes Beenden aller noch laufenden Executor-Tasks
+            executor.awaitTermination(3, TimeUnit.SECONDS)
+        } catch (e: InterruptedException) {
+            Thread.currentThread().interrupt()
+            executor.shutdownNow()
+        }
     }
 
     companion object {

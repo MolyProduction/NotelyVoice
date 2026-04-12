@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 private const val LOG_TAG = "LibWhisper"
 
@@ -73,6 +74,12 @@ class WhisperContext private constructor(private var ptr: Long) {
             ptr = 0
         }
         executor.shutdown()
+        try {
+            executor.awaitTermination(3, TimeUnit.SECONDS)
+        } catch (e: InterruptedException) {
+            Thread.currentThread().interrupt()
+            executor.shutdownNow()
+        }
     }
 
     protected fun finalize() {
