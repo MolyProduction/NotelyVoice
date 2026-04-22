@@ -105,18 +105,21 @@ actual class Transcriber(
     }
 
 
-    actual suspend fun initialize(modelFileName: String, modelFormat: ModelFormat) {
+    actual suspend fun initialize(modelFileName: String, modelFormat: ModelFormat): Long {
         // Bump the session counter first — before the fast-path check. This ensures that a
         // finish() from the previous ViewModel (which captured the old token) will see a
         // mismatching token and skip the release, even when both sessions use the same model.
-        sessionCounter.incrementAndGet()
+        // The returned token is what the caller MUST use for its later finish() call — reading
+        // currentSessionToken after initialize() returns is not safe, because a concurrent
+        // initialize() from another ViewModel can bump the counter in between.
+        val myToken = sessionCounter.incrementAndGet()
 
         if (currentLoadedModelName == modelFileName && currentLoadedModelFormat == modelFormat
             && (whisperContext != null || sherpaContext != null)) {
             debugPrintln { "speech: model $modelFileName already loaded, skipping re-init" }
             if (!isTranscribing) canTranscribe = true
             resetInactivityTimer()
-            return
+            return myToken
         }
         cancelInactivityTimer()
         debugPrintln { "speech: initialize model $modelFileName (format=$modelFormat)" }
@@ -129,6 +132,7 @@ actual class Transcriber(
         canTranscribe = false
         loadBaseModel(modelFileName, modelFormat)
         if (whisperContext != null || sherpaContext != null) resetInactivityTimer()
+        return myToken
     }
 
     private suspend fun loadBaseModel(modelFileName: String, modelFormat: ModelFormat) {
